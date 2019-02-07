@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--First menu option-->
+    <item
+        android:id="@+id/add_course"
+        android:title="@string/add_course"
+        app:showAsAction="never" />
+
+    <!--Second menu option-->
+    <item
+        android:id="@+id/add_assignment"
+        android:title="@string/add_assignment"
+        app:showAsAction="never"/>
+
+</menu>
