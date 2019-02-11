@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">Assignment_Organizer</string>
+    <string name="app_name">Assignment Organizer</string>
+    <string name="add_assignment">Add Assignment</string>
+    <string name="add_course">Add Course</string>
+    <string-array name="menu_options">  //To help with modularity for changing name of menu options
+        <item>@string/add_assignment</item>
+        <item>@string/add_course</item>
+    </string-array>
 </resources>
