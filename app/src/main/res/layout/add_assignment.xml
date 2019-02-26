@@ -38,12 +38,19 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/assDate"
+            android:id="@+id/tv_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Select Date"
-            android:inputType="date" />
+            android:hint="Date Selected"
+            android:inputType="datetime"
+            android:clickable="false"/>
     </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/b_pick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Due Date and Time" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"

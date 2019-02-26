@@ -1,6 +1,9 @@
 package info3604.assignment_organizer;
 
 import androidx.appcompat.app.AppCompatActivity;
+import info3604.assignment_organizer.views.add_assignment;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,7 +29,9 @@ public class Main extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.add_assignment:
+                Intent assInt = new Intent(getApplicationContext(), add_assignment.class);
                 Toast.makeText(this, "Add Assignment selected.", Toast.LENGTH_SHORT).show();
+                startActivity(assInt);
                 return true;
             case R.id.add_course:
                 Toast.makeText(this, "Add course selected.", Toast.LENGTH_SHORT).show();
