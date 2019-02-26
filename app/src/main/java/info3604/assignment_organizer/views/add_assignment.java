@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -18,8 +19,12 @@ import java.util.Calendar;
 
 public class add_assignment extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
+    Button save;
     Button b_pick;
-    TextInputEditText tv_result;
+    TextInputEditText tv_result; //Date and time text field
+    TextInputEditText assName;
+    TextInputEditText assTitle;
+    TextInputEditText assNotes;
 
     int day, month, year, hour, minute;
     int dayFinal, monthFinal, yearFinal, hourFinal, minuteFinal;
@@ -29,10 +34,30 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_assignment);
 
+        save = (Button) findViewById(R.id.save);
         b_pick = (Button) findViewById(R.id.b_pick);
-        tv_result = (TextInputEditText) findViewById(R.id.tv_result);
 
-        b_pick.setOnClickListener(new View.OnClickListener() {
+        tv_result = (TextInputEditText) findViewById(R.id.tv_result);
+        assName = (TextInputEditText) findViewById(R.id.assName);
+        assTitle = (TextInputEditText) findViewById(R.id.assTitle);
+        assNotes = (TextInputEditText) findViewById(R.id.assNotes);
+
+        save.setOnClickListener(new View.OnClickListener() {  //What should happen when save button clicked?
+            @Override
+            public void onClick(View v) {                     //Maybe call controller method pass assignment info, let controller / model save to database
+                // For now I display info in toast
+                Toast.makeText(getApplicationContext(),
+                        "Name: "+assName.getText()+
+                                " Title: " +assTitle.getText()+
+                                " Date/Time: "+tv_result.getText()+
+                                " Notes: "+assNotes.getText(),
+                        Toast.LENGTH_LONG).show();
+
+                //Can create intent here to go to view assignment page?
+            }
+        });
+
+        b_pick.setOnClickListener(new View.OnClickListener() {  //Button for setting date and time
             @Override
             public void onClick(View v) {
                 Calendar c = Calendar.getInstance();
@@ -63,7 +88,7 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
     }
 
     @Override
-    public void onTimeSet(TimePicker timePicker, int i, int i1){
+    public void onTimeSet(TimePicker timePicker, int i, int i1){ //This is date format returned when clicking set date & time button in Add Assignment
         hourFinal = i;
         minuteFinal = i1;
 
