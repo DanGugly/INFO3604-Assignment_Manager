@@ -1,111 +1,102 @@
 package info3604.assignment_organizer.views;
 
 import androidx.appcompat.app.AppCompatActivity;
-import info3604.assignment_organizer.Main;
 import info3604.assignment_organizer.R;
 
-import android.content.Context;
-import android.content.Intent;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.icu.text.DateFormat;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import com.google.android.material.textfield.TextInputEditText;
 
-public class add_assignment extends AppCompatActivity{
-    public TextView course1, course2, course3, course4, course5, course6;
+import java.util.Calendar;
+
+public class add_assignment extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+
+    Button save;
+    Button b_pick;
+    TextInputEditText tv_result; //Date and time text field
+    TextInputEditText assName;
+    TextInputEditText assTitle;
+    TextInputEditText assNotes;
+
+    int day, month, year, hour, minute;
+    int dayFinal, monthFinal, yearFinal, hourFinal, minuteFinal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_assignment);
 
-        course1 = findViewById(R.id.course1);
+        save = (Button) findViewById(R.id.save);
+        b_pick = (Button) findViewById(R.id.b_pick);
 
+        tv_result = (TextInputEditText) findViewById(R.id.tv_result);
+        assName = (TextInputEditText) findViewById(R.id.assName);
+        assTitle = (TextInputEditText) findViewById(R.id.assTitle);
+        assNotes = (TextInputEditText) findViewById(R.id.assNotes);
 
+        save.setOnClickListener(new View.OnClickListener() {  //What should happen when save button clicked?
+            @Override
+            public void onClick(View v) {                     //Maybe call controller method pass assignment info, let controller / model save to database
+                // For now I display info in toast
+                Toast.makeText(getApplicationContext(),
+                        "Name: "+assName.getText()+
+                                " Title: " +assTitle.getText()+
+                                " Date/Time: "+tv_result.getText()+
+                                " Notes: "+assNotes.getText(),
+                        Toast.LENGTH_LONG).show();
 
-    }
-
-
-
-//    write items to file
-    private void writeToFile(String data, Context context) {
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("config.txt", Context.MODE_PRIVATE));
-            outputStreamWriter.write(data);
-            outputStreamWriter.close();
-        }
-        catch (Exception e) {
-            Toast.makeText(this, "File write failed: " + e.toString(), Toast.LENGTH_LONG).show();
-        }
-    }
-
-//    Read items from file
-    private String readFromFile(Context context) {
-
-        String ret = "";
-
-        try {
-            InputStream inputStream = context.openFileInput("config.txt");
-
-            if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-                StringBuilder stringBuilder = new StringBuilder();
-
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
-                    stringBuilder.append(receiveString);
-                }
-
-                inputStream.close();
-                ret = stringBuilder.toString();
+                //Can create intent here to go to view assignment page?
             }
-        }
-        catch (FileNotFoundException e) {
-            Toast.makeText(this, "File not found: " + e.toString(), Toast.LENGTH_LONG).show();
-        } catch (IOException e) {
-            Toast.makeText(this, "Can not read file: " + e.toString(), Toast.LENGTH_LONG).show();
-        }
+        });
 
-        return ret;
+        b_pick.setOnClickListener(new View.OnClickListener() {  //Button for setting date and time
+            @Override
+            public void onClick(View v) {
+                Calendar c = Calendar.getInstance();
+                year = c.get(Calendar.YEAR);
+                month = c.get(Calendar.MONTH);
+                day = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(add_assignment.this,
+                        add_assignment.this, year, month, day);
+                datePickerDialog.show();
+            }
+        });
     }
 
-    @Override   //Builds main_menu.xml from menu resourse in res
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        return true;
+    @Override
+    public void onDateSet(DatePicker datePicker, int i, int i1, int i2){
+        yearFinal = i;
+        monthFinal = i1 + 1;
+        dayFinal = i2;
+
+        Calendar c = Calendar.getInstance();
+        hour = c.get(Calendar.HOUR_OF_DAY);
+        minute = c.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(add_assignment.this,
+                add_assignment.this, hour, minute, true);
+        timePickerDialog.show();
     }
 
-    @Override   //Getting which menu item is selected and creating toasts when they are
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.main_menu:
-                Toast.makeText(this, "Main Menu.", Toast.LENGTH_SHORT).show();
-                Intent main = new Intent(this, Main.class);
-                startActivity(main);
-                finish();
-                return true;
-            case R.id.add_assignment:
-                Toast.makeText(this, "Add Assignment selected.", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this, add_assignment.class);
-                finish();
-                startActivity(intent);
-                return true;
-            case R.id.add_course:
-                Toast.makeText(this, "Add course selected.", Toast.LENGTH_SHORT).show();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+    @Override
+    public void onTimeSet(TimePicker timePicker, int i, int i1){ //This is date format returned when clicking set date & time button in Add Assignment
+        hourFinal = i;
+        minuteFinal = i1;
+
+        tv_result.setText(dayFinal+"/"+
+                monthFinal+"/"+
+                yearFinal+
+                " "+hourFinal+":"+
+                +minuteFinal
+        );
     }
 }
