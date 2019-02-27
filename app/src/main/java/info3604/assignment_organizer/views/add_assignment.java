@@ -1,12 +1,15 @@
 package info3604.assignment_organizer.views;
 
 import androidx.appcompat.app.AppCompatActivity;
+import info3604.assignment_organizer.Main;
 import info3604.assignment_organizer.R;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.icu.text.DateFormat;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -25,6 +28,7 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
     TextInputEditText assName;
     TextInputEditText assTitle;
     TextInputEditText assNotes;
+    float x1, x2, y1, y2;
 
     int day, month, year, hour, minute;
     int dayFinal, monthFinal, yearFinal, hourFinal, minuteFinal;
@@ -98,5 +102,22 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
                 " "+hourFinal+":"+
                 +minuteFinal
         );
+    }
+
+    public boolean onTouchEvent(MotionEvent touchEvent){
+        switch(touchEvent.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                x1 = touchEvent.getX();
+                y1 = touchEvent.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+                x2 = touchEvent.getX();
+                y2 = touchEvent.getY();
+                if(x1<x2){
+                    finish();
+                }
+                break;
+        }
+        return false;
     }
 }

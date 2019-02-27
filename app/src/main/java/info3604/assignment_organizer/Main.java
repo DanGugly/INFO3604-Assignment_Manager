@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.widget.Toast;
 
 public class Main extends AppCompatActivity {
+
+    float x1, x2, y1, y2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +34,6 @@ public class Main extends AppCompatActivity {
             case R.id.main_menu:
                 Toast.makeText(this, "Main Menu.", Toast.LENGTH_SHORT).show();
                 Intent main = new Intent(this, Main.class);
-                finish();
                 startActivity(main);
                 return true;
             case R.id.add_assignment:
@@ -44,5 +46,23 @@ public class Main extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onTouchEvent(MotionEvent touchEvent){
+        switch(touchEvent.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                x1 = touchEvent.getX();
+                y1 = touchEvent.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+                x2 = touchEvent.getX();
+                y2 = touchEvent.getY();
+                if(x1>x2){
+                    Intent intent = new Intent(this, add_assignment.class);
+                    startActivity(intent);
+                }
+                break;
+        }
+        return false;
     }
 }
