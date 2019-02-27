@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">   // Theme from Material.io
+    <style name="AppTheme" parent="Base.Theme.MaterialComponents.Light.DarkActionBar.Bridge">   // Theme from Material.io
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>

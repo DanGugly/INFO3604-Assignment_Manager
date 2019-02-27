@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 public class Course implements Serializable {
 
-    private String courseID;
-
     private String code;
 
     private String name;
@@ -14,14 +12,14 @@ public class Course implements Serializable {
 
     private int level;
 
+    public Course(){ }
+
     public Course(String code, String name, int credits, int level){
         this.code = code;
         this.name = name;
         this.credits = credits;
         this.level = level;
     }
-
-    public String getCourseID() { return courseID; }
 
     public String getCode() { return code; }
 
@@ -30,10 +28,6 @@ public class Course implements Serializable {
     public int getCredits() { return credits; }
 
     public int getLevel() { return level; }
-
-    public void setCourseId(String courseId) {
-        this.courseID = courseId;
-    }
 
     public void setCode(String code) {
         this.code = code;
@@ -51,9 +45,11 @@ public class Course implements Serializable {
         this.level = level;
     }
 
+    public String toString(){ return code + " " + name + " " + credits + " " + level; }
+
     @Override
     public boolean equals(Object obj) {
-        return this.getCourseID().equals(((Course)obj).getCourseID());
+        return this.getCode().equals(((Course)obj).getCode());
     }
 }
 

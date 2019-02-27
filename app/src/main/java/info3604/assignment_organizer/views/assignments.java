@@ -5,7 +5,7 @@ import info3604.assignment_organizer.R;
 
 import android.os.Bundle;
 
-public class add_assignment extends AppCompatActivity{
+public class assignments extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
