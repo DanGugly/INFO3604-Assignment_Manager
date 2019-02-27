@@ -2,6 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!--Start Page-->
+    <item
+        android:id="@+id/main_menu"
+        android:title="@string/main_menu"
+        app:showAsAction="never"
+        />
+
     <!--First menu option-->
     <item
         android:id="@+id/add_course"

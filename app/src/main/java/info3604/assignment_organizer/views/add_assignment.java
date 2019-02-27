@@ -93,10 +93,10 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
         minuteFinal = i1;
 
         tv_result.setText(dayFinal+"/"+
-                        monthFinal+"/"+
-                        yearFinal+
-                        " "+hourFinal+":"+
-                        +minuteFinal
-                );
+                monthFinal+"/"+
+                yearFinal+
+                " "+hourFinal+":"+
+                +minuteFinal
+        );
     }
 }
