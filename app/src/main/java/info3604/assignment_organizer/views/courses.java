@@ -31,7 +31,7 @@ public class courses extends AppCompatActivity {
         printDB();
     }
 
-    public void addToDb(View view){
+    public boolean addToDb(View view){
         Course course = new Course(
                 code.getText().toString(),
                 name.getText().toString(),
@@ -44,20 +44,31 @@ public class courses extends AppCompatActivity {
                 Integer.parseInt(level.getText().toString()));*/
         boolean result = CC.addCourse(course);
         Log.d("RESULT:",result+"");
-        if(result)
-            Toast.makeText(this,"Insertion successful",Toast.LENGTH_LONG).show();
-        else
-            Toast.makeText(this,"Insertion unsuccessful",Toast.LENGTH_LONG).show();
         printDB();
+        return result;
     }
 
     public void printInput(String code, String name, int credits, int level){
         Toast.makeText(this, code + " " + name + " " + credits + " " + level,Toast.LENGTH_LONG).show();
     }
 
-    public void deleteFromDb(View view){
-        CC.deleteCourse(code.getText().toString());
+    public boolean deleteFromDb(View view){
+        boolean result = CC.deleteCourse(code.getText().toString());
         printDB();
+        return result;
+    }
+
+    public boolean updateDb(View view){
+        Course course = new Course(
+                code.getText().toString(),
+                name.getText().toString(),
+                Integer.parseInt(credits.getText().toString()),
+                Integer.parseInt(level.getText().toString())
+        );
+        boolean result = CC.updateCourse(course);
+        Log.d("RESULT:",result+"");
+        printDB();
+        return result;
     }
 
     public void printDB(){

@@ -50,7 +50,7 @@ public class CourseController extends SQLiteOpenHelper{
         values.put(COLUMN_NAME, course.getName());
         values.put(COLUMN_CREDITS, course.getCredits());
         values.put(COLUMN_LEVEL, course.getLevel());
-        Log.d("Course CREATION", values.toString());
+        Log.d("COURSE CREATION", values.toString());
         long result = db.insert(TABLE_COURSES, null, values);
         db.setTransactionSuccessful();
         db.endTransaction();
@@ -69,18 +69,45 @@ public class CourseController extends SQLiteOpenHelper{
         */
     }
 
-    public void deleteCourse(String courseCode){
+    public boolean updateCourse(Course course){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM " + TABLE_COURSES + " WHERE " + COLUMN_CODE + "=\"" + courseCode + "\";");
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_CODE, course.getCode());
+        values.put(COLUMN_NAME, course.getName());
+        values.put(COLUMN_CREDITS, course.getCredits());
+        values.put(COLUMN_LEVEL, course.getLevel());
+        Log.d("COURSE UPDATE", values.toString());
+        long result = db.update(TABLE_COURSES, values, "code=?", new String[] {course.getCode()});
+        return result > 0;
+    }
+
+    public boolean deleteCourse(String courseCode){
+        SQLiteDatabase db = this.getWritableDatabase();
+        //db.execSQL("DELETE FROM " + TABLE_COURSES + " WHERE " + COLUMN_CODE + "=\"" + courseCode + "\";");
+        int result = db.delete(TABLE_COURSES,"code=?",new String[]{courseCode});
+        return result > 0;
     }
 
     public String toString(){
         String dbString = "" ;
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_COURSES ;
-        Cursor c = db.rawQuery(query,null);
+        Cursor allRows = db.rawQuery(query,null);
+        /*
         while(c.moveToNext()){
-            dbString += c.getString(1) + "\n";
+            dbString += c.toString() + "\n";
+        }
+        */
+        if (allRows.moveToFirst() ){
+            String[] columnNames = allRows.getColumnNames();
+            do {
+                for (String name: columnNames) {
+                    dbString += String.format("%s: %s\n", name,
+                            allRows.getString(allRows.getColumnIndex(name)));
+                }
+                dbString += "\n";
+
+            } while (allRows.moveToNext());
         }
         /*
         c.moveToFirst();
@@ -91,7 +118,7 @@ public class CourseController extends SQLiteOpenHelper{
             }
         }
         */
-        c.close();
+        allRows.close();
         db.close();
         return dbString;
     }

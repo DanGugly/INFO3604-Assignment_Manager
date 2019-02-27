@@ -61,6 +61,12 @@
             android:layout_height="wrap_content"
             android:onClick="deleteFromDb"
             android:text="Delete" />
+        <Button
+            android:id="@+id/updateBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="updateDb"
+            android:text="Update" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/clevel"
