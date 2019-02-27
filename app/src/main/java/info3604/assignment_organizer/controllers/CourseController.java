@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.ContentValues;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 import androidx.annotation.Nullable;
 import info3604.assignment_organizer.models.Course;
 
@@ -14,11 +16,11 @@ public class CourseController extends SQLiteOpenHelper{
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "reminder.db";
-    public static final String TABLE_COURSES = "courses";
-    public static final String COLUMN_CODE = "code";
-    public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_CREDITS = "credits";
-    public static final String COLUMN_LEVEL = "level";
+    private static final String TABLE_COURSES = "courses";
+    private static final String COLUMN_CODE = "code";
+    private static final String COLUMN_NAME = "name";
+    private static final String COLUMN_CREDITS = "credits";
+    private static final String COLUMN_LEVEL = "level";
 
     public CourseController(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -54,11 +56,7 @@ public class CourseController extends SQLiteOpenHelper{
         db.endTransaction();
         db.close();
         Log.d("INSERT RESULT:",result+"");
-        if(result == -1) {
-
-            return false;
-        }
-        return true;
+        return result != -1;
         /*
         if(db.insert(TABLE_COURSES, null, values) != -1){
             Log.d("INSERTION","The course is being inserted");
@@ -79,8 +77,12 @@ public class CourseController extends SQLiteOpenHelper{
     public String toString(){
         String dbString = "" ;
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_COURSES + " WHERE 1";
+        String query = "SELECT * FROM " + TABLE_COURSES ;
         Cursor c = db.rawQuery(query,null);
+        while(c.moveToNext()){
+            dbString += c.getString(1) + "\n";
+        }
+        /*
         c.moveToFirst();
         while(!c.isAfterLast()){
             if(c.getString(c.getColumnIndex("name")) != null){
@@ -88,6 +90,8 @@ public class CourseController extends SQLiteOpenHelper{
                 dbString += "\n";
             }
         }
+        */
+        c.close();
         db.close();
         return dbString;
     }
