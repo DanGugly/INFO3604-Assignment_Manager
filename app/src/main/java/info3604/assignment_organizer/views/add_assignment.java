@@ -9,6 +9,9 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.icu.text.DateFormat;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -56,6 +59,15 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
                                 " Date/Time: "+tv_result.getText()+
                                 " Notes: "+assNotes.getText(),
                         Toast.LENGTH_LONG).show();
+
+                //Handler runs a function after a set amount of time. Creates a delayed action.
+                Handler handler = new Handler(){
+                    public void handleMessage(Message message){
+                        finish();
+                    }
+                };
+
+                handler.sendEmptyMessageDelayed(0, 1500);//1500 is milliseconds
 
                 //Can create intent here to go to view assignment page?
             }
@@ -119,5 +131,24 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
                 break;
         }
         return false;
+    }
+
+    @Override   //Getting which menu item is selected and creating toasts when they are
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.main_menu:
+                Toast.makeText(this, "Main Menu.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, Main.class);
+                startActivity(intent);
+                return true;
+            case R.id.add_assignment:
+                Toast.makeText(this, "Add Assignment selected.", Toast.LENGTH_SHORT).show();
+
+                return true;
+            case R.id.add_course:
+                Toast.makeText(this, "Add course selected.", Toast.LENGTH_SHORT).show();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

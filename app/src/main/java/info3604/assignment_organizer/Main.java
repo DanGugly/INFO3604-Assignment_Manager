@@ -33,8 +33,6 @@ public class Main extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.main_menu:
                 Toast.makeText(this, "Main Menu.", Toast.LENGTH_SHORT).show();
-                Intent main = new Intent(this, Main.class);
-                startActivity(main);
                 return true;
             case R.id.add_assignment:
                 Toast.makeText(this, "Add Assignment selected.", Toast.LENGTH_SHORT).show();
