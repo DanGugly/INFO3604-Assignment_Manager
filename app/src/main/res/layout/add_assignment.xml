@@ -40,7 +40,8 @@
             android:layout_height="wrap_content"
             android:hint="Date Selected"
             android:inputType="datetime"
-            android:clickable="false"/>
+            android:clickable="false"
+            android:focusable="false"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
