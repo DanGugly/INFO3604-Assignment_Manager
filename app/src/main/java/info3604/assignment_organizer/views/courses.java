@@ -31,18 +31,46 @@ public class courses extends AppCompatActivity {
         printDB();
     }
 
+    private boolean checkFields(){
+
+        String val = code.getText().toString();
+        if (val.equals("")){
+            Toast.makeText(this, "Enter course code.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        val = name.getText().toString();
+        if (val.equals("")){
+            Toast.makeText(this, "Enter course name.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        val = credits.getText().toString();
+        if (val.equals("")){
+            Toast.makeText(this, "Enter course credits.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        val = level.getText().toString();
+        if (val.equals("")){
+            Toast.makeText(this, "Enter course level.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
     public boolean addToDb(View view){
-        Course course = new Course(
-                code.getText().toString(),
-                name.getText().toString(),
-                Integer.parseInt(credits.getText().toString()),
-                Integer.parseInt(level.getText().toString())
-        );
+        boolean result = false;
+        if (checkFields()){
+            Course course = new Course(
+                    code.getText().toString(),
+                    name.getText().toString(),
+                    Integer.parseInt(credits.getText().toString()),
+                    Integer.parseInt(level.getText().toString())
+            );
         /*printInput(code.getText().toString(),
                 name.getText().toString(),
                 Integer.parseInt(credits.getText().toString()),
                 Integer.parseInt(level.getText().toString()));*/
-        boolean result = CC.addCourse(course);
+            result = CC.addCourse(course);
+
+        }
         Log.d("RESULT:",result+"");
         printDB();
         return result;
@@ -59,13 +87,16 @@ public class courses extends AppCompatActivity {
     }
 
     public boolean updateDb(View view){
-        Course course = new Course(
-                code.getText().toString(),
-                name.getText().toString(),
-                Integer.parseInt(credits.getText().toString()),
-                Integer.parseInt(level.getText().toString())
-        );
-        boolean result = CC.updateCourse(course);
+        boolean result = false;
+        if (checkFields()){
+            Course course = new Course(
+                    code.getText().toString(),
+                    name.getText().toString(),
+                    Integer.parseInt(credits.getText().toString()),
+                    Integer.parseInt(level.getText().toString())
+            );
+            result = CC.updateCourse(course);
+        }
         Log.d("RESULT:",result+"");
         printDB();
         return result;
