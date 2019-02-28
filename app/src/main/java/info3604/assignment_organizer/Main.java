@@ -2,6 +2,7 @@ package info3604.assignment_organizer;
 
 import androidx.appcompat.app.AppCompatActivity;
 import info3604.assignment_organizer.views.add_assignment;
+import info3604.assignment_organizer.views.add_course;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,8 +41,9 @@ public class Main extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.add_course:
-                Toast.makeText(this, "Add course selected.", Toast.LENGTH_SHORT).show();
-                return true;
+                Intent i = new Intent(this, add_course.class);
+                startActivity(i);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
