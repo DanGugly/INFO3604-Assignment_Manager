@@ -16,9 +16,8 @@
             android:id="@+id/ccode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Course code"
-            android:inputType="text"
-            />
+            android:hint="Enter Course Code"
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -29,7 +28,7 @@
             android:id="@+id/cname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter name"
+            android:hint="Enter Title"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -41,8 +40,8 @@
             android:id="@+id/ccredits"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter credits"
-            android:inputType="text" />
+            android:hint="Enter Credits"
+            android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -72,8 +71,8 @@
             android:id="@+id/clevel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter levels"
-            android:inputType="textMultiLine" />
+            android:hint="Enter Level"
+            android:inputType="number" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
