@@ -7,8 +7,6 @@ import android.content.Context;
 import android.content.ContentValues;
 import android.util.Log;
 
-import java.util.ArrayList;
-
 import androidx.annotation.Nullable;
 import info3604.assignment_organizer.models.Course;
 
@@ -30,9 +28,9 @@ public class CourseController extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_COURSES + "(" +
                 COLUMN_CODE + " TEXT PRIMARY KEY, " +
-                COLUMN_NAME + " TEXT, " +
-                COLUMN_CREDITS + " INTEGER, " +
-                COLUMN_LEVEL + " INTEGER);";
+                COLUMN_NAME + " TEXT NOT NULL, " +
+                COLUMN_CREDITS + " INTEGER NOT NULL, " +
+                COLUMN_LEVEL + " INTEGER NOT NULL);";
         db.execSQL(query);
     }
 
@@ -57,16 +55,6 @@ public class CourseController extends SQLiteOpenHelper{
         db.close();
         Log.d("INSERT RESULT:",result+"");
         return result != -1;
-        /*
-        if(db.insert(TABLE_COURSES, null, values) != -1){
-            Log.d("INSERTION","The course is being inserted");
-            db.close();
-            return true;
-        }
-        db.close();
-        Log.d("INSERTION","The course wasn't inserted");
-        return false;
-        */
     }
 
     public boolean updateCourse(Course course){
@@ -93,11 +81,6 @@ public class CourseController extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_COURSES ;
         Cursor allRows = db.rawQuery(query,null);
-        /*
-        while(c.moveToNext()){
-            dbString += c.toString() + "\n";
-        }
-        */
         if (allRows.moveToFirst() ){
             String[] columnNames = allRows.getColumnNames();
             do {
@@ -109,15 +92,6 @@ public class CourseController extends SQLiteOpenHelper{
 
             } while (allRows.moveToNext());
         }
-        /*
-        c.moveToFirst();
-        while(!c.isAfterLast()){
-            if(c.getString(c.getColumnIndex("name")) != null){
-                dbString += c.getString(c.getColumnIndex("name"));
-                dbString += "\n";
-            }
-        }
-        */
         allRows.close();
         db.close();
         return dbString;
