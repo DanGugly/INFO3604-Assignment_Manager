@@ -55,6 +55,7 @@ public class courses extends AppCompatActivity {
         }
         return true;
     }
+
     public boolean addToDb(View view){
         boolean result = false;
         if (checkFields()){
@@ -86,6 +87,8 @@ public class courses extends AppCompatActivity {
         return result;
     }
 
+
+    //Todo: make it so that the user doesn't need to fill in the fields they don't want to update
     public boolean updateDb(View view){
         boolean result = false;
         if (checkFields()){

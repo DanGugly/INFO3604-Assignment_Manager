@@ -29,7 +29,7 @@ public class AssignmentController extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_ASSIGNMENTS+ "(" +
-                COLUMN_ASSIGNMENTID + " TEXT PRIMARY KEY, " +
+                COLUMN_ASSIGNMENTID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 COLUMN_TITLE + " TEXT NOT NULL, " +
                 COLUMN_DUEDATE + " TEXT NOT NULL, " +
                 COLUMN_NOTES + " TEXT, " +
@@ -48,7 +48,6 @@ public class AssignmentController extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_ASSIGNMENTID, assignment.getAssignmentID());
         values.put(COLUMN_COURSEID, assignment.getCourseID());
         values.put(COLUMN_NOTES, assignment.getNotes());
         values.put(COLUMN_TITLE, assignment.getTitle());
@@ -65,20 +64,22 @@ public class AssignmentController extends SQLiteOpenHelper{
     public boolean updateAssignment(Assignment assignment){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_ASSIGNMENTID, assignment.getAssignmentID());
         values.put(COLUMN_COURSEID, assignment.getCourseID());
         values.put(COLUMN_NOTES, assignment.getNotes());
         values.put(COLUMN_TITLE, assignment.getTitle());
         values.put(COLUMN_DUEDATE, assignment.getDueDate());
         Log.d("ASSIGNMENT UPDATE", values.toString());
-        long result = db.update(TABLE_ASSIGNMENTS, values, "assignment_id=?", new String[] {assignment.getAssignmentID()});
+
+        //Todo: might need to be changed
+        long result = db.update(TABLE_ASSIGNMENTS, values, "assignment_id=?", new String[] {Integer.toString(assignment.getAssignmentID())});
+
         return result > 0;
     }
 
-    public boolean deleteAssignment(String assignment_id){
+    public boolean deleteAssignment(int assignment_id){
         SQLiteDatabase db = this.getWritableDatabase();
         //db.execSQL("DELETE FROM " + TABLE_COURSES + " WHERE " + COLUMN_CODE + "=\"" + courseCode + "\";");
-        int result = db.delete(TABLE_ASSIGNMENTS,"assignment_id=?",new String[]{assignment_id});
+        int result = db.delete(TABLE_ASSIGNMENTS,"assignment_id=?",new String[]{String.valueOf(assignment_id)});
         return result > 0;
     }
 
