@@ -137,11 +137,6 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
     @Override   //Getting which menu item is selected and creating toasts when they are
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.main_menu:
-                Toast.makeText(this, "Main Menu.", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this, Main.class);
-                startActivity(intent);
-                return true;
             case R.id.add_assignment:
                 Toast.makeText(this, "Add Assignment selected.", Toast.LENGTH_SHORT).show();
 

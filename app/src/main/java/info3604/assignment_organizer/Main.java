@@ -12,8 +12,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
-import info3604.assignment_organizer.views.assignments;
-import info3604.assignment_organizer.views.courses;
+//import info3604.assignment_organizer.views.assignments;
+//import info3604.assignment_organizer.views.courses;
 
 public class Main extends AppCompatActivity {
     float x1, x2, y1, y2;
