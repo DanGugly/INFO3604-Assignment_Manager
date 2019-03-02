@@ -38,7 +38,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Date Selected"
-            android:focusable="false"
             android:inputType="datetime"
             android:clickable="false"
             android:focusable="false"/>

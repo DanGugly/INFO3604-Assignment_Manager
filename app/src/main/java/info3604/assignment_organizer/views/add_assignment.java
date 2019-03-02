@@ -127,6 +127,7 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
                 y2 = touchEvent.getY();
                 if(x1<x2){
                     finish();
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }
                 break;
         }
