@@ -14,8 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Assignment"
-            android:inputType="text"
-            android:text="Assignment " />
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -39,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Date Selected"
+            android:focusable="false"
             android:inputType="datetime"
             android:clickable="false"
             android:focusable="false"/>
@@ -48,6 +48,7 @@
         android:id="@+id/b_pick"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
         android:text="Select Due Date and Time" />
 
     <com.google.android.material.textfield.TextInputLayout
