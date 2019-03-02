@@ -1,10 +1,11 @@
 package info3604.assignment_organizer.models;
 
+import java.util.Date;
 import java.io.Serializable;
 
 public class Assignment implements Serializable{
 
-    private String assignmentID;
+    private int assignmentID;
 
     private String courseID;
 
@@ -21,7 +22,7 @@ public class Assignment implements Serializable{
         this.notes = notes;
     }
 
-    public String getAssignmentID(){ return assignmentID; }
+    public int getAssignmentID(){ return assignmentID; }
 
     public String getCourseID(){ return courseID; }
 
@@ -31,7 +32,7 @@ public class Assignment implements Serializable{
 
     public String getNotes(){ return this.notes; }
 
-    public void setAssID(String assignmentID) { this.assignmentID = assignmentID; }
+    public void setAssID(int assignmentID) { this.assignmentID = assignmentID; }
 
     public void setCourseID(String courseID) { this.courseID = courseID; }
 
@@ -43,6 +44,6 @@ public class Assignment implements Serializable{
 
     @Override
     public boolean equals(Object obj) {
-        return this.getAssignmentID().equals(((Assignment)obj).getAssignmentID());
+        return this.getAssignmentID() == ((Assignment)obj).getAssignmentID();
     }
 }

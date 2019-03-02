@@ -76,6 +76,19 @@ public class CourseController extends SQLiteOpenHelper{
         return result > 0;
     }
 
+    public boolean courseExistsInDb(String courseCode){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String[] columns = { COLUMN_CODE };
+        String selection = COLUMN_CODE + " =?";
+        String[] selectionArgs = { courseCode };
+        String limit = "1";
+
+        Cursor cursor = db.query(TABLE_COURSES, columns, selection, selectionArgs, null, null, null, limit);
+        boolean exists = (cursor.getCount() > 0);
+        cursor.close();
+        return exists;
+    }
+
     public String toString(){
         String dbString = "" ;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -96,5 +109,6 @@ public class CourseController extends SQLiteOpenHelper{
         db.close();
         return dbString;
     }
+
 
 }
