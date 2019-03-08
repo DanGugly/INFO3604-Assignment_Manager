@@ -3,11 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!--Start Page-->
-    <item
-        android:id="@+id/main_menu"
-        android:title="@string/main_menu"
-        app:showAsAction="never"
-        />
 
     <!--First menu option-->
     <item
