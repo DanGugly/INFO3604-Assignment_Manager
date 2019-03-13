@@ -35,7 +35,7 @@ public class AssignmentController extends SQLiteOpenHelper{
                 COLUMN_NOTES + " TEXT, " +
                 COLUMN_COURSEID + " TEXT REFERENCES " + TABLE_COURSES + "(code) ON UPDATE CASCADE" +
                 ");";
-                db.execSQL(query);
+        db.execSQL(query);
     }
 
     @Override
