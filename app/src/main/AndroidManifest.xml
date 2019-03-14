@@ -9,12 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".views.NotificationActivity"></activity>
+        <activity android:name=".views.View_Course"></activity>
+        <activity android:name=".views.View_Assignment" />
+        <activity android:name=".views.NotificationActivity" />
+
         <receiver android:name=".controllers.NotifController">
             <intent-filter>
-                <action android:name="action.DISPLAY_NOTIFICATION"></action>
+                <action android:name="action.DISPLAY_NOTIFICATION" />
             </intent-filter>
         </receiver>
+
         <activity android:name=".views.add_checkpoint" />
         <activity android:name=".views.add_course" />
         <activity android:name=".Main">

@@ -1,13 +1,20 @@
 package info3604.assignment_organizer.views;
 
 import androidx.appcompat.app.AppCompatActivity;
+import info3604.assignment_organizer.Main;
 import info3604.assignment_organizer.R;
 import info3604.assignment_organizer.controllers.CourseController;
 import info3604.assignment_organizer.models.Course;
 
 import com.google.android.material.textfield.TextInputEditText;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +22,7 @@ import android.widget.Toast;
 public class add_course extends AppCompatActivity {
 
     TextInputEditText name, code, level, credits;
+    float x1, x2, y1, y2;
     TextView txt;
     CourseController CC;
 
@@ -55,6 +63,7 @@ public class add_course extends AppCompatActivity {
         }
         return true;
     }
+
     public boolean addToDb(View view){
         boolean result = false;
         if (checkFields()){
@@ -86,6 +95,8 @@ public class add_course extends AppCompatActivity {
         return result;
     }
 
+
+    //Todo: make it so that the user doesn't need to fill in the fields they don't want to update
     public boolean updateDb(View view){
         boolean result = false;
         if (checkFields()){
@@ -110,6 +121,55 @@ public class add_course extends AppCompatActivity {
         code.setText("");
         level.setText("");
         credits.setText("");
+    }
+
+    @Override   //Builds main_menu.xml from menu resourse in res
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override   //Getting which menu item is selected and creating toasts when they are
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.add_assignment:
+                startActivity(new Intent(this, add_assignment.class));
+                break;
+            case R.id.start_page:
+                startActivity(new Intent(this, Main.class));
+                break;
+            case R.id.course_view:
+                startActivity(new Intent(this, View_Course.class));
+                break;
+            case R.id.assignment_view:
+                startActivity(new Intent(this, View_Assignment.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onTouchEvent(MotionEvent touchEvent){
+        switch(touchEvent.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                x1 = touchEvent.getX();
+                y1 = touchEvent.getY();
+                if(x1>x2){
+                    Intent i = new Intent(this, add_assignment.class);
+                    startActivity(i);
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                x2 = touchEvent.getX();
+                y2 = touchEvent.getY();
+                if(x1<x2){
+                    finish();
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                }
+                break;
+        }
+        return false;
     }
 
 }

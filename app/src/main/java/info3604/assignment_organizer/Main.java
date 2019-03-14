@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import info3604.assignment_organizer.controllers.NotifController;
 import info3604.assignment_organizer.views.add_assignment;
 import info3604.assignment_organizer.views.add_course;
+import info3604.assignment_organizer.views.View_Assignment;
+import info3604.assignment_organizer.views.View_Course;
 
 import android.app.AlarmManager;
 import android.content.Intent;
@@ -41,6 +43,7 @@ public class Main extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent i;
         switch (item.getItemId()){
+
             case R.id.add_assignment:
                 i = new Intent(this, add_assignment.class);
                 startActivity(i);
@@ -48,6 +51,12 @@ public class Main extends AppCompatActivity {
             case R.id.add_course:
                 i = new Intent(this, add_course.class);
                 startActivity(i);
+                break;
+            case R.id.course_view:
+                startActivity(new Intent(this, View_Course.class));
+                break;
+            case R.id.assignment_view:
+                startActivity(new Intent(this, View_Assignment.class));
                 break;
             case R.id.send_notification:
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
