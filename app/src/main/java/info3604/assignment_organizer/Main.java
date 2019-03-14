@@ -1,15 +1,26 @@
 package info3604.assignment_organizer;
 
 import androidx.appcompat.app.AppCompatActivity;
+import info3604.assignment_organizer.controllers.NotifController;
 import info3604.assignment_organizer.views.add_assignment;
 import info3604.assignment_organizer.views.add_course;
 
+import android.app.AlarmManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+
+import java.util.Calendar;
 
 public class Main extends AppCompatActivity {
 
@@ -38,6 +49,15 @@ public class Main extends AppCompatActivity {
                 i = new Intent(this, add_course.class);
                 startActivity(i);
                 break;
+            case R.id.send_notification:
+                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+                Intent notificationIntent = new Intent(this, NotifController.class);
+                PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.SECOND, 5);
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
         }
         return super.onOptionsItemSelected(item);
     }
