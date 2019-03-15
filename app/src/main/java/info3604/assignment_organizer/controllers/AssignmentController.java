@@ -2,22 +2,18 @@ package info3604.assignment_organizer.controllers;
 
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
 import android.content.Context;
 import android.content.ContentValues;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
-import info3604.assignment_organizer.Main;
 import info3604.assignment_organizer.models.Assignment;
 
 public class AssignmentController{
 
-
-    private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "reminder.db";
     private static final String TABLE_ASSIGNMENTS = "assignments";
+
     private static final String TABLE_COURSES = "courses";
     private static final String COLUMN_ASSIGNMENTID = "assignment_id";
     private static final String COLUMN_COURSEID = "course_id";
@@ -37,7 +33,7 @@ public class AssignmentController{
             open();
         }
         catch(SQLException e){
-            Log.e("AssignmentController", "SQLException on openning database " + e.getMessage());
+            Log.e("AssignmentController", "SQLException on opening database " + e.getMessage());
             e.printStackTrace();
         }
     }
