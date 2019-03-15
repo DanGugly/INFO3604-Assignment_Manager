@@ -13,7 +13,7 @@
             android:id="@+id/courseCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Assignment"
+            android:hint="Enter Course Code"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 

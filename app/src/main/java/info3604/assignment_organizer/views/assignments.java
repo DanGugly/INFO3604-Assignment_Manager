@@ -55,8 +55,8 @@ public class assignments extends AppCompatActivity implements DatePickerDialog.O
         assTitle = (TextInputEditText) findViewById(R.id.assTitle);
         assNotes = (TextInputEditText) findViewById(R.id.assNotes);
 
-        AC = new AssignmentController(this,null,null,1);
-        CC = new CourseController(this,null, null,1);
+        AC = new AssignmentController(this);
+        CC = new CourseController(this);
 
         save.setOnClickListener(new View.OnClickListener() {  //What should happen when save button clicked?
             @Override
@@ -159,7 +159,7 @@ public class assignments extends AppCompatActivity implements DatePickerDialog.O
             if(CC.courseExistsInDb(courseCode.getText().toString()))
                 result = AC.addAssignment(assignment);
             else
-                Toast.makeText(this,"COURSE DOESN'T EXIST IN DB",Toast.LENGTH_LONG);
+                Toast.makeText(this,"COURSE DOESN'T EXIST IN DB",Toast.LENGTH_LONG).show();
         }
         Log.d("RESULT:",result+" ");
         printDB();
@@ -180,7 +180,7 @@ public class assignments extends AppCompatActivity implements DatePickerDialog.O
         String val = assID.getText().toString();//line only for testing purposes
 
 
-        if (checkFields() && val.equals("")){
+        if (checkFields() && !val.equals("")){
             Assignment assignment = new Assignment(
                     courseCode.getText().toString(),
                     assTitle.getText().toString(),

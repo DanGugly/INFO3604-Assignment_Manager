@@ -27,7 +27,7 @@ public class courses extends AppCompatActivity {
         level = (TextInputEditText)findViewById(R.id.clevel);
         credits = (TextInputEditText)findViewById(R.id.ccredits);
         txt = (TextView)findViewById(R.id.placeholder);
-        CC = new CourseController(this, null, null, 1);
+        CC = new CourseController(this);
         printDB();
     }
 
