@@ -7,10 +7,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import info3604.assignment_organizer.views.assignments;
-import info3604.assignment_organizer.views.courses;
+import info3604.assignment_organizer.views.add_assignment;
+import info3604.assignment_organizer.views.add_course;
 
 public class Main extends AppCompatActivity {
 
@@ -32,11 +31,11 @@ public class Main extends AppCompatActivity {
         Intent i;
         switch (item.getItemId()){
             case R.id.add_assignment:
-                i = new Intent(this, assignments.class);
+                i = new Intent(this, add_assignment.class);
                 startActivity(i);
                 break;
             case R.id.add_course:
-                i = new Intent(this, courses.class);
+                i = new Intent(this, add_course.class);
                 startActivity(i);
                 break;
         }

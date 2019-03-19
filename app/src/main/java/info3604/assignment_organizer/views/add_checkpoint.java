@@ -5,7 +5,7 @@ import info3604.assignment_organizer.R;
 
 import android.os.Bundle;
 
-public class checkpoints extends AppCompatActivity {
+public class add_checkpoint extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

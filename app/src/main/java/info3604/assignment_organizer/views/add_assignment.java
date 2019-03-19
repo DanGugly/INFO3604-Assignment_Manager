@@ -7,7 +7,6 @@ import info3604.assignment_organizer.controllers.CourseController;
 import info3604.assignment_organizer.models.Assignment;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.icu.text.DateFormat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +22,7 @@ import java.util.Calendar;
 
 //Todo: change manually entering the course code to a spinner that reads from the DB
 
-public class assignments extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class add_assignment extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     Button save;
     Button b_pick;
@@ -83,8 +82,8 @@ public class assignments extends AppCompatActivity implements DatePickerDialog.O
                 month = c.get(Calendar.MONTH);
                 day = c.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(assignments.this,
-                        assignments.this, year, month, day);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(add_assignment.this,
+                        add_assignment.this, year, month, day);
                 datePickerDialog.show();
             }
         });
@@ -102,8 +101,8 @@ public class assignments extends AppCompatActivity implements DatePickerDialog.O
         hour = c.get(Calendar.HOUR_OF_DAY);
         minute = c.get(Calendar.MINUTE);
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(assignments.this,
-                assignments.this, hour, minute, true);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(add_assignment.this,
+                add_assignment.this, hour, minute, true);
         timePickerDialog.show();
     }
 

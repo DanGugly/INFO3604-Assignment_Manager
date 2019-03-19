@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class courses extends AppCompatActivity {
+public class add_course extends AppCompatActivity {
 
     TextInputEditText name, code, level, credits;
     TextView txt;

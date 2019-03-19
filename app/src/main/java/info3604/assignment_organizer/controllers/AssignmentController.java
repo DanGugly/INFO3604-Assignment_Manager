@@ -14,7 +14,7 @@ public class AssignmentController{
 
     private static final String TABLE_ASSIGNMENTS = "assignments";
 
-    private static final String TABLE_COURSES = "courses";
+    private static final String TABLE_COURSES = "add_course";
     private static final String COLUMN_ASSIGNMENTID = "assignment_id";
     private static final String COLUMN_COURSEID = "course_id";
     private static final String COLUMN_TITLE = "title";
