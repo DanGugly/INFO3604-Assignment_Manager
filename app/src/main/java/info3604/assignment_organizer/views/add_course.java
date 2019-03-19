@@ -126,7 +126,7 @@ public class add_course extends AppCompatActivity {
     @Override   //Builds main_menu.xml from menu resourse in res
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
+        inflater.inflate(R.menu.course_menu, menu);
         return true;
     }
 

@@ -66,8 +66,6 @@ public class View_Assignment extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
     public boolean onTouchEvent(MotionEvent touchEvent){
         switch(touchEvent.getAction()){
             case MotionEvent.ACTION_DOWN:

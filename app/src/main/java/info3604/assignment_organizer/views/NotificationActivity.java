@@ -1,34 +1,29 @@
 package info3604.assignment_organizer.views;
 
-import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.PendingIntent;
-import android.content.Context;
+import info3604.assignment_organizer.Main;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import java.util.Calendar;
-
 import info3604.assignment_organizer.R;
-import info3604.assignment_organizer.controllers.NotifController;
 
 
-public class NotificationActivity extends Activity {
+public class NotificationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.send_notification);
+        setContentView(R.layout.view_notification);
     }
 
-    @Override   //Builds main_menu.xml from menu resourse in res
+    @Override   //Builds main_menu.xml from menu resource in res
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
+        inflater.inflate(R.menu.notif_menu, menu);
         return true;
     }
 
@@ -36,7 +31,9 @@ public class NotificationActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent i;
         switch (item.getItemId()){
-
+            case R.id.start_page:
+                startActivity(new Intent(this, Main.class));
+                break;
             case R.id.add_assignment:
                 i = new Intent(this, add_assignment.class);
                 startActivity(i);
