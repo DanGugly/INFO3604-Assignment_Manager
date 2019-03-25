@@ -117,26 +117,26 @@ public class add_course extends AppCompatActivity {
         credits.setText("");
     }
 
-    public boolean onTouchEvent(MotionEvent touchEvent){
-        switch(touchEvent.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                x1 = touchEvent.getX();
-                y1 = touchEvent.getY();
-                if(x1>x2){
-                    Intent i = new Intent(this, add_assignment.class);
-                    startActivity(i);
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                x2 = touchEvent.getX();
-                y2 = touchEvent.getY();
-                if(x1<x2){
-                    finish();
-                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                }
-                break;
-        }
-        return false;
-    }
+//    public boolean onTouchEvent(MotionEvent touchEvent){
+//        switch(touchEvent.getAction()){
+//            case MotionEvent.ACTION_DOWN:
+//                x1 = touchEvent.getX();
+//                y1 = touchEvent.getY();
+//                if(x1>x2){
+//                    Intent i = new Intent(this, add_assignment.class);
+//                    startActivity(i);
+//                }
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                x2 = touchEvent.getX();
+//                y2 = touchEvent.getY();
+//                if(x1<x2){
+//                    finish();
+//                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+//                }
+//                break;
+//        }
+//        return false;
+//    }
 
 }
