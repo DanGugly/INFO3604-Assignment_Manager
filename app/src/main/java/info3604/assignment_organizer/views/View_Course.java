@@ -26,7 +26,7 @@ public class View_Course extends AppCompatActivity {
         setContentView(R.layout.view_course);
 
         txt = findViewById(R.id.view_course);
-        CC = new CourseController(this, null, null, 1);
+        CC = new CourseController(this);
         printDB();
     }
 

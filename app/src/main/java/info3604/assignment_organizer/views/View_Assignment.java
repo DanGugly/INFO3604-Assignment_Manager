@@ -25,7 +25,7 @@ public class View_Assignment extends AppCompatActivity {
         setContentView(R.layout.view_assignment);
 
         txt = findViewById(R.id.view_assignment);
-        AC = new AssignmentController(this,null,null,1);
+        AC = new AssignmentController(this);
 
         try{
             printDB();
