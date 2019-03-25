@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    tools:context=".views.assignments">
-
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/courseCode"
+            android:id="@+id/assignmentCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Course Code"
+            android:hint="Enter Assignment Code"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -59,17 +56,17 @@
             android:id="@+id/save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save Assignment" />
+            android:text="Save Checkpoint" />
 
         <Button
             android:id="@+id/update"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Update Assignment"
+            android:text="Update Checkpoint"
             android:onClick="updateDb"/>
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/assNotes"
+            android:id="@+id/chkNotes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Extra Notes"
@@ -89,10 +86,10 @@
             android:onClick="deleteFromDb"/>
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/assID"
+            android:id="@+id/chkID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter assignment code to delete" />
+            android:hint="Enter checkpoint code to delete" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

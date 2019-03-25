@@ -7,12 +7,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import info3604.assignment_organizer.views.View_Assignment;
-import info3604.assignment_organizer.views.View_Course;
-import info3604.assignment_organizer.views.assignments;
-import info3604.assignment_organizer.views.courses;
+import info3604.assignment_organizer.views.add_assignment;
+import info3604.assignment_organizer.views.add_course;
 
 public class Main extends AppCompatActivity {
 
@@ -31,19 +28,15 @@ public class Main extends AppCompatActivity {
 
     @Override   //Getting which menu item is selected and creating toasts when they are
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        Intent i;
         switch (item.getItemId()){
-            case R.id.add_course:
-                startActivity(new Intent(this, courses.class));
-                break;
             case R.id.add_assignment:
-                startActivity(new Intent(this, assignments.class));
+                i = new Intent(this, add_assignment.class);
+                startActivity(i);
                 break;
-            case R.id.course_view:
-                startActivity(new Intent(this, View_Course.class));
-                break;
-            case R.id.assignment_view:
-                startActivity(new Intent(this, View_Assignment.class));
+            case R.id.add_course:
+                i = new Intent(this, add_course.class);
+                startActivity(i);
                 break;
         }
         return super.onOptionsItemSelected(item);
