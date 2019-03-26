@@ -5,11 +5,17 @@ import info3604.assignment_organizer.Main;
 import info3604.assignment_organizer.R;
 import info3604.assignment_organizer.controllers.AssignmentController;
 import info3604.assignment_organizer.controllers.CourseController;
+import info3604.assignment_organizer.controllers.NotifController;
 import info3604.assignment_organizer.models.Assignment;
+
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.icu.text.DateFormat;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -25,7 +31,9 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Date;
 
 //Todo: change manually entering the course code to a spinner that reads from the DB
 
@@ -169,6 +177,39 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
                 Toast.makeText(this,"COURSE DOESN'T EXIST IN DB",Toast.LENGTH_LONG).show();
         }
         Log.d("RESULT:",result+" ");
+        if(result){
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+            Intent notificationIntent = new Intent(this, NotifController.class);
+
+            notificationIntent.putExtra("title",assTitle.getText().toString()+" Due"+" "+tv_result.getText().toString());    //Values should be pulled from DB
+            notificationIntent.putExtra("content",assTitle.getText().toString()+" Reminder");
+            notificationIntent.putExtra("ticker",assTitle.getText().toString());
+
+            PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            //Get current time
+            String givenDateString = tv_result.getText().toString();
+            Log.d("NOAHAVESH","Date: "+givenDateString);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            try {
+                Date mDate = sdf.parse(givenDateString);
+                long timeInMilliseconds = mDate.getTime();
+                Log.d("NOAHAVESH","Future time: "+timeInMilliseconds);
+                long millis = System.currentTimeMillis();   //long currentTimeMillis ()-Returns the current time in milliseconds.
+                Log.d("NOAHAVESH","Current time: "+millis);
+                long seconds = (timeInMilliseconds-millis) / 1000;               //Divide millis by 1000 to get the number of seconds.
+
+                Log.d("NOAHAVESH","Difference in time: "+seconds);
+
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.SECOND, (int) seconds);
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
         printDB();
         return result;
     }

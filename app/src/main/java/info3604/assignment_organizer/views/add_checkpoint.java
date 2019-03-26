@@ -5,11 +5,16 @@ import info3604.assignment_organizer.Main;
 import info3604.assignment_organizer.R;
 import info3604.assignment_organizer.controllers.AssignmentController;
 import info3604.assignment_organizer.controllers.CheckpointController;
+import info3604.assignment_organizer.controllers.NotifController;
 import info3604.assignment_organizer.models.Checkpoint;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -21,7 +26,10 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Date;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -181,22 +189,55 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
         return true;
     }
 
-    public boolean addToDb(){
+    public boolean addToDb() {
         boolean result = false;
-        if (checkFields()){
+        if (checkFields()) {
             Checkpoint checkpoint = new Checkpoint(
                     Integer.parseInt(assignmentCode.getText().toString()),
                     checkpointTitle.getText().toString(),
                     tv_result.getText().toString(),
                     chkNotes.getText().toString()
             );
-            if(AC.assignmentExistsInDb(assignmentCode.getText().toString()))
+            if (AC.assignmentExistsInDb(assignmentCode.getText().toString()))
                 result = CC.addCheckpoint(checkpoint);
             else
-                Toast.makeText(this,"COURSE DOESN'T EXIST IN DB",Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "COURSE DOESN'T EXIST IN DB", Toast.LENGTH_LONG).show();
         }
-        Log.d("RESULT:",result+" ");
-        printDB();
+        Log.d("RESULT:", result + " ");
+        if (result) {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+            Intent notificationIntent = new Intent(this, NotifController.class);
+
+            notificationIntent.putExtra("title", "Checkpoint: " + checkpointTitle.getText().toString());    //Values should be pulled from DB
+            notificationIntent.putExtra("content", chkNotes.getText().toString() + " Reminder" + " Due: " + tv_result.getText().toString());
+            notificationIntent.putExtra("ticker", checkpointTitle.getText().toString());
+
+            PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            //Get current time
+            String givenDateString = tv_result.getText().toString();
+            Log.d("NOAHAVESH", "Date: " + givenDateString);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            try {
+                Date mDate = sdf.parse(givenDateString);
+                long timeInMilliseconds = mDate.getTime();
+                Log.d("NOAHAVESH", "Future time: " + timeInMilliseconds);
+                long millis = System.currentTimeMillis();   //long currentTimeMillis ()-Returns the current time in milliseconds.
+                Log.d("NOAHAVESH", "Current time: " + millis);
+                long seconds = (timeInMilliseconds - millis) / 1000;               //Divide millis by 1000 to get the number of seconds.
+
+                Log.d("NOAHAVESH", "Difference in time: " + seconds);
+
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.SECOND, (int) seconds);
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            printDB();
+        }
         return result;
     }
 
