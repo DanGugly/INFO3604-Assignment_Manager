@@ -135,7 +135,7 @@ public class add_course extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.add_assignment:
-                startActivity(new Intent(this, assignments.class));
+                startActivity(new Intent(this, add_assignment.class));
                 break;
             case R.id.start_page:
                 startActivity(new Intent(this, Main.class));
@@ -156,7 +156,7 @@ public class add_course extends AppCompatActivity {
                 x1 = touchEvent.getX();
                 y1 = touchEvent.getY();
                 if(x1>x2){
-                    Intent i = new Intent(this, assignments.class);
+                    Intent i = new Intent(this, add_assignment.class);
                     startActivity(i);
                 }
                 break;

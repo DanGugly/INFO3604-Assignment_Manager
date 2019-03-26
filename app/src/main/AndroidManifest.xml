@@ -10,7 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".views.add_checkpoint"></activity>
-        <activity android:name=".views.add_course" />
+        <activity android:name=".views.add_assignment" android:label="@string/add_assignment"></activity>
+        <activity android:name=".views.add_course" android:label="@string/add_course"></activity>
+        <activity android:name=".views.View_Course" android:label="@string/view_course" />
+        <activity android:name=".views.View_Assignment" android:label="@string/view_assignment" />
         <activity android:name=".Main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,7 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.add_assignment" />
+
     </application>
 
 </manifest>

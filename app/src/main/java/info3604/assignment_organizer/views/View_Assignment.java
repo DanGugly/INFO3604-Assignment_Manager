@@ -25,7 +25,7 @@ public class View_Assignment extends AppCompatActivity {
         setContentView(R.layout.activity_view__assignment);
 
         txt = findViewById(R.id.view_assignment);
-        AC = new AssignmentController(this,null,null,1);
+        AC = new AssignmentController(this);
 
         try{
             printDB();
@@ -51,7 +51,7 @@ public class View_Assignment extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.add_course:
-                startActivity(new Intent(this, courses.class));
+                startActivity(new Intent(this, add_course.class));
                 break;
             case R.id.start_page:
                 startActivity(new Intent(this, Main.class));
@@ -60,7 +60,7 @@ public class View_Assignment extends AppCompatActivity {
                 startActivity(new Intent(this, View_Course.class));
                 break;
             case R.id.add_assignment:
-                startActivity(new Intent(this, assignments.class));
+                startActivity(new Intent(this, add_assignment.class));
                 break;
         }
         return super.onOptionsItemSelected(item);

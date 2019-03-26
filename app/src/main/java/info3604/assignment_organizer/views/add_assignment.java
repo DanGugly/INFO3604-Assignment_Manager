@@ -228,7 +228,7 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
 
         switch (item.getItemId()){
             case R.id.add_course:
-                startActivity(new Intent(this, courses.class));
+                startActivity(new Intent(this, add_course.class));
                 break;
             case R.id.start_page:
                 startActivity(new Intent(this, Main.class));

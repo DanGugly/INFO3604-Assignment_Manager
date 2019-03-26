@@ -26,7 +26,7 @@ public class View_Course extends AppCompatActivity {
         setContentView(R.layout.course_view);
 
         txt = findViewById(R.id.view_course);
-        CC = new CourseController(this, null, null, 1);
+        CC = new CourseController(this);
         printDB();
     }
 
@@ -48,13 +48,13 @@ public class View_Course extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.add_course:
-                startActivity(new Intent(this, courses.class));
+                startActivity(new Intent(this, add_course.class));
                 break;
             case R.id.start_page:
                 startActivity(new Intent(this, Main.class));
                 break;
             case R.id.add_assignment:
-                startActivity(new Intent(this, assignments.class));
+                startActivity(new Intent(this, add_assignment.class));
                 break;
             case R.id.assignment_view:
                 startActivity(new Intent(this, View_Assignment.class));
