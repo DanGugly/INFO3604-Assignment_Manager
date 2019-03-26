@@ -31,9 +31,13 @@ public class NotifController extends BroadcastReceiver{
 
         Notification.Builder builder = new Notification.Builder(context);
 
-        Notification notification = builder.setContentTitle("Reminder App Notification")
-                .setContentText("New Notification From ARO..")
-                .setTicker("Checkpoint / Assignment # Due!")
+        String title = intent.getStringExtra("title");
+        String content = intent.getStringExtra("content");
+        String ticker = intent.getStringExtra("ticker");
+
+        Notification notification = builder.setContentTitle(title)
+                .setContentText(content)
+                .setTicker(ticker)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(pendingIntent).build();
 

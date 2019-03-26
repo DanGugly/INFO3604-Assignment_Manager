@@ -62,6 +62,11 @@ public class Main extends AppCompatActivity {
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
                 Intent notificationIntent = new Intent(this, NotifController.class);
+
+                notificationIntent.putExtra("title","Assignment 2");    //Values should be pulled from DB
+                notificationIntent.putExtra("content","Checkpoint 1 reminder");
+                notificationIntent.putExtra("ticker","Due rand,...");
+
                 PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 Calendar cal = Calendar.getInstance();
