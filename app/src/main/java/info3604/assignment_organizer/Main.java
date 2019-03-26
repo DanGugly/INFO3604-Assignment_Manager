@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import info3604.assignment_organizer.views.add_assignment;
 import info3604.assignment_organizer.views.add_course;
+import info3604.assignment_organizer.views.add_checkpoint;
 
 public class Main extends AppCompatActivity {
 
@@ -36,6 +37,10 @@ public class Main extends AppCompatActivity {
                 break;
             case R.id.add_course:
                 i = new Intent(this, add_course.class);
+                startActivity(i);
+                break;
+            case R.id.add_checkpoint:
+                i = new Intent(this, add_checkpoint.class);
                 startActivity(i);
                 break;
         }

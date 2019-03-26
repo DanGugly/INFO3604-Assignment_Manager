@@ -47,7 +47,7 @@ public class CheckpointController {
     }
 
     public boolean addCheckpoint(Checkpoint checkpoint){
-        mDatabase.beginTransaction();
+        mDatabase.beginTransactionNonExclusive();
         ContentValues values = new ContentValues();
         values.put(COLUMN_ASSIGNMENTID, checkpoint.getAssignmentID());
         values.put(COLUMN_NOTES, checkpoint.getNotes());
@@ -62,9 +62,9 @@ public class CheckpointController {
     }
 
     public boolean updateCheckpoint(Checkpoint checkpoint){
-        mDatabase.beginTransaction();
+        mDatabase.beginTransactionNonExclusive();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_ASSIGNMENTID, checkpoint.getAssignmentID());
+        //values.put(COLUMN_ASSIGNMENTID, checkpoint.getAssignmentID());
         values.put(COLUMN_NOTES, checkpoint.getNotes());
         values.put(COLUMN_TITLE, checkpoint.getTitle());
         values.put(COLUMN_DUEDATE, checkpoint.getDueDate());
@@ -76,7 +76,7 @@ public class CheckpointController {
     }
 
     public boolean deleteCheckpoint(int checkpoint_id){
-        mDatabase.beginTransaction();
+        mDatabase.beginTransactionNonExclusive();
         //db.execSQL("DELETE FROM " + TABLE_COURSES + " WHERE " + COLUMN_CODE + "=\"" + courseCode + "\";");
         int result = mDatabase.delete(TABLE_CHECKPOINTS,"checkpoint_id=?",new String[]{String.valueOf(checkpoint_id)});
         mDatabase.setTransactionSuccessful();
@@ -85,7 +85,7 @@ public class CheckpointController {
     }
 
     public String toString(){
-        mDatabase.beginTransaction();
+        mDatabase.beginTransactionNonExclusive();
         String dbString = "" ;
         String query = "SELECT * FROM " + TABLE_CHECKPOINTS ;
         Cursor allRows = mDatabase.rawQuery(query,null);

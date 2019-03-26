@@ -28,6 +28,7 @@ public class CourseController {
     public CourseController(Context context){
         mController = new MainController(context);
         this.mContext = context;
+
         try{
             open();
         }
@@ -64,7 +65,7 @@ public class CourseController {
     */
 
     public boolean addCourse(Course course){
-        mDatabase.beginTransaction();
+        mDatabase.beginTransactionNonExclusive();
         ContentValues values = new ContentValues();
         values.put(COLUMN_CODE, course.getCode());
         values.put(COLUMN_NAME, course.getName());
@@ -80,7 +81,7 @@ public class CourseController {
     }
 
     public boolean updateCourse(Course course){
-        mDatabase.beginTransaction();
+        mDatabase.beginTransactionNonExclusive();
         ContentValues values = new ContentValues();
         values.put(COLUMN_CODE, course.getCode());
         values.put(COLUMN_NAME, course.getName());
@@ -94,7 +95,7 @@ public class CourseController {
     }
 
     public boolean deleteCourse(String courseCode){
-        mDatabase.beginTransaction();
+        mDatabase.beginTransactionNonExclusive();
         //db.execSQL("DELETE FROM " + TABLE_COURSES + " WHERE " + COLUMN_CODE + "=\"" + courseCode + "\";");
         int result = mDatabase.delete(TABLE_COURSES,"code=?",new String[]{courseCode});
         mDatabase.setTransactionSuccessful();
@@ -104,7 +105,7 @@ public class CourseController {
     }
 
     public boolean courseExistsInDb(String courseCode){
-        mDatabase.beginTransaction();
+        mDatabase.beginTransactionNonExclusive();
         String[] columns = { COLUMN_CODE };
         String selection = COLUMN_CODE + " =?";
         String[] selectionArgs = { courseCode };
@@ -120,7 +121,7 @@ public class CourseController {
 
     public String toString(){
         String dbString = "" ;
-        mDatabase.beginTransaction();
+        mDatabase.beginTransactionNonExclusive();
         String query = "SELECT * FROM " + TABLE_COURSES ;
         Cursor allRows = mDatabase.rawQuery(query,null);
         if (allRows.moveToFirst() ){

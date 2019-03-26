@@ -67,7 +67,7 @@ public class AssignmentController{
     */
 
     public boolean addAssignment(Assignment assignment){
-        mDatabase.beginTransaction();
+        mDatabase.beginTransactionNonExclusive();
         ContentValues values = new ContentValues();
         values.put(COLUMN_COURSEID, assignment.getCourseID());
         values.put(COLUMN_NOTES, assignment.getNotes());
@@ -82,9 +82,9 @@ public class AssignmentController{
     }
 
     public boolean updateAssignment(Assignment assignment){
-        mDatabase.beginTransaction();
+        mDatabase.beginTransactionNonExclusive();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_COURSEID, assignment.getCourseID());
+        //values.put(COLUMN_COURSEID, assignment.getCourseID());
         values.put(COLUMN_NOTES, assignment.getNotes());
         values.put(COLUMN_TITLE, assignment.getTitle());
         values.put(COLUMN_DUEDATE, assignment.getDueDate());
@@ -98,7 +98,7 @@ public class AssignmentController{
     }
 
     public boolean deleteAssignment(int assignment_id){
-        mDatabase.beginTransaction();
+        mDatabase.beginTransactionNonExclusive();
         //db.execSQL("DELETE FROM " + TABLE_COURSES + " WHERE " + COLUMN_CODE + "=\"" + courseCode + "\";");
         int result = mDatabase.delete(TABLE_ASSIGNMENTS,"assignment_id=?",new String[]{String.valueOf(assignment_id)});
         mDatabase.setTransactionSuccessful();
@@ -106,8 +106,36 @@ public class AssignmentController{
         return result > 0;
     }
 
+    public boolean assignmentExistsInDb(String assignmentID){
+        mDatabase.beginTransactionNonExclusive();
+        Log.d("AsgID",assignmentID);
+        String selectString = "SELECT * FROM " + TABLE_ASSIGNMENTS + " WHERE " + COLUMN_ASSIGNMENTID + " =?";
+        Cursor cursor = mDatabase.rawQuery(selectString, new String[] {assignmentID});
+        boolean hasObject = false;
+        if(cursor.moveToFirst()){
+            hasObject = true;
+        }
+        cursor.close();
+        mDatabase.setTransactionSuccessful();
+        mDatabase.endTransaction();
+        return hasObject;
+        /*
+        String[] columns = { COLUMN_ASSIGNMENTID };
+        String selection = COLUMN_ASSIGNMENTID + " =?";
+        String[] selectionArgs = { assignmentID };
+        String limit = "1";
+
+        Cursor cursor = mDatabase.query(TABLE_COURSES, columns, selection, selectionArgs, null, null, null, limit);
+        boolean exists = (cursor.getCount() > 0);
+        cursor.close();
+        mDatabase.setTransactionSuccessful();
+        mDatabase.endTransaction();
+        return exists;
+        */
+    }
+
     public String toString(){
-        mDatabase.beginTransaction();
+        mDatabase.beginTransactionNonExclusive();
         String dbString = "" ;
         String query = "SELECT * FROM " + TABLE_ASSIGNMENTS ;
         Cursor allRows = mDatabase.rawQuery(query,null);
