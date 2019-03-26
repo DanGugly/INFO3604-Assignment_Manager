@@ -5,6 +5,7 @@ import info3604.assignment_organizer.controllers.NotifController;
 import info3604.assignment_organizer.views.add_assignment;
 import info3604.assignment_organizer.views.add_course;
 import info3604.assignment_organizer.views.View_Assignment;
+import info3604.assignment_organizer.views.add_checkpoint;
 import info3604.assignment_organizer.views.View_Course;
 
 import android.app.AlarmManager;
@@ -57,6 +58,9 @@ public class Main extends AppCompatActivity {
                 break;
             case R.id.assignment_view:
                 startActivity(new Intent(this, View_Assignment.class));
+                break;
+            case R.id.add_checkpoint:
+                startActivity(new Intent(this, add_checkpoint.class));
                 break;
             case R.id.send_notification:
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);

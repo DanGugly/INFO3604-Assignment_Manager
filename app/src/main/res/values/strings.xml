@@ -2,6 +2,7 @@
     <string name="app_name">Assignment Organizer</string>
     <string name="add_assignment">Add Assignment</string>
     <string name="add_course">Add Course</string>
+    <string name="add_checkpoint">Add Checkpoint</string>
     <string name="main_menu">Main Menu</string>
     <string name="view_course">View Courses</string>
     <string name="view_assignment">View Assignments</string>

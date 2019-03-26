@@ -50,6 +50,9 @@ public class View_Assignment extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
+            case R.id.add_checkpoint:
+                startActivity(new Intent(this, add_checkpoint.class));
+                break;
             case R.id.add_course:
                 startActivity(new Intent(this, add_course.class));
                 break;

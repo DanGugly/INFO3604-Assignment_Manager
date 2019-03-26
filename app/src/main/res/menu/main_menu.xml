@@ -19,6 +19,11 @@
         android:title="@string/add_assignment"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/add_checkpoint"
+        android:title="@string/add_checkpoint"
+        app:showAsAction="never"/>
+
     <!--Third menu option-->
     <item
         android:id="@+id/course_view"

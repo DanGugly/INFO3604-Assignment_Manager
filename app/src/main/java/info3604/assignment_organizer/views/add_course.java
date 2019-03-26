@@ -134,6 +134,9 @@ public class add_course extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
+            case R.id.add_checkpoint:
+                startActivity(new Intent(this, add_checkpoint.class));
+                break;
             case R.id.add_assignment:
                 startActivity(new Intent(this, add_assignment.class));
                 break;

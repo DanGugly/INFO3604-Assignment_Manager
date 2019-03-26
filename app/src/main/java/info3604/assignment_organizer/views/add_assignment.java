@@ -227,6 +227,9 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent i;
         switch (item.getItemId()){
+            case R.id.add_checkpoint:
+                startActivity(new Intent(this, add_checkpoint.class));
+                break;
             case R.id.start_page:
                 startActivity(new Intent(this, Main.class));
                 break;

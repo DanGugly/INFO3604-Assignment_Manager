@@ -5,45 +5,45 @@ import java.util.Date;
 
 public class Checkpoint implements Serializable {
 
-    private String checkID;
+    private int checkpointID;
 
-    private String assID;
+    private int assignmentID;
 
     private String title;
 
-    private Date expected;
+    private String dueDate;
 
     private String notes;
 
-    public Checkpoint(String assID, String title, Date expected, String notes){
-        this.assID = assID;
+    public Checkpoint(int assignmentID, String title, String dueDate, String notes){
+        this.assignmentID = assignmentID;
         this.title = title;
-        this.expected = expected;
+        this.dueDate = dueDate;
         this.notes = notes;
     }
 
-    public String getCheckID() { return checkID; }
+    public int getCheckpointID() { return checkpointID; }
 
-    public String getAssID() { return assID; }
+    public int getAssignmentID() { return assignmentID; }
 
     public String getTitle() { return title; }
 
-    public Date getExpected() { return expected; }
+    public String getDueDate() { return dueDate; }
 
     public String getNotes() { return notes; }
 
-    public void setCheckID(String checkID) { this.checkID = checkID; }
+    public void setCheckID(int checkpointID) { this.checkpointID = checkpointID; }
 
-    public void setAssID(String assID) { this.assID = assID; }
+    public void setAssignmentID(int assignmentID) { this.assignmentID = assignmentID; }
 
     public void setTitle(String title) { this.title = title; }
 
-    public void setExpected(Date expected) { this.expected = expected; }
+    public void setDueDate(String dueDate) { this.dueDate = dueDate; }
 
     public void setNotes(String notes) { this.notes = notes; }
 
     @Override
     public boolean equals(Object obj) {
-        return this.getCheckID().equals(((Checkpoint)obj).getCheckID());
+        return this.getCheckpointID() == ((Checkpoint)obj).getCheckpointID();
     }
 }
