@@ -13,16 +13,11 @@
         android:title="@string/add_course"
         app:showAsAction="never" />
 
-    <!--Second menu option-->
+    <!--Second menu option
     <item
         android:id="@+id/add_assignment"
         android:title="@string/add_assignment"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/add_checkpoint"
-        android:title="@string/add_checkpoint"
-        app:showAsAction="never"/>
+        app:showAsAction="never"/> -->
 
     <!--Third menu option-->
     <item
@@ -35,4 +30,5 @@
         android:id="@+id/assignment_view"
         android:title="@string/view_assignment"
         app:showAsAction="never" />
+
 </menu>

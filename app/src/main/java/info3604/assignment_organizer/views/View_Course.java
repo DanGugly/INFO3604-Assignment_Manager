@@ -23,7 +23,7 @@ public class View_Course extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.course_view);
+        setContentView(R.layout.view_course);
 
         txt = findViewById(R.id.view_course);
         CC = new CourseController(this);
@@ -47,6 +47,9 @@ public class View_Course extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
+            case R.id.add_checkpoint:
+                startActivity(new Intent(this, add_checkpoint.class));
+                break;
             case R.id.add_course:
                 startActivity(new Intent(this, add_course.class));
                 break;

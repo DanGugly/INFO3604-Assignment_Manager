@@ -126,7 +126,7 @@ public class add_course extends AppCompatActivity {
     @Override   //Builds main_menu.xml from menu resourse in res
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
+        inflater.inflate(R.menu.course_menu, menu);
         return true;
     }
 
@@ -134,6 +134,9 @@ public class add_course extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
+            case R.id.add_checkpoint:
+                startActivity(new Intent(this, add_checkpoint.class));
+                break;
             case R.id.add_assignment:
                 startActivity(new Intent(this, add_assignment.class));
                 break;

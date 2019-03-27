@@ -1,17 +1,28 @@
 package info3604.assignment_organizer;
 
 import androidx.appcompat.app.AppCompatActivity;
+import info3604.assignment_organizer.controllers.NotifController;
+import info3604.assignment_organizer.views.add_assignment;
+import info3604.assignment_organizer.views.add_course;
+import info3604.assignment_organizer.views.View_Assignment;
+import info3604.assignment_organizer.views.add_checkpoint;
+import info3604.assignment_organizer.views.View_Course;
 
+import android.app.AlarmManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-import info3604.assignment_organizer.views.View_Assignment;
-import info3604.assignment_organizer.views.View_Course;
-import info3604.assignment_organizer.views.add_assignment;
-import info3604.assignment_organizer.views.add_course;
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+
+import java.util.Calendar;
 
 public class Main extends AppCompatActivity {
 
@@ -32,10 +43,7 @@ public class Main extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent i;
         switch (item.getItemId()){
-//            case R.id.start_page:
-//                i = new Intent(this, Main.class);
-//                startActivity(i);
-//                break;
+
             case R.id.add_assignment:
                 i = new Intent(this, add_assignment.class);
                 startActivity(i);
@@ -44,14 +52,29 @@ public class Main extends AppCompatActivity {
                 i = new Intent(this, add_course.class);
                 startActivity(i);
                 break;
-            case R.id.assignment_view:
-                i = new Intent(this, View_Assignment.class);
-                startActivity(i);
-                break;
             case R.id.course_view:
-                i = new Intent(this, View_Course.class);
-                startActivity(i);
+                startActivity(new Intent(this, View_Course.class));
                 break;
+            case R.id.assignment_view:
+                startActivity(new Intent(this, View_Assignment.class));
+                break;
+            case R.id.add_checkpoint:
+                startActivity(new Intent(this, add_checkpoint.class));
+                break;
+            /*case R.id.send_notification:
+                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+                Intent notificationIntent = new Intent(this, NotifController.class);
+
+                notificationIntent.putExtra("title","Assignment 2");    //Values should be pulled from DB
+                notificationIntent.putExtra("content","Checkpoint 1 reminder");
+                notificationIntent.putExtra("ticker","Due rand,...");
+
+                PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.SECOND, 5);
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast) ;*/
         }
         return super.onOptionsItemSelected(item);
     }

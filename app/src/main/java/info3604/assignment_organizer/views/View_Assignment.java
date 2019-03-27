@@ -22,7 +22,7 @@ public class View_Assignment extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view__assignment);
+        setContentView(R.layout.view_assignment);
 
         txt = findViewById(R.id.view_assignment);
         AC = new AssignmentController(this);
@@ -50,6 +50,9 @@ public class View_Assignment extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
+            case R.id.add_checkpoint:
+                startActivity(new Intent(this, add_checkpoint.class));
+                break;
             case R.id.add_course:
                 startActivity(new Intent(this, add_course.class));
                 break;
@@ -65,8 +68,6 @@ public class View_Assignment extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 
     public boolean onTouchEvent(MotionEvent touchEvent){
         switch(touchEvent.getAction()){

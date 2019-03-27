@@ -9,11 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".views.add_checkpoint"></activity>
-        <activity android:name=".views.add_assignment" android:label="@string/add_assignment"></activity>
-        <activity android:name=".views.add_course" android:label="@string/add_course"></activity>
-        <activity android:name=".views.View_Course" android:label="@string/view_course" />
-        <activity android:name=".views.View_Assignment" android:label="@string/view_assignment" />
+        <activity android:name=".views.View_Course"></activity>
+        <activity android:name=".views.View_Assignment" />
+        <activity android:name=".views.NotificationActivity" />
+
+        <receiver android:name=".controllers.NotifController">
+            <intent-filter>
+                <action android:name="action.DISPLAY_NOTIFICATION" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".views.add_checkpoint" />
+        <activity android:name=".views.add_course" />
         <activity android:name=".Main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,7 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".views.add_assignment" />
     </application>
 
 </manifest>
