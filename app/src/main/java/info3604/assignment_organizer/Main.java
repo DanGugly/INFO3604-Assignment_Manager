@@ -61,7 +61,7 @@ public class Main extends AppCompatActivity {
             case R.id.add_checkpoint:
                 startActivity(new Intent(this, add_checkpoint.class));
                 break;
-            case R.id.send_notification:
+            /*case R.id.send_notification:
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
                 Intent notificationIntent = new Intent(this, NotifController.class);
@@ -74,7 +74,7 @@ public class Main extends AppCompatActivity {
 
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.SECOND, 5);
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast) ;*/
         }
         return super.onOptionsItemSelected(item);
     }

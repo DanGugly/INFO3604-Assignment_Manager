@@ -35,10 +35,4 @@
         android:id="@+id/assignment_view"
         android:title="@string/view_assignment"
         app:showAsAction="never" />
-
-    <!--Fifth menu option-->
-    <item
-        android:id="@+id/send_notification"
-        android:title="Test Notification"
-        app:showAsAction="never"/>
 </menu>
