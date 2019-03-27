@@ -23,16 +23,20 @@ public class MainController extends SQLiteOpenHelper{
     private static final String ASSIGNMENT_ASSIGNMENTID = "assignment_id";
     private static final String ASSIGNMENT_COURSEID = "course_id";
     private static final String ASSIGNMENT_TITLE = "title";
+    private static final String ASSIGNMENT_STARTDATE = "start_date";
     private static final String ASSIGNMENT_DUEDATE = "due_date";
     private static final String ASSIGNMENT_NOTES = "notes";
+    private static final String ASSIGNMENT_PROGRESS = "assignment_progress";
 
     //Checkpoint Table
     private static final String TABLE_CHECKPOINTS = "checkpoints";
     private static final String CHECKPOINT_ASSIGNMENTID = "assignment_id";
     private static final String CHECKPOINT_CHECKPOINTID = "checkpoint_id";
     private static final String CHECKPOINT_TITLE = "title";
+    private static final String CHECKPOINT_STARTDATE = "start_date";
     private static final String CHECKPOINT_DUEDATE = "due_date";
     private static final String CHECKPOINT_NOTES = "notes";
+    private static final String CHECKPOINT_PROGRESS = "checkpoint_progress";
 
     public MainController(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -40,6 +44,13 @@ public class MainController extends SQLiteOpenHelper{
 
     public MainController(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        db.execSQL("PRAGMA foreign_keys = ON; ");
+        db.enableWriteAheadLogging();
     }
 
     @Override
@@ -53,17 +64,23 @@ public class MainController extends SQLiteOpenHelper{
         query = "CREATE TABLE " + TABLE_ASSIGNMENTS+ "(" +
                 ASSIGNMENT_ASSIGNMENTID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 ASSIGNMENT_TITLE + " TEXT NOT NULL, " +
+                ASSIGNMENT_STARTDATE + " TEXT NOT NULL, " +
                 ASSIGNMENT_DUEDATE + " TEXT NOT NULL, " +
                 ASSIGNMENT_NOTES + " TEXT, " +
-                ASSIGNMENT_COURSEID + " TEXT REFERENCES " + TABLE_COURSES + "(code) ON UPDATE CASCADE" +
+                ASSIGNMENT_PROGRESS + " INTEGER NOT NULL, " +
+                ASSIGNMENT_COURSEID + " TEXT NOT NULL, " +
+                "FOREIGN KEY(" + ASSIGNMENT_COURSEID + ") REFERENCES " + TABLE_COURSES + "(" + COURSE_CODE + ") ON DELETE CASCADE" +
                 ");";
         db.execSQL(query);
         query = "CREATE TABLE " + TABLE_CHECKPOINTS+ "(" +
                 CHECKPOINT_CHECKPOINTID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 CHECKPOINT_TITLE + " TEXT NOT NULL, " +
+                CHECKPOINT_STARTDATE + " TEXT NOT NULL, " +
                 CHECKPOINT_DUEDATE + " TEXT NOT NULL, " +
                 CHECKPOINT_NOTES + " TEXT, " +
-                CHECKPOINT_ASSIGNMENTID + " INTEGER REFERENCES " + TABLE_ASSIGNMENTS + "(assignment_id) ON UPDATE CASCADE" +
+                CHECKPOINT_PROGRESS + " INTEGER NOT NULL, " +
+                CHECKPOINT_ASSIGNMENTID + " INTEGER NOT NULL," +
+                "FOREIGN KEY(" + CHECKPOINT_ASSIGNMENTID + ") REFERENCES " + TABLE_ASSIGNMENTS + "(" + ASSIGNMENT_ASSIGNMENTID + ") ON DELETE CASCADE" +
                 ");";
         db.execSQL(query);
     }
