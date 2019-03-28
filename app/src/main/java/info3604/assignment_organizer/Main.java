@@ -8,9 +8,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import info3604.assignment_organizer.models.Checkpoint;
+import info3604.assignment_organizer.views.AssignmentList;
+import info3604.assignment_organizer.views.CheckpointList;
 import info3604.assignment_organizer.views.add_assignment;
 import info3604.assignment_organizer.views.add_course;
 import info3604.assignment_organizer.views.add_checkpoint;
+import info3604.assignment_organizer.views.CourseList;
 
 public class Main extends AppCompatActivity {
 
@@ -41,6 +45,18 @@ public class Main extends AppCompatActivity {
                 break;
             case R.id.add_checkpoint:
                 i = new Intent(this, add_checkpoint.class);
+                startActivity(i);
+                break;
+            case R.id.course_list:
+                i = new Intent(this, CourseList.class);
+                startActivity(i);
+                break;
+            case R.id.assignment_list:
+                i = new Intent(this, AssignmentList.class);
+                startActivity(i);
+                break;
+            case R.id.checkpoint_list:
+                i = new Intent(this, CheckpointList.class);
                 startActivity(i);
                 break;
         }

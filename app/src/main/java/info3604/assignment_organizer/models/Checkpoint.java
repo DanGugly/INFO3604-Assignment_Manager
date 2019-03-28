@@ -31,6 +31,8 @@ public class Checkpoint implements Serializable {
         this.startDate = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(new Date());
     }
 
+    public Checkpoint(int checkpointID) { }
+
     public int getCheckpointID() { return checkpointID; }
 
     public int getAssignmentID() { return assignmentID; }

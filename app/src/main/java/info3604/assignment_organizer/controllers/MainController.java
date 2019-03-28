@@ -1,4 +1,5 @@
 package info3604.assignment_organizer.controllers;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
@@ -91,5 +92,23 @@ public class MainController extends SQLiteOpenHelper{
         db.execSQL(" DROP TABLE IF EXISTS " + TABLE_COURSES);
         db.execSQL(" DROP TABLE IF EXISTS " + TABLE_CHECKPOINTS);
         onCreate(db);
+    }
+
+    public Cursor getCourseList(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TABLE_COURSES, null);
+        return data;
+    }
+
+    public Cursor getAssignmentList(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TABLE_ASSIGNMENTS, null);
+        return data;
+    }
+
+    public Cursor getCheckpointList(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TABLE_CHECKPOINTS, null);
+        return data;
     }
 }

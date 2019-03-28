@@ -31,6 +31,8 @@ public class Assignment implements Serializable{
         this.startDate = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(new Date());
     }
 
+    public Assignment() { }
+
     public int getAssignmentID(){ return assignmentID; }
 
     public String getCourseID(){ return courseID; }
