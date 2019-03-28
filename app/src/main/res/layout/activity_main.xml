@@ -28,10 +28,13 @@
             </FrameLayout>
         </androidx.appcompat.widget.Toolbar>
         <CalendarView
+
             android:id="@+id/calendarView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:dateTextAppearance="@color/colorText"
+            android:weekDayTextAppearance="@color/colorText"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
