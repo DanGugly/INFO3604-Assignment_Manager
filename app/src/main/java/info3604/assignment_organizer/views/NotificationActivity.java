@@ -23,7 +23,7 @@ public class NotificationActivity extends AppCompatActivity {
     @Override   //Builds main_menu.xml from menu resource in res
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.notif_menu, menu);
+        inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -41,12 +41,6 @@ public class NotificationActivity extends AppCompatActivity {
             case R.id.add_course:
                 i = new Intent(this, add_course.class);
                 startActivity(i);
-                break;
-            case R.id.course_view:
-                startActivity(new Intent(this, View_Course.class));
-                break;
-            case R.id.assignment_view:
-                startActivity(new Intent(this, View_Assignment.class));
                 break;
         }
         return super.onOptionsItemSelected(item);

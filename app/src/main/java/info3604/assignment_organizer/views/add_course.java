@@ -126,7 +126,7 @@ public class add_course extends AppCompatActivity {
     @Override   //Builds main_menu.xml from menu resourse in res
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.course_menu, menu);
+        inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -142,12 +142,6 @@ public class add_course extends AppCompatActivity {
                 break;
             case R.id.start_page:
                 startActivity(new Intent(this, Main.class));
-                break;
-            case R.id.course_view:
-                startActivity(new Intent(this, View_Course.class));
-                break;
-            case R.id.assignment_view:
-                startActivity(new Intent(this, View_Assignment.class));
                 break;
         }
         return super.onOptionsItemSelected(item);

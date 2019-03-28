@@ -38,7 +38,7 @@ public class NotifController extends BroadcastReceiver{
         Notification notification = builder.setContentTitle(title)
                 .setContentText(content)
                 .setTicker(ticker)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setContentIntent(pendingIntent).build();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

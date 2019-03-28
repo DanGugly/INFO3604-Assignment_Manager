@@ -61,9 +61,6 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.course_view:
-                startActivity(new Intent(this, View_Course.class));
-                break;
             case R.id.add_checkpoint:
                 startActivity(new Intent(this, add_checkpoint.class));
                 break;
@@ -75,9 +72,6 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
                 break;
             case R.id.add_assignment:
                 startActivity(new Intent(this, add_assignment.class));
-                break;
-            case R.id.assignment_view:
-                startActivity(new Intent(this, View_Assignment.class));
                 break;
         }
         return super.onOptionsItemSelected(item);

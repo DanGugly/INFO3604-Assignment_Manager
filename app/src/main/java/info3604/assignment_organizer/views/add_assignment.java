@@ -260,7 +260,7 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
     @Override   //Builds main_menu.xml from menu resourse in res
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.assign_menu, menu);
+        inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -277,12 +277,6 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
             case R.id.add_course:
                 i = new Intent(this, add_course.class);
                 startActivity(i);
-                break;
-            case R.id.course_view:
-                startActivity(new Intent(this, View_Course.class));
-                break;
-            case R.id.assignment_view:
-                startActivity(new Intent(this, View_Assignment.class));
                 break;
         }
         return super.onOptionsItemSelected(item);
