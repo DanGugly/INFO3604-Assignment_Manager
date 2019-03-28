@@ -7,7 +7,10 @@ import info3604.assignment_organizer.views.add_course;
 import info3604.assignment_organizer.views.View_Assignment;
 import info3604.assignment_organizer.views.add_checkpoint;
 import info3604.assignment_organizer.views.View_Course;
-
+import info3604.assignment_organizer.models.Checkpoint;
+import info3604.assignment_organizer.views.AssignmentList;
+import info3604.assignment_organizer.views.CheckpointList;
+import info3604.assignment_organizer.views.CourseList;
 import android.app.AlarmManager;
 import android.content.Intent;
 import android.os.Bundle;
@@ -43,7 +46,18 @@ public class Main extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent i;
         switch (item.getItemId()){
-
+            case R.id.course_list:
+                i = new Intent(this, CourseList.class);
+                startActivity(i);
+                break;
+            case R.id.assignment_list:
+                i = new Intent(this, AssignmentList.class);
+                startActivity(i);
+                break;
+            case R.id.checkpoint_list:
+                i = new Intent(this, CheckpointList.class);
+                startActivity(i);
+                break;
             case R.id.add_assignment:
                 i = new Intent(this, add_assignment.class);
                 startActivity(i);
