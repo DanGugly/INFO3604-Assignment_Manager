@@ -83,10 +83,27 @@ public class CourseController {
     public boolean updateCourse(Course course){
         mDatabase.beginTransactionNonExclusive();
         ContentValues values = new ContentValues();
+
         values.put(COLUMN_CODE, course.getCode());
-        values.put(COLUMN_NAME, course.getName());
-        values.put(COLUMN_CREDITS, course.getCredits());
-        values.put(COLUMN_LEVEL, course.getLevel());
+
+        //if the course name field is left empty, don't update
+        String cName = course.getName();
+        if(!cName.equals("")) {
+            values.put(COLUMN_NAME, course.getName());
+        }
+
+        //if the credits field is left empty, dont update
+        Integer cCredits = course.getCredits();
+        if(cCredits != -1) {
+            values.put(COLUMN_CREDITS, course.getCredits());
+        }
+
+        //if the level field is left empty, dont update
+        Integer cLevel = course.getLevel();
+        if(cLevel != -1) {
+            values.put(COLUMN_LEVEL, course.getLevel());
+        }
+
         Log.d("COURSE UPDATE", values.toString());
         long result = mDatabase.update(TABLE_COURSES, values, "code=?", new String[] {course.getCode()});
         mDatabase.setTransactionSuccessful();

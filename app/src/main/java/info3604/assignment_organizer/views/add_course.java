@@ -64,6 +64,26 @@ public class add_course extends AppCompatActivity {
         return true;
     }
 
+    //for update course. if an int field is empty, set to -1
+    private boolean checkIntFields(){
+
+        String val = code.getText().toString();
+        if (val.equals("")){
+            Toast.makeText(this, "Enter course code.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        val = credits.getText().toString();
+        if (val.equals("")){
+            credits.setText("-1");
+        }
+        val = level.getText().toString();
+        if (val.equals("")){
+            level.setText("-1");
+        }
+        return true;
+    }
+
     public boolean addToDb(View view){
         boolean result = false;
         if (checkFields()){
@@ -96,10 +116,10 @@ public class add_course extends AppCompatActivity {
     }
 
 
-    //Todo: make it so that the user doesn't need to fill in the fields they don't want to update
+    // make it so that the user doesn't need to fill in the fields they don't want to update
     public boolean updateDb(View view){
         boolean result = false;
-        if (checkFields()){
+        if (checkIntFields()){
             Course course = new Course(
                     code.getText().toString(),
                     name.getText().toString(),

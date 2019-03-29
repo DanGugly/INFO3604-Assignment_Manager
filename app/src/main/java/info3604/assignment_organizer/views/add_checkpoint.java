@@ -174,12 +174,14 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
             return false;
         }
 
-        //Todo: make it so that notes isn't a required field
+        // make it so that notes isn't a required field
         val = chkNotes.getText().toString();
         if (val.equals("")){
-            Toast.makeText(this, "Enter notes.", Toast.LENGTH_SHORT).show();
-            return false;
+//            Toast.makeText(this, "Enter notes.", Toast.LENGTH_SHORT).show();
+//            return false;
+            chkNotes.setText("NULL");
         }
+
         return true;
     }
 

@@ -89,9 +89,25 @@ public class AssignmentController{
         mDatabase.beginTransactionNonExclusive();
         ContentValues values = new ContentValues();
         //values.put(COLUMN_COURSEID, assignment.getCourseID());
-        values.put(COLUMN_NOTES, assignment.getNotes());
-        values.put(COLUMN_TITLE, assignment.getTitle());
-        values.put(COLUMN_DUEDATE, assignment.getDueDate());
+
+        //if the Notes field is left empty, don't update this field
+        String cNotes = assignment.getNotes();
+        if(!cNotes.equals("")) {
+            values.put(COLUMN_NOTES, assignment.getNotes());
+        }
+
+        //if the title field is empty, don't update this field
+        String cTitle = assignment.getTitle();
+        if(!cTitle.equals("")) {
+            values.put(COLUMN_TITLE, assignment.getTitle());
+        }
+
+        //if the date field is empty, dont update this field
+        String cDate = assignment.getDueDate();
+        if(!cDate.equals("")) {
+            values.put(COLUMN_DUEDATE, assignment.getDueDate());
+        }
+
         values.put(COLUMN_PROGRESS, assignment.getProgress());
         Log.d("ASSIGNMENT UPDATE", values.toString());
 
