@@ -278,10 +278,3 @@ public class MainController extends SQLiteOpenHelper{
     }
 
 }
-
-    public Cursor getCheckpointList(){
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM " + TABLE_CHECKPOINTS, null);
-        return data;
-    }
-}

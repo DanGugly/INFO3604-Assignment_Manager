@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class AssignmentList extends AppCompatActivity {
 
     private MainController MC;
+    private ArrayList<String> theList;
 
     float x1, x2, y1, y2;
 
@@ -33,7 +34,7 @@ public class AssignmentList extends AppCompatActivity {
         ListView listView = (ListView)findViewById(R.id.assignmentListView);
         MC = new MainController(this);
 
-        ArrayList<String> theList = new ArrayList<>();
+        theList = new ArrayList<>();
         Cursor data = MC.getAssignmentList();
 
         String dbString = "" ;
@@ -55,6 +56,10 @@ public class AssignmentList extends AppCompatActivity {
             }
         }
     }
+
+    public AssignmentList(){ }
+
+    public ArrayList<String> getTheList(){ return theList; }
 
     @Override   //Builds main_menu.xml from menu resourse in res
     public boolean onCreateOptionsMenu(Menu menu) {

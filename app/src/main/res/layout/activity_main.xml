@@ -41,6 +41,7 @@
             android:layout_height="wrap_content">
 
             <ListView
+                android:id="@+id/checkListView"
                 android:layout_width="170dp"
                 android:layout_height="200dp"
                 android:layout_marginStart="16dp"
@@ -52,6 +53,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ListView
+                android:id="@+id/assListView"
                 android:layout_width="170dp"
                 android:layout_height="200dp"
                 android:layout_marginTop="8dp"

@@ -153,11 +153,12 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
             return false;
         }
 
-        //Todo: make it so that notes isn't a required field
+        //make it so that notes isn't a required field
         val = assNotes.getText().toString();
         if (val.equals("")){
-            Toast.makeText(this, "Enter notes.", Toast.LENGTH_SHORT).show();
-            return false;
+//            Toast.makeText(this, "Enter notes.", Toast.LENGTH_SHORT).show();
+//            return false;
+            assNotes.setText("NULL");
         }
         return true;
     }
@@ -228,7 +229,7 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
         String val = assID.getText().toString();//line only for testing purposes
 
 
-        if (checkFields() && !val.equals("")){
+        if (!val.equals("")){
             Assignment assignment = new Assignment(
                     courseCode.getText().toString(),
                     assTitle.getText().toString(),
