@@ -58,7 +58,6 @@ public class AssignmentController{
                 ");";
                 db.execSQL(query);
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(" DROP TABLE IF EXISTS " + TABLE_ASSIGNMENTS);
@@ -124,7 +123,6 @@ public class AssignmentController{
         String selection = COLUMN_ASSIGNMENTID + " =?";
         String[] selectionArgs = { assignmentID };
         String limit = "1";
-
         Cursor cursor = mDatabase.query(TABLE_COURSES, columns, selection, selectionArgs, null, null, null, limit);
         boolean exists = (cursor.getCount() > 0);
         cursor.close();
