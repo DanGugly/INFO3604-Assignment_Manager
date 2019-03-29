@@ -13,5 +13,5 @@ public class add_assignment extends AppCompatActivity {
         setContentView(R.layout.add_assignment);
     }
 
-    
+
 }
