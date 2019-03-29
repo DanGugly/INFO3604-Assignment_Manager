@@ -23,7 +23,14 @@
         <activity android:name=".views.CourseList" />
         <activity android:name=".views.checkpoint_methods" />
         <activity android:name=".views.course_methods" />
-        <activity android:name=".Main">
+        <activity android:name=".views.NotificationActivity" />
+        <receiver android:name=".controllers.NotifController">
+            <intent-filter>
+                <action android:name="action.DISPLAY_NOTIFICATION" />
+            </intent-filter>
+        </receiver>
+        <activity android:name=".Main"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

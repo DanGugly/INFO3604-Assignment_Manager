@@ -1,5 +1,7 @@
 package info3604.assignment_organizer;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,6 +10,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.google.android.material.navigation.NavigationView;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import info3604.assignment_organizer.views.AssignmentList;
 import info3604.assignment_organizer.views.CheckpointList;
 import info3604.assignment_organizer.views.assignment_methods;
@@ -18,12 +25,54 @@ import info3604.assignment_organizer.views.view_checkpoints;
 import info3604.assignment_organizer.views.view_courses;
 import info3604.assignment_organizer.views.view_assignments;
 
-public class Main extends AppCompatActivity {
+public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        drawer = findViewById(R.id.draw_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+    }
+
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.home:
+                startActivity(new Intent(this, Main.class));
+                break;
+            case R.id.courses:
+                startActivity(new Intent(this, view_courses.class));
+                break;
+            case R.id.assignments:
+                startActivity(new Intent(this, view_assignments.class));
+                break;
+            case R.id.checkpoints:
+                startActivity(new Intent(this, view_checkpoints.class));
+                break;
+        }
+
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed(){
+        if (drawer.isDrawerOpen(GravityCompat.START)){
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override   //Builds main_menu.xml from menu resourse in res
