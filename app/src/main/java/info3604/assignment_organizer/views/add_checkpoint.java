@@ -204,7 +204,7 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
             Intent notificationIntent = new Intent(this, NotifController.class);
 
             notificationIntent.putExtra("title", "Checkpoint: " + checkpointTitle.getText().toString());    //Values should be pulled from DB
-            notificationIntent.putExtra("content", chkNotes.getText().toString() + " Reminder" + " Due: " + tv_result.getText().toString());
+            notificationIntent.putExtra("content", "Notes: "+chkNotes.getText().toString() + " Reminder");
             notificationIntent.putExtra("ticker", checkpointTitle.getText().toString());
 
             PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
