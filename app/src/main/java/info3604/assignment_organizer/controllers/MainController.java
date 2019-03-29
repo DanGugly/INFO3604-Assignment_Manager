@@ -1,10 +1,16 @@
 package info3604.assignment_organizer.controllers;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
+
+import java.util.LinkedList;
+import java.util.List;
+
 import androidx.annotation.Nullable;
-import android.database.Cursor;
+import info3604.assignment_organizer.models.Assignment;
 import info3604.assignment_organizer.models.Checkpoint;
+import info3604.assignment_organizer.models.Course;
 
 public class MainController extends SQLiteOpenHelper{
 
@@ -93,6 +99,7 @@ public class MainController extends SQLiteOpenHelper{
         db.execSQL(" DROP TABLE IF EXISTS " + TABLE_CHECKPOINTS);
         onCreate(db);
     }
+
     public Cursor getCourseList(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT * FROM " + TABLE_COURSES, null);
@@ -104,6 +111,173 @@ public class MainController extends SQLiteOpenHelper{
         Cursor data = db.rawQuery("SELECT * FROM " + TABLE_ASSIGNMENTS, null);
         return data;
     }
+
+    public Cursor getCheckpointList(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TABLE_CHECKPOINTS, null);
+        return data;
+    }
+
+    public List<Course> getCourseList(String filter) {
+        String query;
+        if(filter.equals("")){
+            //regular query
+            query = "SELECT  * FROM " + TABLE_COURSES;
+        }else{
+            //filter results by filter option provided
+            query = "SELECT  * FROM " + TABLE_COURSES + " ORDER BY "+ filter;
+        }
+
+        List<Course> courseLinkedList = new LinkedList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        Course course;
+
+        if (cursor.moveToFirst()) {
+            do {
+                course = new Course();
+
+                course.setCode(cursor.getString(cursor.getColumnIndex(COURSE_CODE)));
+                course.setName(cursor.getString(cursor.getColumnIndex(COURSE_NAME)));
+                course.setCredits(cursor.getInt(cursor.getColumnIndex(COURSE_CREDITS)));
+                course.setLevel(cursor.getInt(cursor.getColumnIndex(COURSE_LEVEL)));
+                courseLinkedList.add(course);
+            } while (cursor.moveToNext());
+        }
+
+
+        return courseLinkedList;
+    }
+
+    public List<Assignment> getAssignmentList(String filter) {
+        String query;
+        if(filter.equals("")){
+            //regular query
+            query = "SELECT  * FROM " + TABLE_ASSIGNMENTS;
+        }else{
+            //filter results by filter option provided
+            query = "SELECT  * FROM " + TABLE_ASSIGNMENTS + " ORDER BY "+ filter;
+        }
+
+        List<Assignment> assignmentLinkedList = new LinkedList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        Assignment assignment;
+
+        if (cursor.moveToFirst()) {
+            do {
+                assignment = new Assignment();
+
+                assignment.setAssID(cursor.getInt(cursor.getColumnIndex(ASSIGNMENT_ASSIGNMENTID)));
+                assignment.setTitle(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_TITLE)));
+                assignment.setCourseID(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_COURSEID)));
+                assignment.setDueDate(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_DUEDATE)));
+                assignment.setStartDate(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_STARTDATE)));
+                assignment.setNotes(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_NOTES)));
+                assignment.setProgress(cursor.getInt(cursor.getColumnIndex(ASSIGNMENT_PROGRESS)));
+                assignmentLinkedList.add(assignment);
+            } while (cursor.moveToNext());
+        }
+
+
+        return assignmentLinkedList;
+    }
+
+    public List<Checkpoint> getCheckpointList(String filter) {
+        String query;
+        if(filter.equals("")){
+            //regular query
+            query = "SELECT  * FROM " + TABLE_CHECKPOINTS;
+        }else{
+            //filter results by filter option provided
+            query = "SELECT  * FROM " + TABLE_CHECKPOINTS + " ORDER BY "+ filter;
+        }
+
+        List<Checkpoint> checkpointLinkedList = new LinkedList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        Checkpoint checkpoint;
+
+        if (cursor.moveToFirst()) {
+            do {
+                checkpoint = new Checkpoint();
+
+                checkpoint.setCheckID(cursor.getInt(cursor.getColumnIndex(CHECKPOINT_CHECKPOINTID)));
+                checkpoint.setTitle(cursor.getString(cursor.getColumnIndex(CHECKPOINT_TITLE)));
+                checkpoint.setAssignmentID(cursor.getInt(cursor.getColumnIndex(CHECKPOINT_ASSIGNMENTID)));
+                checkpoint.setDueDate(cursor.getString(cursor.getColumnIndex(CHECKPOINT_DUEDATE)));
+                checkpoint.setStartDate(cursor.getString(cursor.getColumnIndex(CHECKPOINT_STARTDATE)));
+                checkpoint.setNotes(cursor.getString(cursor.getColumnIndex(CHECKPOINT_NOTES)));
+                checkpoint.setProgress(cursor.getInt(cursor.getColumnIndex(CHECKPOINT_PROGRESS)));
+                checkpointLinkedList.add(checkpoint);
+            } while (cursor.moveToNext());
+        }
+
+
+        return checkpointLinkedList;
+    }
+
+    public Course getCourse(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT  * FROM " + TABLE_COURSES + " WHERE " + COURSE_CODE + "=" + id;
+        Cursor cursor = db.rawQuery(query, null);
+
+        Course course = new Course();
+        if(cursor.getCount() > 0) {
+            cursor.moveToFirst();
+
+            course.setCode(cursor.getString(cursor.getColumnIndex(COURSE_CODE)));
+            course.setName(cursor.getString(cursor.getColumnIndex(COURSE_NAME)));
+            course.setCredits(cursor.getInt(cursor.getColumnIndex(COURSE_CREDITS)));
+            course.setLevel(cursor.getInt(cursor.getColumnIndex(COURSE_LEVEL)));
+        }
+
+        return course;
+    }
+
+    public Assignment getAssignment(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT  * FROM " + TABLE_ASSIGNMENTS + " WHERE " + ASSIGNMENT_ASSIGNMENTID + "=" + id;
+        Cursor cursor = db.rawQuery(query, null);
+
+        Assignment assignment = new Assignment();
+        if(cursor.getCount() > 0) {
+            cursor.moveToFirst();
+
+            assignment.setAssID(cursor.getInt(cursor.getColumnIndex(ASSIGNMENT_ASSIGNMENTID)));
+            assignment.setTitle(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_TITLE)));
+            assignment.setCourseID(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_COURSEID)));
+            assignment.setDueDate(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_DUEDATE)));
+            assignment.setStartDate(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_STARTDATE)));
+            assignment.setNotes(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_NOTES)));
+            assignment.setProgress(cursor.getInt(cursor.getColumnIndex(ASSIGNMENT_PROGRESS)));
+        }
+
+        return assignment;
+    }
+
+    public Checkpoint getCheckpoint(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT  * FROM " + TABLE_CHECKPOINTS + " WHERE " + CHECKPOINT_CHECKPOINTID + "=" + id;
+        Cursor cursor = db.rawQuery(query, null);
+
+        Checkpoint checkpoint = new Checkpoint();
+        if(cursor.getCount() > 0) {
+            cursor.moveToFirst();
+
+            checkpoint.setCheckID(cursor.getInt(cursor.getColumnIndex(CHECKPOINT_CHECKPOINTID)));
+            checkpoint.setTitle(cursor.getString(cursor.getColumnIndex(CHECKPOINT_TITLE)));
+            checkpoint.setAssignmentID(cursor.getInt(cursor.getColumnIndex(CHECKPOINT_ASSIGNMENTID)));
+            checkpoint.setDueDate(cursor.getString(cursor.getColumnIndex(CHECKPOINT_DUEDATE)));
+            checkpoint.setStartDate(cursor.getString(cursor.getColumnIndex(CHECKPOINT_STARTDATE)));
+            checkpoint.setNotes(cursor.getString(cursor.getColumnIndex(CHECKPOINT_NOTES)));
+            checkpoint.setProgress(cursor.getInt(cursor.getColumnIndex(CHECKPOINT_PROGRESS)));
+        }
+
+        return checkpoint;
+    }
+
+}
 
     public Cursor getCheckpointList(){
         SQLiteDatabase db = this.getWritableDatabase();
