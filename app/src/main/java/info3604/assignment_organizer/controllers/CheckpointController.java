@@ -18,8 +18,10 @@ public class CheckpointController {
     private static final String COLUMN_ASSIGNMENTID = "assignment_id";
     private static final String COLUMN_CHECKPOINTID = "checkpoint_id";
     private static final String COLUMN_TITLE = "title";
+    private static final String COLUMN_STARTDATE = "start_date";
     private static final String COLUMN_DUEDATE = "due_date";
     private static final String COLUMN_NOTES = "notes";
+    private static final String COLUMN_PROGRESS = "checkpoint_progress";
 
     private Context mContext;
     private SQLiteDatabase mDatabase;
@@ -53,6 +55,8 @@ public class CheckpointController {
         values.put(COLUMN_NOTES, checkpoint.getNotes());
         values.put(COLUMN_TITLE, checkpoint.getTitle());
         values.put(COLUMN_DUEDATE, checkpoint.getDueDate());
+        values.put(COLUMN_STARTDATE, checkpoint.getStartDate());
+        values.put(COLUMN_PROGRESS, checkpoint.getProgress());
         Log.d("CHECKPOINT CREATION", values.toString());
         long result = mDatabase.insert(TABLE_CHECKPOINTS, null, values);
         mDatabase.setTransactionSuccessful();
@@ -68,6 +72,7 @@ public class CheckpointController {
         values.put(COLUMN_NOTES, checkpoint.getNotes());
         values.put(COLUMN_TITLE, checkpoint.getTitle());
         values.put(COLUMN_DUEDATE, checkpoint.getDueDate());
+        values.put(COLUMN_PROGRESS, checkpoint.getProgress());
         Log.d("CHECKPOINT UPDATE", values.toString());
         long result = mDatabase.update(TABLE_CHECKPOINTS, values, "checkpoint_id=?", new String[] {Integer.toString(checkpoint.getCheckpointID())});
         mDatabase.setTransactionSuccessful();

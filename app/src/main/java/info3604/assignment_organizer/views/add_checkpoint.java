@@ -61,9 +61,6 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.course_view:
-                startActivity(new Intent(this, View_Course.class));
-                break;
             case R.id.add_checkpoint:
                 startActivity(new Intent(this, add_checkpoint.class));
                 break;
@@ -75,9 +72,6 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
                 break;
             case R.id.add_assignment:
                 startActivity(new Intent(this, add_assignment.class));
-                break;
-            case R.id.assignment_view:
-                startActivity(new Intent(this, View_Assignment.class));
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -210,7 +204,7 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
             Intent notificationIntent = new Intent(this, NotifController.class);
 
             notificationIntent.putExtra("title", "Checkpoint: " + checkpointTitle.getText().toString());    //Values should be pulled from DB
-            notificationIntent.putExtra("content", chkNotes.getText().toString() + " Reminder" + " Due: " + tv_result.getText().toString());
+            notificationIntent.putExtra("content", "Notes: "+chkNotes.getText().toString() + " Reminder");
             notificationIntent.putExtra("ticker", checkpointTitle.getText().toString());
 
             PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);

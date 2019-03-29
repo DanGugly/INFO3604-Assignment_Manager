@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!--Start Page-->
@@ -24,15 +25,4 @@
         android:title="@string/add_checkpoint"
         app:showAsAction="never"/>
 
-    <!--Third menu option-->
-    <item
-        android:id="@+id/course_view"
-        android:title="@string/view_course"
-        app:showAsAction="never"/>
-
-    <!--fourth menu option-->
-    <item
-        android:id="@+id/assignment_view"
-        android:title="@string/view_assignment"
-        app:showAsAction="never" />
 </menu>

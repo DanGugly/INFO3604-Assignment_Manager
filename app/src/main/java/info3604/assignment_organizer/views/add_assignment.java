@@ -198,8 +198,8 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
                 Log.d("NOAHAVESH","Future time: "+timeInMilliseconds);
                 long millis = System.currentTimeMillis();   //long currentTimeMillis ()-Returns the current time in milliseconds.
                 Log.d("NOAHAVESH","Current time: "+millis);
-                long seconds = (timeInMilliseconds-millis) / 1000;               //Divide millis by 1000 to get the number of seconds.
-
+                long seconds = ((timeInMilliseconds-millis) / 1000) - 3600;               //Divide millis by 1000 to get the number of seconds.
+                                                                                            // -3600 Remind 1 hour before assignment due
                 Log.d("NOAHAVESH","Difference in time: "+seconds);
 
                 Calendar cal = Calendar.getInstance();
@@ -260,7 +260,7 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
     @Override   //Builds main_menu.xml from menu resourse in res
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.assign_menu, menu);
+        inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -277,12 +277,6 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
             case R.id.add_course:
                 i = new Intent(this, add_course.class);
                 startActivity(i);
-                break;
-            case R.id.course_view:
-                startActivity(new Intent(this, View_Course.class));
-                break;
-            case R.id.assignment_view:
-                startActivity(new Intent(this, View_Assignment.class));
                 break;
         }
         return super.onOptionsItemSelected(item);

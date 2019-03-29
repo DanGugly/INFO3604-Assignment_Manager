@@ -10,9 +10,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
+import java.util.Random;
+
 import info3604.assignment_organizer.R;
 import info3604.assignment_organizer.views.NotificationActivity;
 
+import static android.app.NotificationManager.EXTRA_NOTIFICATION_CHANNEL_ID;
 import static android.app.NotificationManager.IMPORTANCE_DEFAULT;
 
 public class NotifController extends BroadcastReceiver{
@@ -38,7 +41,10 @@ public class NotifController extends BroadcastReceiver{
         Notification notification = builder.setContentTitle(title)
                 .setContentText(content)
                 .setTicker(ticker)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setPriority(Notification.PRIORITY_HIGH)
+                .setLights(0xffff00ff,300,100)
+                .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND)
                 .setContentIntent(pendingIntent).build();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -51,11 +57,21 @@ public class NotifController extends BroadcastReceiver{
             NotificationChannel channel = new NotificationChannel(
                     CHANNEL_ID,
                     "NotificationDemo",
-                    IMPORTANCE_DEFAULT
+                    NotificationManager.IMPORTANCE_HIGH
             );
             notificationManager.createNotificationChannel(channel);
+            channel.enableLights(true);
+            channel.enableVibration(true);
+            channel.setLightColor(0xffff00ff);
         }
 
-        notificationManager.notify(0, notification);
+        Random notification_id = new Random();
+        notificationManager.notify(notification_id.nextInt(100), notification);
+    }
+
+    //Cancel a previous notif
+    public void cancelNotif(Context context,int id){
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(id);
     }
 }

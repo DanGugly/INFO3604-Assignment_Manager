@@ -3,40 +3,57 @@ package info3604.assignment_organizer.views;
 import androidx.appcompat.app.AppCompatActivity;
 import info3604.assignment_organizer.Main;
 import info3604.assignment_organizer.R;
-import info3604.assignment_organizer.controllers.AssignmentController;
+import info3604.assignment_organizer.controllers.MainController;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
-public class View_Assignment extends AppCompatActivity {
-    AssignmentController AC;
-    TextView txt;
+import java.util.ArrayList;
+
+public class AssignmentList extends AppCompatActivity {
+
+    private MainController MC;
+
     float x1, x2, y1, y2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_assignment);
+        setContentView(R.layout.assignment_list);
 
-        txt = findViewById(R.id.view_assignment);
-        AC = new AssignmentController(this);
+        ListView listView = (ListView)findViewById(R.id.assignmentListView);
+        MC = new MainController(this);
 
-        try{
-            printDB();
-        }catch (Exception e){
-            Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).toString();
+        ArrayList<String> theList = new ArrayList<>();
+        Cursor data = MC.getAssignmentList();
+
+        String dbString = "" ;
+
+        if(data.getCount() == 0){
+            Toast.makeText(this,"No Assignments Registered",Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public void printDB(){
-        String dbString = AC.toString();
-        Toast.makeText(this, dbString,Toast.LENGTH_LONG).show();
+        else{
+            while (data.moveToNext() ){
+                String[] columnNames = data.getColumnNames();
+                for (String name: columnNames) {
+                    dbString += String.format("%s: %s\n", name,
+                            data.getString(data.getColumnIndex(name)));
+                }
+                theList.add(dbString);
+                dbString = "";
+                ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,theList);
+                listView.setAdapter(listAdapter);
+            }
+        }
     }
 
     @Override   //Builds main_menu.xml from menu resourse in res
@@ -58,9 +75,6 @@ public class View_Assignment extends AppCompatActivity {
                 break;
             case R.id.start_page:
                 startActivity(new Intent(this, Main.class));
-                break;
-            case R.id.course_view:
-                startActivity(new Intent(this, View_Course.class));
                 break;
             case R.id.add_assignment:
                 startActivity(new Intent(this, add_assignment.class));

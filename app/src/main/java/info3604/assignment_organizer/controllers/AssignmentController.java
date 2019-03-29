@@ -18,8 +18,10 @@ public class AssignmentController{
     private static final String COLUMN_ASSIGNMENTID = "assignment_id";
     private static final String COLUMN_COURSEID = "course_id";
     private static final String COLUMN_TITLE = "title";
+    private static final String COLUMN_STARTDATE = "start_date";
     private static final String COLUMN_DUEDATE = "due_date";
     private static final String COLUMN_NOTES = "notes";
+    private static final String COLUMN_PROGRESS = "assignment_progress";
 
     private Context mContext;
     private SQLiteDatabase mDatabase;
@@ -66,12 +68,15 @@ public class AssignmentController{
     */
 
     public boolean addAssignment(Assignment assignment){
+        Log.d("ASSIGNMENT DATE:",""+assignment.getStartDate());
         mDatabase.beginTransactionNonExclusive();
         ContentValues values = new ContentValues();
         values.put(COLUMN_COURSEID, assignment.getCourseID());
         values.put(COLUMN_NOTES, assignment.getNotes());
         values.put(COLUMN_TITLE, assignment.getTitle());
+        values.put(COLUMN_STARTDATE, assignment.getStartDate());
         values.put(COLUMN_DUEDATE, assignment.getDueDate());
+        values.put(COLUMN_PROGRESS, assignment.getProgress());
         Log.d("ASSIGNMENT CREATION", values.toString());
         long result = mDatabase.insert(TABLE_ASSIGNMENTS, null, values);
         mDatabase.setTransactionSuccessful();
@@ -87,9 +92,9 @@ public class AssignmentController{
         values.put(COLUMN_NOTES, assignment.getNotes());
         values.put(COLUMN_TITLE, assignment.getTitle());
         values.put(COLUMN_DUEDATE, assignment.getDueDate());
+        values.put(COLUMN_PROGRESS, assignment.getProgress());
         Log.d("ASSIGNMENT UPDATE", values.toString());
 
-        //Todo: might need to be changed
         long result = mDatabase.update(TABLE_ASSIGNMENTS, values, "assignment_id=?", new String[] {Integer.toString(assignment.getAssignmentID())});
         mDatabase.setTransactionSuccessful();
         mDatabase.endTransaction();

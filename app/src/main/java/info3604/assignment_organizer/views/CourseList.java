@@ -1,39 +1,61 @@
 package info3604.assignment_organizer.views;
 
+import androidx.appcompat.app.AppCompatActivity;
+import info3604.assignment_organizer.Main;
+import info3604.assignment_organizer.R;
+import info3604.assignment_organizer.controllers.MainController;
+import info3604.assignment_organizer.models.Course;
+
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import info3604.assignment_organizer.Main;
-import info3604.assignment_organizer.R;
-import info3604.assignment_organizer.controllers.CourseController;
+import java.util.ArrayList;
+import java.util.List;
 
-public class View_Course extends AppCompatActivity {
+public class CourseList extends AppCompatActivity {
 
-    TextView txt;
-    CourseController CC;
+    private MainController MC;
+
     float x1, x2, y1, y2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_course);
+        setContentView(R.layout.course_list);
 
-        txt = findViewById(R.id.view_course);
-        CC = new CourseController(this);
-        printDB();
-    }
+        ListView listView = (ListView)findViewById(R.id.courseListView);
+        MC = new MainController(this);
 
-    public void printDB(){
-        String dbString = CC.toString();
-        Toast.makeText(this, dbString,Toast.LENGTH_LONG).show();
-        txt.setText(dbString);
+        ArrayList<String> theList = new ArrayList<>();
+        Cursor data = MC.getCourseList();
+
+        String dbString = "" ;
+
+        if(data.getCount() == 0){
+            Toast.makeText(this,"No Courses Registered",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            while (data.moveToNext() ){
+                String[] columnNames = data.getColumnNames();
+                for (String name: columnNames) {
+                    dbString += String.format("%s: %s\n", name,
+                            data.getString(data.getColumnIndex(name)));
+                }
+                theList.add(dbString);
+                dbString = "";
+                ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,theList);
+                listView.setAdapter(listAdapter);
+            }
+        }
     }
 
     @Override   //Builds main_menu.xml from menu resourse in res
@@ -58,9 +80,6 @@ public class View_Course extends AppCompatActivity {
                 break;
             case R.id.add_assignment:
                 startActivity(new Intent(this, add_assignment.class));
-                break;
-            case R.id.assignment_view:
-                startActivity(new Intent(this, View_Assignment.class));
                 break;
         }
         return super.onOptionsItemSelected(item);
