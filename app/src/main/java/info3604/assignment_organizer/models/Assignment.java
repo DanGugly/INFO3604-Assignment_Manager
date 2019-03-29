@@ -1,7 +1,9 @@
 package info3604.assignment_organizer.models;
 
+import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.io.Serializable;
 import java.util.Locale;
@@ -62,6 +64,25 @@ public class Assignment implements Serializable{
     public void setDueDate(String dueDate) { this.dueDate = dueDate; }
 
     public void setNotes(String notes) { this.notes = notes; }
+
+    public boolean isPastDueDate(){
+        Date due = new Date();
+        try{
+            due = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(dueDate);
+        }
+        catch (ParseException e){
+            e.printStackTrace();
+        }
+        Date curr = new Date();
+        try{
+            if(curr.compareTo(due) > 0)
+                return true;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     @Override
     public boolean equals(Object obj) {

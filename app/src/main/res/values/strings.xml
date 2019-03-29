@@ -4,8 +4,11 @@
     <string name="add_course">Add Course</string>
     <string name="add_checkpoint">Add Checkpoint</string>
     <string name="course_list">View Courses</string>
+    <string name="course_list_new">View Courses(NEW)</string>
     <string name="checkpoint_list">View Checkpoints</string>
+    <string name="checkpoint_list_new">View Checkpoints(NEW)</string>
     <string name="assignment_list">View Assignments</string>
+    <string name="assignment_list_new">View Assignments(NEW)</string>
     <string name="main_menu">Main Menu</string>
     <string-array name="menu_options">//To help with modularity for changing name of menu options
         <item>@string/add_assignment</item>
