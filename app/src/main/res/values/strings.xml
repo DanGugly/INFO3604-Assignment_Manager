@@ -1,10 +1,42 @@
 <resources>
     <string name="app_name">Assignment Organizer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="add_assignment">Add Assignment</string>
     <string name="add_course">Add Course</string>
+    <string name="add_checkpoint">Add Checkpoint</string>
+    <string name="course_list">View Courses</string>
+    <string name="course_list_new">View Courses(NEW)</string>
+    <string name="checkpoint_list">View Checkpoints</string>
+    <string name="checkpoint_list_new">View Checkpoints(NEW)</string>
+    <string name="assignment_list">View Assignments</string>
+    <string name="assignment_list_new">View Assignments(NEW)</string>
     <string name="main_menu">Main Menu</string>
+    <string name="view_course">View Courses</string>
+    <string name="view_assignment">View Assignments</string>
     <string-array name="menu_options">//To help with modularity for changing name of menu options
         <item>@string/add_assignment</item>
         <item>@string/add_course</item>
     </string-array>
+    <string-array name="sampleC">
+        <item>No Checkpoints</item>
+    </string-array>
+    <string-array name="sampleA">
+        <item>No Assignments</item>
+    </string-array>
+
+    <string name="new_message_notification_title_template">New message: %1$s</string>
+
+    <!-- TODO: remove this placeholder text -->
+    <string name="new_message_notification_placeholder_text_template">You said %1$s and lorem ipsum
+        dolor sit amet, consectetur adipiscing elit. Etiam non enim magna. Morbi dictum, velit vel
+        semper venenatis, magna odio volutpat velit, at ullamcorper nulla lacus sed turpis.
+        Pellentesque vitae metus elit, nec tincidunt tellus. Integer sed nisl sem, ullamcorper
+        ornare lacus. Duis ac mauris sed massa congue volutpat. Donec sed erat sit amet turpis
+        viverra rhoncus sit amet nec magna. Donec lacinia ligula at libero volutpat volutpat nec nec
+        tortor.
+    </string>
+
+    <string name="action_share">Share</string>
+    <string name="action_reply">Reply</string>
 </resources>

@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <!--Start Page-->
-    <item
-        android:id="@+id/main_menu"
-        android:title="@string/main_menu"
-        app:showAsAction="never"
-        />
 
     <!--First menu option-->
     <item
@@ -20,5 +14,23 @@
         android:id="@+id/add_assignment"
         android:title="@string/add_assignment"
         app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/add_checkpoint"
+        android:title="@string/add_checkpoint"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/filterSpinner"
+        android:title="Filter Spinner"
+        app:actionViewClass="android.widget.Spinner"
+        android:background="#fff"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/addMenu"
+        android:title="Add"
+        android:icon="@android:drawable/ic_menu_add"
+        app:showAsAction="always"/>
 
 </menu>

@@ -1,35 +1,27 @@
 package info3604.assignment_organizer.views;
 
 import androidx.appcompat.app.AppCompatActivity;
-import info3604.assignment_organizer.Main;
 import info3604.assignment_organizer.R;
 import info3604.assignment_organizer.controllers.CourseController;
 import info3604.assignment_organizer.models.Course;
 
 import com.google.android.material.textfield.TextInputEditText;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class add_course extends AppCompatActivity {
+public class course_methods extends AppCompatActivity {
 
     TextInputEditText name, code, level, credits;
-    float x1, x2, y1, y2;
     TextView txt;
     CourseController CC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_course);
+        setContentView(R.layout.course_methods);
         name = (TextInputEditText)findViewById(R.id.cname);
         code = (TextInputEditText)findViewById(R.id.ccode);
         level = (TextInputEditText)findViewById(R.id.clevel);
@@ -60,26 +52,6 @@ public class add_course extends AppCompatActivity {
         if (val.equals("")){
             Toast.makeText(this, "Enter course level.", Toast.LENGTH_SHORT).show();
             return false;
-        }
-        return true;
-    }
-
-    //for update course. if an int field is empty, set to -1
-    private boolean checkIntFields(){
-
-        String val = code.getText().toString();
-        if (val.equals("")){
-            Toast.makeText(this, "Enter course code.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        val = credits.getText().toString();
-        if (val.equals("")){
-            credits.setText("-1");
-        }
-        val = level.getText().toString();
-        if (val.equals("")){
-            level.setText("-1");
         }
         return true;
     }
@@ -116,10 +88,10 @@ public class add_course extends AppCompatActivity {
     }
 
 
-    // make it so that the user doesn't need to fill in the fields they don't want to update
+    //Todo: make it so that the user doesn't need to fill in the fields they don't want to update
     public boolean updateDb(View view){
         boolean result = false;
-        if (checkIntFields()){
+        if (checkFields()){
             Course course = new Course(
                     code.getText().toString(),
                     name.getText().toString(),
@@ -141,49 +113,6 @@ public class add_course extends AppCompatActivity {
         code.setText("");
         level.setText("");
         credits.setText("");
-    }
-
-    @Override   //Builds main_menu.xml from menu resourse in res
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override   //Getting which menu item is selected and creating toasts when they are
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()){
-            case R.id.add_checkpoint:
-                startActivity(new Intent(this, add_checkpoint.class));
-                break;
-            case R.id.add_assignment:
-                startActivity(new Intent(this, add_assignment.class));
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    public boolean onTouchEvent(MotionEvent touchEvent){
-        switch(touchEvent.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                x1 = touchEvent.getX();
-                y1 = touchEvent.getY();
-                if(x1>x2){
-                    Intent i = new Intent(this, add_assignment.class);
-                    startActivity(i);
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                x2 = touchEvent.getX();
-                y2 = touchEvent.getY();
-                if(x1<x2){
-                    finish();
-                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                }
-                break;
-        }
-        return false;
     }
 
 }

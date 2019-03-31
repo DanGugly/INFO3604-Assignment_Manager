@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="course_filter_options">
+        <item></item>
+        <item>Name</item>
+        <item>Code</item>
+        <item>Level</item>
+        <item>Credits</item>
+    </string-array>
+</resources>

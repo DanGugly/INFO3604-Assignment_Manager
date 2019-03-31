@@ -1,27 +1,14 @@
 package info3604.assignment_organizer.views;
 
 import androidx.appcompat.app.AppCompatActivity;
-import info3604.assignment_organizer.Main;
 import info3604.assignment_organizer.R;
 import info3604.assignment_organizer.controllers.AssignmentController;
 import info3604.assignment_organizer.controllers.CourseController;
-import info3604.assignment_organizer.controllers.NotifController;
 import info3604.assignment_organizer.models.Assignment;
-
-import android.app.AlarmManager;
 import android.app.DatePickerDialog;
-import android.app.PendingIntent;
 import android.app.TimePickerDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.icu.text.DateFormat;
-import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -31,13 +18,11 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Date;
 
 //Todo: change manually entering the course code to a spinner that reads from the DB
 
-public class add_assignment extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class assignment_methods extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     Button save;
     Button b_pick;
@@ -52,13 +37,12 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
     CourseController CC;
 
     int day, month, year, hour, minute;
-    float x1, x2, y1, y2;
     int dayFinal, monthFinal, yearFinal, hourFinal, minuteFinal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_assignment);
+        setContentView(R.layout.assignment_methods);
 
         save = (Button) findViewById(R.id.save);
         b_pick = (Button) findViewById(R.id.b_pick);
@@ -98,8 +82,8 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
                 month = c.get(Calendar.MONTH);
                 day = c.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(add_assignment.this,
-                        add_assignment.this, year, month, day);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(assignment_methods.this,
+                        assignment_methods.this, year, month, day);
                 datePickerDialog.show();
             }
         });
@@ -117,8 +101,8 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
         hour = c.get(Calendar.HOUR_OF_DAY);
         minute = c.get(Calendar.MINUTE);
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(add_assignment.this,
-                add_assignment.this, hour, minute, true);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(assignment_methods.this,
+                assignment_methods.this, hour, minute, true);
         timePickerDialog.show();
     }
 
@@ -153,12 +137,11 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
             return false;
         }
 
-        //make it so that notes isn't a required field
+        //Todo: make it so that notes isn't a required field
         val = assNotes.getText().toString();
         if (val.equals("")){
-//            Toast.makeText(this, "Enter notes.", Toast.LENGTH_SHORT).show();
-//            return false;
-            assNotes.setText("NULL");
+            Toast.makeText(this, "Enter notes.", Toast.LENGTH_SHORT).show();
+            return false;
         }
         return true;
     }
@@ -178,40 +161,6 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
                 Toast.makeText(this,"COURSE DOESN'T EXIST IN DB",Toast.LENGTH_LONG).show();
         }
         Log.d("RESULT:",result+" ");
-        if(result){
-            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-            Intent notificationIntent = new Intent(this, NotifController.class);
-
-            notificationIntent.putExtra("title",assTitle.getText().toString()+" Due"+" "+tv_result.getText().toString());    //Values should be pulled from DB
-            notificationIntent.putExtra("content",assTitle.getText().toString()+" Reminder");
-            notificationIntent.putExtra("ticker",assTitle.getText().toString());
-
-            PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            //Get current time
-            String givenDateString = tv_result.getText().toString();
-            Log.d("NOAHAVESH","Date: "+givenDateString);
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-            try {
-                Date mDate = sdf.parse(givenDateString);
-                long timeInMilliseconds = mDate.getTime();
-                Log.d("NOAHAVESH","Future time: "+timeInMilliseconds);
-                long millis = System.currentTimeMillis();   //long currentTimeMillis ()-Returns the current time in milliseconds.
-                Log.d("NOAHAVESH","Current time: "+millis);
-                long seconds = (timeInMilliseconds-millis) / 1000 ;
-                if(seconds>3600) seconds -= 3600;
-                // -3600 Remind 1 hour before assignment due
-                Log.d("NOAHAVESH","Difference in time: "+seconds);
-
-                Calendar cal = Calendar.getInstance();
-                cal.add(Calendar.SECOND, (int) seconds);
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
         printDB();
         return result;
     }
@@ -222,14 +171,15 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
         return result;
     }
 
-    // make it so that the user doesn't need to fill in the fields they don't want to update
+    //Todo: make it so that the user doesn't need to fill in the fields they don't want to update
     public boolean updateDb(View view){
         boolean result = false;
 
         //Todo: reformat code in such a way that the user doesn't need to manually enter the id but it's detected on view
         String val = assID.getText().toString();//line only for testing purposes
 
-        if (!val.equals("")){
+
+        if (checkFields() && !val.equals("")){
             Assignment assignment = new Assignment(
                     courseCode.getText().toString(),
                     assTitle.getText().toString(),
@@ -245,56 +195,12 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
     }
 
     public void printDB(){
-        if(AC != null) {
-            String dbString = AC.toString();
-            Toast.makeText(this, dbString,Toast.LENGTH_LONG).show();
-            txt.setText(dbString);
-            assTitle.setText("");
-            assNotes.setText("");
-            courseCode.setText("");
-            tv_result.setText("");
-        }
-
-
-    }
-
-    @Override   //Builds main_menu.xml from menu resourse in res
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override   //Getting which menu item is selected and creating toasts when they are
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent i;
-        switch (item.getItemId()){
-            case R.id.add_checkpoint:
-                startActivity(new Intent(this, add_checkpoint.class));
-                break;
-            case R.id.add_course:
-                i = new Intent(this, add_course.class);
-                startActivity(i);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    public boolean onTouchEvent(MotionEvent touchEvent){
-        switch(touchEvent.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                x1 = touchEvent.getX();
-                y1 = touchEvent.getY();
-                break;
-            case MotionEvent.ACTION_UP:
-                x2 = touchEvent.getX();
-                y2 = touchEvent.getY();
-                if(x1<x2){
-                    finish();
-                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                }
-                break;
-        }
-        return false;
+        String dbString = AC.toString();
+        Toast.makeText(this, dbString,Toast.LENGTH_LONG).show();
+        txt.setText(dbString);
+        assTitle.setText("");
+        assNotes.setText("");
+        courseCode.setText("");
+        tv_result.setText("");
     }
 }
