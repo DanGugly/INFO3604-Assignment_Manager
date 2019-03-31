@@ -11,14 +11,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".views.add_checkpoint"></activity>
-        <activity android:name=".views.view_checkpoints" />
+        <activity android:name=".views.add_checkpoint" />
+        <activity android:name=".views.view_checkpoints"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".views.update_checkpoint" />
         <activity android:name=".views.add_assignment" />
-        <activity android:name=".views.view_assignments" />
+        <activity android:name=".views.view_assignments"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".views.update_assignment" />
         <activity android:name=".views.add_course" />
-        <activity android:name=".views.view_courses" />
+        <activity android:name=".views.view_courses"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".views.update_course" />
         <activity android:name=".views.CheckpointList" />
         <activity android:name=".views.AssignmentList" />

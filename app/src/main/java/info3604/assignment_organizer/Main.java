@@ -49,7 +49,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.home:
-                startActivity(new Intent(this, Main.class));
                 break;
             case R.id.courses:
                 startActivity(new Intent(this, view_courses.class));
