@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import info3604.assignment_organizer.controllers.MainController;
 import info3604.assignment_organizer.views.add_assignment;
 import info3604.assignment_organizer.views.add_course;
 import info3604.assignment_organizer.views.add_checkpoint;
@@ -14,21 +15,86 @@ import info3604.assignment_organizer.views.CheckpointList;
 import info3604.assignment_organizer.views.CourseList;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.ArrayList;
 
 
 public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private DrawerLayout drawer;
-
+    private MainController MC;
+    private ArrayList<String> list, list2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        AssignmentList assignmentList = new AssignmentList();
+
+        ListView listView = (ListView)findViewById(R.id.listView);
+        ListView listView2 = (ListView)findViewById(R.id.listView2);
+        ListAdapter listAdapter, listAdapter2;
+
+
+
+        MC = new MainController(this);
+
+        list = new ArrayList<>();
+        list2 = new ArrayList<>();
+        Cursor data = MC.getAssignmentListHome();
+        Cursor cdata = MC.getCheckpointListHome();
+
+
+
+        if(data.getCount() == 0){
+            Toast.makeText(this,"No Assignments Registered",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            String dbString = "" ;
+            while (data.moveToNext() ){
+                String[] columnNames = data.getColumnNames();
+                for (String name: columnNames) {
+                    dbString += String.format("%s\n",
+                            data.getString(data.getColumnIndex(name)));
+                }
+                list.add(dbString);
+                dbString = "";
+                listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,list);
+                listView.setAdapter(listAdapter);
+            }
+        }
+
+        if(cdata.getCount() == 0){
+//            Toast.makeText(this,"",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            String dbString = "" ;
+            while (cdata.moveToNext() ){
+                String[] columnNames = cdata.getColumnNames();
+                for (String name: columnNames) {
+                    dbString += String.format("%s\n",
+                            cdata.getString(cdata.getColumnIndex(name)));
+                }
+                list2.add(dbString);
+                dbString = "";
+                listAdapter2 = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,list2);
+                listView2.setAdapter(listAdapter2);
+            }
+        }
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
