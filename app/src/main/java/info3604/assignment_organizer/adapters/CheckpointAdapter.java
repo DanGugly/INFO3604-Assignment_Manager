@@ -122,7 +122,7 @@ public class CheckpointAdapter extends RecyclerView.Adapter<CheckpointAdapter.Vi
 
                         //go to update activity
                         goToUpdateActivity(checkpoint.getCheckpointID());
-
+                        notifyDataSetChanged();
                     }
                 });
                 builder.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
