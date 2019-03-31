@@ -7,15 +7,20 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import info3604.assignment_organizer.controllers.MainController;
+import info3604.assignment_organizer.views.add_assignment;
+import info3604.assignment_organizer.views.add_checkpoint;
+import info3604.assignment_organizer.views.add_course;
 import info3604.assignment_organizer.views.assignment_methods;
 import info3604.assignment_organizer.views.checkpoint_methods;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -26,6 +31,8 @@ import info3604.assignment_organizer.views.course_methods;
 import info3604.assignment_organizer.views.view_checkpoints;
 import info3604.assignment_organizer.views.view_courses;
 import info3604.assignment_organizer.views.view_assignments;
+import io.github.yavski.fabspeeddial.FabSpeedDial;
+import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 
 import java.util.ArrayList;
 
@@ -34,6 +41,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private DrawerLayout drawer;
     private MainController MC;
     private ArrayList<String> list, list2;
+
+    private FabSpeedDial fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +53,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         ListView listView2 = (ListView)findViewById(R.id.listView2);
         ListAdapter listAdapter, listAdapter2;
 
-
+        fab = (FabSpeedDial) findViewById(R.id.speedDial);
+        final View obscure = findViewById(R.id.obscure);
 
         MC = new MainController(this);
 
@@ -52,8 +62,40 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         list2 = new ArrayList<>();
         Cursor data = MC.getAssignmentListHome();
         Cursor cdata = MC.getCheckpointListHome();
+        fab.setMenuListener(new SimpleMenuListenerAdapter() {
+            @Override
+            public boolean onMenuItemSelected(MenuItem menuItem) {
+                Intent intent;
+                switch (menuItem.getItemId()){
+                    case R.id.opt1:
+                        intent = new Intent(Main.this, add_course.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.op2:
+                        intent = new Intent(Main.this, add_assignment.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.opt3:
+                        intent = new Intent(Main.this, add_checkpoint.class);
+                        startActivity(intent);
+                        break;
+                }
+                return true;
+            }
+        });
 
-
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(fab.isMenuOpen() && obscure.getVisibility() == View.GONE){
+                    obscure.setVisibility(View.VISIBLE);
+                }else if(!fab.isMenuOpen() && obscure.getVisibility() == View.VISIBLE){
+                    obscure.setVisibility(View.GONE);
+                }
+                handler.postDelayed(this, 100);
+            }
+        }, 100);
 
         if(data.getCount() == 0){
             Toast.makeText(this,"No Assignments Registered",Toast.LENGTH_SHORT).show();
