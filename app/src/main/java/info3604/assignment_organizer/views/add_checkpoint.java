@@ -181,6 +181,7 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
 //            return false;
             chkNotes.setText("NULL");
         }
+
         return true;
     }
 

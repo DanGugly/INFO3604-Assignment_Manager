@@ -200,7 +200,7 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
                 long millis = System.currentTimeMillis();   //long currentTimeMillis ()-Returns the current time in milliseconds.
                 Log.d("NOAHAVESH","Current time: "+millis);
                 long seconds = ((timeInMilliseconds-millis) / 1000) - 3600;               //Divide millis by 1000 to get the number of seconds.
-                                                                                            // -3600 Remind 1 hour before assignment due
+                // -3600 Remind 1 hour before assignment due
                 Log.d("NOAHAVESH","Difference in time: "+seconds);
 
                 Calendar cal = Calendar.getInstance();
@@ -221,13 +221,12 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
         return result;
     }
 
-    //Todo: make it so that the user doesn't need to fill in the fields they don't want to update
+    // make it so that the user doesn't need to fill in the fields they don't want to update
     public boolean updateDb(View view){
         boolean result = false;
 
         //Todo: reformat code in such a way that the user doesn't need to manually enter the id but it's detected on view
         String val = assID.getText().toString();//line only for testing purposes
-
 
         if (!val.equals("")){
             Assignment assignment = new Assignment(

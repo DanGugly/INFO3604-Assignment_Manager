@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
+
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android=
+    "http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/draw_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fitsSystemWindows="true"
-    android:background="@color/colorBackground">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:fitsSystemWindows="true">
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
-            android:id="@+id/toolbar"
+            android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:elevation="4dp">
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <FrameLayout
                 android:id="@+id/fragment_container"
@@ -35,14 +38,14 @@
             android:layout_gravity="center"
             android:background="@color/colorPrimary"
             android:dateTextAppearance="@color/colorText"
-            android:weekDayTextAppearance="@color/colorText"/>
+            android:weekDayTextAppearance="@color/colorText" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ListView
-                android:id="@+id/checkListView"
+                android:id="@+id/listView2"
                 android:layout_width="170dp"
                 android:layout_height="200dp"
                 android:layout_marginStart="16dp"
@@ -54,7 +57,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ListView
-                android:id="@+id/assListView"
+                android:id="@+id/listView"
                 android:layout_width="170dp"
                 android:layout_height="200dp"
                 android:layout_marginTop="8dp"

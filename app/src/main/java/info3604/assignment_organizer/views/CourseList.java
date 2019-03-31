@@ -13,10 +13,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +29,21 @@ public class CourseList extends AppCompatActivity {
     private MainController MC;
 
     float x1, x2, y1, y2;
+    FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.course_list);
+
+        floatingActionButton = findViewById(R.id.floating_action_button);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), add_course.class));
+                Toast.makeText(getApplicationContext(),"Clicked", Toast.LENGTH_LONG).toString();
+            }
+        });
 
         ListView listView = (ListView)findViewById(R.id.courseListView);
         MC = new MainController(this);

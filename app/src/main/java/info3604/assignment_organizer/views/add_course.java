@@ -116,10 +116,10 @@ public class add_course extends AppCompatActivity {
     }
 
 
-    //Todo: make it so that the user doesn't need to fill in the fields they don't want to update
+    // make it so that the user doesn't need to fill in the fields they don't want to update
     public boolean updateDb(View view){
         boolean result = false;
-        if (checkFields()){
+        if (checkIntFields()){
             Course course = new Course(
                     code.getText().toString(),
                     name.getText().toString(),
