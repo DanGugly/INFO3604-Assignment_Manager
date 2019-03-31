@@ -112,7 +112,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
 
                         //go to update activity
                         goToUpdateActivity(assignment.getAssignmentID());
-
+                        notifyDataSetChanged();
                     }
                 });
                 builder.setNeutralButton("Delete", new DialogInterface.OnClickListener() {

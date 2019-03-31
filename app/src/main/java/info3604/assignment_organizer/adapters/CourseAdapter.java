@@ -104,7 +104,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
                         //go to update activity
                         goToUpdateActivity(course.getCode());
-
+                        notifyDataSetChanged();
                     }
                 });
                 builder.setNeutralButton("Delete", new DialogInterface.OnClickListener() {

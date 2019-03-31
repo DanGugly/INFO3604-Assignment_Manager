@@ -89,10 +89,16 @@ public class AssignmentController{
         mDatabase.beginTransactionNonExclusive();
         ContentValues values = new ContentValues();
         //values.put(COLUMN_COURSEID, assignment.getCourseID());
-        values.put(COLUMN_NOTES, assignment.getNotes());
-        values.put(COLUMN_TITLE, assignment.getTitle());
-        values.put(COLUMN_DUEDATE, assignment.getDueDate());
-        values.put(COLUMN_PROGRESS, assignment.getProgress());
+
+        if(!assignment.getNotes().equals(""))
+            values.put(COLUMN_NOTES, assignment.getNotes());
+        if(!assignment.getTitle().equals(""))
+            values.put(COLUMN_TITLE, assignment.getTitle());
+        if(!assignment.getDueDate().equals(""))
+            values.put(COLUMN_DUEDATE, assignment.getDueDate());
+        if(assignment.getProgress() == 0 || assignment.getProgress() == 1)
+            values.put(COLUMN_PROGRESS, assignment.getProgress());
+
         Log.d("ASSIGNMENT UPDATE", values.toString());
 
         long result = mDatabase.update(TABLE_ASSIGNMENTS, values, "assignment_id=?", new String[] {Integer.toString(assignment.getAssignmentID())});
