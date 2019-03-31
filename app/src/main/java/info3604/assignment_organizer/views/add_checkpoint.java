@@ -67,9 +67,6 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
             case R.id.add_course:
                 startActivity(new Intent(this, add_course.class));
                 break;
-            case R.id.start_page:
-                startActivity(new Intent(this, Main.class));
-                break;
             case R.id.add_assignment:
                 startActivity(new Intent(this, add_assignment.class));
                 break;

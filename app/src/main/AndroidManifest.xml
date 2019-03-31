@@ -38,9 +38,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".views.update_course" />
-        <activity android:name=".views.CheckpointList" />
-        <activity android:name=".views.AssignmentList" />
-        <activity android:name=".views.CourseList" />
         <activity android:name=".views.checkpoint_methods" />
         <activity android:name=".views.course_methods" />
         <activity android:name=".views.NotificationActivity" />

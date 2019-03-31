@@ -21,36 +21,6 @@
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/course_list"
-        android:title="@string/course_list"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/course_list_new"
-        android:title="@string/course_list_new"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/checkpoint_list"
-        android:title="@string/checkpoint_list"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/checkpoint_list_new"
-        android:title="@string/checkpoint_list_new"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/assignment_list"
-        android:title="@string/assignment_list"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/assignment_list_new"
-        android:title="@string/assignment_list_new"
-        app:showAsAction="never"/>
-
-    <item
         android:id="@+id/filterSpinner"
         android:title="Filter Spinner"
         app:actionViewClass="android.widget.Spinner"

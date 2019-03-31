@@ -19,18 +19,10 @@
         <item>@string/add_course</item>
     </string-array>
     <string-array name="sampleC">
-        <item>Sample Checkpoint1</item>
-        <item>Sample Checkpoint2</item>
-        <item>Sample Checkpoint3</item>
-        <item>Sample Checkpoint4</item>
-        <item>Sample Checkpoint5</item>
+        <item>No Checkpoints</item>
     </string-array>
     <string-array name="sampleA">
-        <item>Sample Assignment1</item>
-        <item>Sample Assignment2</item>
-        <item>Sample Assignment3</item>
-        <item>Sample Assignment4</item>
-        <item>Sample Assignment5</item>
+        <item>No Assignments</item>
     </string-array>
 
     <string name="new_message_notification_title_template">New message: %1$s</string>

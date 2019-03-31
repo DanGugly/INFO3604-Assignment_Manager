@@ -160,9 +160,6 @@ public class add_course extends AppCompatActivity {
             case R.id.add_assignment:
                 startActivity(new Intent(this, add_assignment.class));
                 break;
-            case R.id.start_page:
-                startActivity(new Intent(this, Main.class));
-                break;
         }
         return super.onOptionsItemSelected(item);
     }

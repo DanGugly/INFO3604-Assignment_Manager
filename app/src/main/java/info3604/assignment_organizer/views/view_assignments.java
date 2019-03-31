@@ -25,7 +25,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -41,6 +43,8 @@ public class view_assignments extends AppCompatActivity implements NavigationVie
     private AssignmentAdapter adapter;
     private String filter = "";
     private List<Assignment> courseList;
+
+    FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +75,16 @@ public class view_assignments extends AppCompatActivity implements NavigationVie
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        floatingActionButton = findViewById(R.id.floating_action_button);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), add_assignment.class));
+                Toast.makeText(getApplicationContext(),"Adding Assignment..", Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
     private void populaterecyclerView(String filter){

@@ -284,8 +284,6 @@ public class MainController extends SQLiteOpenHelper{
         return checkpoint;
     }
 
-}
-
     public Cursor getCheckpointListHome(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT title, due_date, checkpoint_progress FROM " + TABLE_CHECKPOINTS, null);

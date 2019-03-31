@@ -37,10 +37,10 @@
             android:id="@+id/tv_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Date Selected"
-            android:inputType="datetime"
             android:clickable="false"
-            android:focusable="false"/>
+            android:focusable="false"
+            android:hint="Date Selected"
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button

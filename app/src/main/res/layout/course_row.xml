@@ -25,16 +25,16 @@
                 android:layout_weight="0.50">
 
                 <TextView
+                    android:id="@+id/courseCode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/courseCode"
-                    android:text="Code"/>
+                    android:text="Code: " />
 
                 <TextView
+                    android:id="@+id/courseName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/courseName"
-                    android:text="Name"/>
+                    android:text="Name: " />
 
             </LinearLayout>
 
@@ -45,16 +45,16 @@
                 android:layout_weight="0.50">
 
                 <TextView
+                    android:id="@+id/courseLevel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/courseLevel"
-                    android:text="Level"/>
+                    android:text="Level: " />
 
                 <TextView
+                    android:id="@+id/courseCredits"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/courseCredits"
-                    android:text="Credits"/>
+                    android:text="Credits: " />
 
             </LinearLayout>
 
