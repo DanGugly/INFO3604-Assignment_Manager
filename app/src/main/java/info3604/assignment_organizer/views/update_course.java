@@ -55,6 +55,9 @@ public class update_course extends AppCompatActivity {
         val = level.getText().toString();
         if (!val.equals("")){ filled = true; }
 
+        if(!filled)
+            Toast.makeText(this,"Please fill in data in one of the fields",Toast.LENGTH_LONG).show();
+
         return filled;
     }
 

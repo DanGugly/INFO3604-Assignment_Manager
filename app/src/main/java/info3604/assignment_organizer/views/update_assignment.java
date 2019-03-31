@@ -92,12 +92,21 @@ public class update_assignment extends AppCompatActivity implements DatePickerDi
         hourFinal = i;
         minuteFinal = i1;
 
-        tv_result.setText(dayFinal+"/"+
+        String chosenDate = dayFinal+"/"+
                 monthFinal+"/"+
                 yearFinal+
                 " "+hourFinal+":"+
-                +minuteFinal
-        );
+                +minuteFinal;
+
+        Assignment assignment = new Assignment();
+        assignment.setDueDate(chosenDate);
+
+        if(assignment.isPastDueDate()){
+            Toast.makeText(this,"Please enter a valid date!",Toast.LENGTH_LONG).show();
+        }
+        else{
+            tv_result.setText(chosenDate);
+        }
     }
 
     private boolean checkFields(){
@@ -112,6 +121,9 @@ public class update_assignment extends AppCompatActivity implements DatePickerDi
 
         val = assNotes.getText().toString();
         if (val.equals("")){ filled = true; }
+
+        if(!filled)
+            Toast.makeText(this,"Please fill in data in one of the fields",Toast.LENGTH_LONG).show();
 
         return filled;
     }

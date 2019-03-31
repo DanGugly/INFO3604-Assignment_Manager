@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import info3604.assignment_organizer.R;
 import info3604.assignment_organizer.controllers.AssignmentController;
 import info3604.assignment_organizer.controllers.CheckpointController;
+import info3604.assignment_organizer.controllers.MainController;
+import info3604.assignment_organizer.models.Assignment;
 import info3604.assignment_organizer.models.Checkpoint;
 
 import android.app.DatePickerDialog;
@@ -32,6 +34,7 @@ public class update_checkpoint extends AppCompatActivity implements DatePickerDi
 
     AssignmentController AC;
     CheckpointController CC;
+    MainController MC;
 
     int day, month, year, hour, minute;
     int dayFinal, monthFinal, yearFinal, hourFinal, minuteFinal;
@@ -49,6 +52,7 @@ public class update_checkpoint extends AppCompatActivity implements DatePickerDi
 
         AC = new AssignmentController(this);
         CC = new CheckpointController(this);
+        MC = new MainController(this);
 
         try {
             //get intent to get person id
@@ -91,12 +95,26 @@ public class update_checkpoint extends AppCompatActivity implements DatePickerDi
         hourFinal = i;
         minuteFinal = i1;
 
-        tv_result.setText(dayFinal+"/"+
+        String chosenDate = dayFinal+"/"+
                 monthFinal+"/"+
                 yearFinal+
                 " "+hourFinal+":"+
-                +minuteFinal
-        );
+                +minuteFinal;
+
+        Checkpoint checkpoint = new Checkpoint();
+        checkpoint.setDueDate(chosenDate);
+
+        Checkpoint c = MC.getCheckpoint(checkpointID);
+
+        Assignment assignment = MC.getAssignment(c.getAssignmentID());
+        assignment.setDueDate(chosenDate);
+
+        if(checkpoint.isPastDueDate() && assignment.isPastDueDate()){
+            Toast.makeText(this,"Please enter a valid date!",Toast.LENGTH_LONG).show();
+        }
+        else{
+            tv_result.setText(chosenDate);
+        }
     }
 
     private boolean checkFields(){
@@ -111,6 +129,9 @@ public class update_checkpoint extends AppCompatActivity implements DatePickerDi
 
         val = chkNotes.getText().toString();
         if (val.equals("")){ filled = true; }
+
+        if(!filled)
+            Toast.makeText(this,"Please fill in data in one of the fields",Toast.LENGTH_LONG).show();
 
         return filled;
     }
