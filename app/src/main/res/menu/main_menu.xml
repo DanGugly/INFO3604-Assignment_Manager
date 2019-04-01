@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <!--Start Page-->
-    <item
-        android:id="@+id/start_page"
-        android:title="@string/main_menu"
-        app:showAsAction="never" />
 
     <!--First menu option-->
     <item
@@ -23,36 +18,6 @@
     <item
         android:id="@+id/add_checkpoint"
         android:title="@string/add_checkpoint"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/course_list"
-        android:title="@string/course_list"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/course_list_new"
-        android:title="@string/course_list_new"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/checkpoint_list"
-        android:title="@string/checkpoint_list"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/checkpoint_list_new"
-        android:title="@string/checkpoint_list_new"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/assignment_list"
-        android:title="@string/assignment_list"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/assignment_list_new"
-        android:title="@string/assignment_list_new"
         app:showAsAction="never"/>
 
     <item

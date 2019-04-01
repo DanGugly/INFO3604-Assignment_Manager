@@ -5,13 +5,17 @@ import info3604.assignment_organizer.R;
 import info3604.assignment_organizer.controllers.AssignmentController;
 import info3604.assignment_organizer.controllers.CheckpointController;
 import info3604.assignment_organizer.controllers.MainController;
+import info3604.assignment_organizer.controllers.NotifController;
 import info3604.assignment_organizer.models.Assignment;
 import info3604.assignment_organizer.models.Checkpoint;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,8 +30,10 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class add_checkpoint extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener  {
 
@@ -137,12 +143,18 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
     public void onTimeSet(TimePicker timePicker, int i, int i1){ //This is date format returned when clicking set date & time button in Add Assignment
         hourFinal = i;
         minuteFinal = i1;
-
+        String minute= Integer.toString(minuteFinal), hour = Integer.toString(hourFinal);
+        if (hourFinal<10){
+            hour = "0"+hour;
+        }
+        if (minuteFinal<10){
+            minute = "0"+minute;
+        }
         String chosenDate = dayFinal+"/"+
                 monthFinal+"/"+
                 yearFinal+
-                " "+hourFinal+":"+
-                +minuteFinal;
+                " "+hour+":"+
+                minute;
 
         if(assignmentID != -1){
             Checkpoint checkpoint = new Checkpoint();
@@ -215,7 +227,35 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
             if(AC.assignmentExistsInDb(""+assignmentID))
                 result = CC.addCheckpoint(checkpoint);
         }
-        Log.d("RESULT:",result+" ");
+        if (result) {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+            Intent notificationIntent = new Intent(this, NotifController.class);
+
+            notificationIntent.putExtra("title", "Checkpoint: " + checkpointTitle.getText().toString());    //Values should be pulled from DB
+            notificationIntent.putExtra("content", "Notes: "+chkNotes.getText().toString() + " Reminder");
+            notificationIntent.putExtra("ticker", checkpointTitle.getText().toString());
+
+            PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            //Get current time
+            String givenDateString = tv_result.getText().toString();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            try {
+                Date mDate = sdf.parse(givenDateString);
+                long timeInMilliseconds = mDate.getTime();
+                long millis = System.currentTimeMillis();   //long currentTimeMillis ()-Returns the current time in milliseconds.
+                long seconds = (timeInMilliseconds - millis) / 1000;               //Divide millis by 1000 to get the number of seconds.
+
+
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.SECOND, (int) seconds);
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
         return result;
     }
 

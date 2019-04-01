@@ -15,6 +15,9 @@ import java.util.Random;
 import info3604.assignment_organizer.R;
 import info3604.assignment_organizer.views.NotificationActivity;
 
+import static android.app.NotificationManager.EXTRA_NOTIFICATION_CHANNEL_ID;
+import static android.app.NotificationManager.IMPORTANCE_DEFAULT;
+
 public class NotifController extends BroadcastReceiver{
 
     private static final String CHANNEL_ID = "info3604.assignment_organizer.channelId";

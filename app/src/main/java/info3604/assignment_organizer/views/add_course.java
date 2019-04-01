@@ -1,6 +1,7 @@
 package info3604.assignment_organizer.views;
 
 import androidx.appcompat.app.AppCompatActivity;
+import info3604.assignment_organizer.Main;
 import info3604.assignment_organizer.R;
 import info3604.assignment_organizer.controllers.CourseController;
 import info3604.assignment_organizer.models.Course;
