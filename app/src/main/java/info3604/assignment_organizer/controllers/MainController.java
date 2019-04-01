@@ -4,6 +4,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -145,6 +147,24 @@ public class MainController extends SQLiteOpenHelper{
             } while (cursor.moveToNext());
         }
 
+
+        return courseLinkedList;
+    }
+
+    public ArrayList<String> getCourseCodeList() {
+        String query;
+
+        query = "SELECT  * FROM " + TABLE_COURSES;
+
+        ArrayList<String> courseLinkedList = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                courseLinkedList.add(cursor.getString(cursor.getColumnIndex(COURSE_CODE)));
+            } while (cursor.moveToNext());
+        }
 
         return courseLinkedList;
     }

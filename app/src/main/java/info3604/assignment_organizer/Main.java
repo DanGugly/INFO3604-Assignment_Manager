@@ -24,6 +24,9 @@ import info3604.assignment_organizer.views.course_methods;
 import info3604.assignment_organizer.views.view_checkpoints;
 import info3604.assignment_organizer.views.view_courses;
 import info3604.assignment_organizer.views.view_assignments;
+import info3604.assignment_organizer.views.add_course;
+import info3604.assignment_organizer.views.add_assignment;
+import info3604.assignment_organizer.views.add_checkpoint;
 
 public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private DrawerLayout drawer;
@@ -87,15 +90,15 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         Intent i;
         switch (item.getItemId()){
             case R.id.add_assignment:
-                i = new Intent(this, assignment_methods.class);
+                i = new Intent(this, add_assignment.class);
                 startActivity(i);
                 break;
             case R.id.add_course:
-                i = new Intent(this, course_methods.class);
+                i = new Intent(this, add_course.class);
                 startActivity(i);
                 break;
             case R.id.add_checkpoint:
-                i = new Intent(this, checkpoint_methods.class);
+                i = new Intent(this, add_checkpoint.class);
                 startActivity(i);
                 break;
             case R.id.course_list:
