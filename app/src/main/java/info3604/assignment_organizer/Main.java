@@ -27,6 +27,15 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import info3604.assignment_organizer.views.AssignmentList;
+import info3604.assignment_organizer.views.CheckpointList;
+import info3604.assignment_organizer.views.assignment_methods;
+import info3604.assignment_organizer.views.checkpoint_methods;
+import info3604.assignment_organizer.views.CourseList;
 import info3604.assignment_organizer.views.course_methods;
 import info3604.assignment_organizer.views.view_checkpoints;
 import info3604.assignment_organizer.views.view_courses;

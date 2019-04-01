@@ -142,9 +142,9 @@ public class update_checkpoint extends AppCompatActivity implements DatePickerDi
         if (checkFields() && checkpointID != 0){
             Checkpoint checkpoint = new Checkpoint(
                     0,
-                    checkpointTitle.getText().toString(),
-                    tv_result.getText().toString(),
-                    chkNotes.getText().toString()
+                    checkpointTitle.getText().toString().trim(),
+                    tv_result.getText().toString().trim(),
+                    chkNotes.getText().toString().trim()
             );
             checkpoint.setCheckID(checkpointID);
             result = CC.updateCheckpoint(checkpoint);

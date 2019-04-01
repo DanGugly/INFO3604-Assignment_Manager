@@ -135,9 +135,9 @@ public class update_assignment extends AppCompatActivity implements DatePickerDi
 
             Assignment assignment = new Assignment(
                     "",
-                    assTitle.getText().toString(),
-                    tv_result.getText().toString(),
-                    assNotes.getText().toString()
+                    assTitle.getText().toString().trim(),
+                    tv_result.getText().toString().trim(),
+                    assNotes.getText().toString().trim()
             );
 
             assignment.setAssID(assignmentID);

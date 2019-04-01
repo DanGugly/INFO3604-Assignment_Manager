@@ -52,10 +52,4 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/placeholder"
-        android:text="Placeholder Text"/>
-
 </androidx.appcompat.widget.LinearLayoutCompat>
