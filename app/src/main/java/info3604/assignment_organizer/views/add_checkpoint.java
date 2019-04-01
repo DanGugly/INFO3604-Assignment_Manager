@@ -1,11 +1,12 @@
 package info3604.assignment_organizer.views;
 
 import androidx.appcompat.app.AppCompatActivity;
-import info3604.assignment_organizer.Main;
 import info3604.assignment_organizer.R;
 import info3604.assignment_organizer.controllers.AssignmentController;
 import info3604.assignment_organizer.controllers.CheckpointController;
+import info3604.assignment_organizer.controllers.MainController;
 import info3604.assignment_organizer.controllers.NotifController;
+import info3604.assignment_organizer.models.Assignment;
 import info3604.assignment_organizer.models.Checkpoint;
 
 import android.app.AlarmManager;
@@ -17,23 +18,24 @@ import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.TextView;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.google.android.material.textfield.TextInputEditText;
-
-public class add_checkpoint extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class add_checkpoint extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener  {
 
     Button save;
     Button b_pick;
@@ -41,38 +43,28 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
     TextInputEditText assignmentCode;
     TextInputEditText checkpointTitle;
     TextInputEditText chkNotes;
-    TextInputEditText chkID;
-    TextView txt;
+
+    TextInputLayout assignment_til;
+    TextInputLayout title_til;
+    TextInputLayout date_til;
+
 
     AssignmentController AC;
     CheckpointController CC;
+    MainController MC;
+
+    Spinner spinner;
+    Context context;
+
+    ArrayAdapter<String> adapter;
+    ArrayList<String> aList;
+    ArrayList<Integer> idList;
+
+    int assignmentID = -1;
+    String spinnerContent = "Choose Assignment";
 
     int day, month, year, hour, minute;
     int dayFinal, monthFinal, yearFinal, hourFinal, minuteFinal;
-
-    @Override   //Builds main_menu.xml from menu resourse in res
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override   //Getting which menu item is selected and creating toasts when they are
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()){
-            case R.id.add_checkpoint:
-                startActivity(new Intent(this, add_checkpoint.class));
-                break;
-            case R.id.add_course:
-                startActivity(new Intent(this, add_course.class));
-                break;
-            case R.id.add_assignment:
-                startActivity(new Intent(this, add_assignment.class));
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,30 +74,39 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
         save = (Button) findViewById(R.id.save);
         b_pick = (Button) findViewById(R.id.b_pick);
 
-        txt = (TextView) findViewById(R.id.placeholder);
         tv_result = (TextInputEditText) findViewById(R.id.tv_result);
-        chkID = (TextInputEditText) findViewById(R.id.chkID);
         assignmentCode = (TextInputEditText) findViewById(R.id.assignmentCode);
         checkpointTitle = (TextInputEditText) findViewById(R.id.checkpointTitle);
         chkNotes = (TextInputEditText) findViewById(R.id.chkNotes);
 
+        assignment_til = (TextInputLayout)findViewById(R.id.assignmentCode_til);
+        title_til = (TextInputLayout)findViewById(R.id.checkpointTitle_til);
+        date_til = (TextInputLayout)findViewById(R.id.tv_result_til);
+
+
         AC = new AssignmentController(this);
         CC = new CheckpointController(this);
+        MC = new MainController(this);
+
+        context = add_checkpoint.this;
+
+        spinner = (Spinner)findViewById(R.id.spinner);
+        aList = MC.getAssignmentStringList();
+        idList = MC.getAssignmentIDList();
+        aList.add(0,"Choose Assignment");
+        idList.add(0,-1);
+        adapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, R.id.text, aList);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
 
         save.setOnClickListener(new View.OnClickListener() {  //What should happen when save button clicked?
             @Override
-            public void onClick(View v) {                     //Maybe call controller method pass assignment info, let controller / model save to database
-                // For now I display info in toast
-                Toast.makeText(getApplicationContext(),
-                        "Name: "+assignmentCode.getText()+
-                                " Title: " +checkpointTitle.getText()+
-                                " Date/Time: "+tv_result.getText()+
-                                " Notes: "+chkNotes.getText(),
-                        Toast.LENGTH_LONG).show();
-
-                //Can create intent here to go to view assignment page?
-
-                addToDb();
+            public void onClick(View v) {
+                if(addToDb()){
+                    adapter.notifyDataSetChanged();
+                    Intent i = new Intent(context, view_checkpoints.class);
+                    startActivity(i);
+                }
             }
         });
 
@@ -122,8 +123,6 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
                 datePickerDialog.show();
             }
         });
-
-        printDB();
     }
 
     public void onDateSet(DatePicker datePicker, int i, int i1, int i2){
@@ -144,59 +143,90 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
     public void onTimeSet(TimePicker timePicker, int i, int i1){ //This is date format returned when clicking set date & time button in Add Assignment
         hourFinal = i;
         minuteFinal = i1;
-
-        tv_result.setText(dayFinal+"/"+
+        String minute= Integer.toString(minuteFinal), hour = Integer.toString(hourFinal);
+        if (hourFinal<10){
+            minute = "0"+minute;
+        }
+        if (minuteFinal<10){
+            hour = "0"+hour;
+        }
+        String chosenDate = dayFinal+"/"+
                 monthFinal+"/"+
                 yearFinal+
-                " "+hourFinal+":"+
-                +minuteFinal
-        );
+                " "+hour+":"+
+                minute;
+
+        if(assignmentID != -1){
+            Checkpoint checkpoint = new Checkpoint();
+            checkpoint.setDueDate(chosenDate);
+
+            //Checkpoint c = MC.getCheckpoint(checkpointID);
+
+            Assignment assignment = MC.getAssignment(assignmentID);
+            assignment.setDueDate(chosenDate);
+
+            if(checkpoint.isPastDueDate() && assignment.isPastDueDate()){
+                Toast.makeText(this,"Please enter a valid date!",Toast.LENGTH_LONG).show();
+            }
+            else{
+                tv_result.setText(chosenDate);
+            }
+        }
+        else{
+            Toast.makeText(this, "Please select an Assignment!",Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private boolean checkFields(){
 
-        String val = tv_result.getText().toString();
-        if (val.equals("")){
-            Toast.makeText(this, "Enter due date.", Toast.LENGTH_SHORT).show();
+        String val;
+
+        val = spinnerContent;
+        if (val.equals("Choose Assignment")){
+            assignment_til.setError("Assignment required");
             return false;
         }
-        val = checkpointTitle.getText().toString();
-        if (val.equals("")){
-            Toast.makeText(this, "Enter checkpoint name.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        val = assignmentCode.getText().toString();
-        if (val.equals("")){
-            Toast.makeText(this, "Enter assignment code.", Toast.LENGTH_SHORT).show();
-            return false;
+        else{
+            assignment_til.setError(null);
+            assignment_til.setErrorEnabled(false);
         }
 
-        // make it so that notes isn't a required field
-        val = chkNotes.getText().toString();
+        val = checkpointTitle.getText().toString();
         if (val.equals("")){
-//            Toast.makeText(this, "Enter notes.", Toast.LENGTH_SHORT).show();
-//            return false;
-            chkNotes.setText("NULL");
+            title_til.setError("Title required");
+            return false;
+        }
+        else{
+            title_til.setError(null);
+            title_til.setErrorEnabled(false);
+        }
+
+        val = tv_result.getText().toString();
+        if (val.equals("")){
+            date_til.setError("Date required");
+            return false;
+        }
+        else{
+            date_til.setError(null);
+            date_til.setErrorEnabled(false);
         }
 
         return true;
     }
 
-    public boolean addToDb() {
+    public boolean addToDb(){
         boolean result = false;
-        if (checkFields()) {
+        if (checkFields()){
             Checkpoint checkpoint = new Checkpoint(
-                    Integer.parseInt(assignmentCode.getText().toString()),
-                    checkpointTitle.getText().toString(),
-                    tv_result.getText().toString(),
-                    chkNotes.getText().toString()
+                    assignmentID,
+                    checkpointTitle.getText().toString().trim(),
+                    tv_result.getText().toString().trim(),
+                    chkNotes.getText().toString().trim()
             );
-            if (AC.assignmentExistsInDb(assignmentCode.getText().toString()))
+            if(AC.assignmentExistsInDb(""+assignmentID))
                 result = CC.addCheckpoint(checkpoint);
-            else
-                Toast.makeText(this, "COURSE DOESN'T EXIST IN DB", Toast.LENGTH_LONG).show();
         }
-        Log.d("RESULT:", result + " ");
         if (result) {
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
@@ -210,17 +240,13 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
 
             //Get current time
             String givenDateString = tv_result.getText().toString();
-            Log.d("NOAHAVESH", "Date: " + givenDateString);
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             try {
                 Date mDate = sdf.parse(givenDateString);
                 long timeInMilliseconds = mDate.getTime();
-                Log.d("NOAHAVESH", "Future time: " + timeInMilliseconds);
                 long millis = System.currentTimeMillis();   //long currentTimeMillis ()-Returns the current time in milliseconds.
-                Log.d("NOAHAVESH", "Current time: " + millis);
                 long seconds = (timeInMilliseconds - millis) / 1000;               //Divide millis by 1000 to get the number of seconds.
 
-                Log.d("NOAHAVESH", "Difference in time: " + seconds);
 
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.SECOND, (int) seconds);
@@ -229,46 +255,24 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            printDB();
         }
         return result;
     }
 
-    public boolean deleteFromDb(View view){
-        boolean result = CC.deleteCheckpoint(Integer.parseInt(chkID.getText().toString()));
-        printDB();
-        return result;
-    }
-
-    public boolean updateDb(View view){
-        boolean result = false;
-
-        //Todo: reformat code in such a way that the user doesn't need to manually enter the id but it's detected on view
-        String val = chkID.getText().toString();//line only for testing purposes
-
-
-        if (checkFields() && !val.equals("")){
-            Checkpoint checkpoint = new Checkpoint(
-                    Integer.parseInt(assignmentCode.getText().toString()),
-                    checkpointTitle.getText().toString(),
-                    tv_result.getText().toString(),
-                    chkNotes.getText().toString()
-            );
-            checkpoint.setCheckID(Integer.parseInt(val));
-            result = CC.updateCheckpoint(checkpoint);
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if(parent.getItemAtPosition(position).toString().equals("Choose Assignment")){
+            //Do nothing
         }
-        Log.d("RESULT:",result+"");
-        printDB();
-        return result;
+        else{
+            spinnerContent = parent.getItemAtPosition(position).toString();
+            assignmentID = idList.get(position);
+        }
+
     }
 
-    public void printDB(){
-        String dbString = CC.toString();
-        Toast.makeText(this, dbString,Toast.LENGTH_LONG).show();
-        txt.setText(dbString);
-        checkpointTitle.setText("");
-        chkNotes.setText("");
-        assignmentCode.setText("");
-        tv_result.setText("");
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
