@@ -6,7 +6,6 @@ import info3604.assignment_organizer.controllers.AssignmentController;
 import info3604.assignment_organizer.controllers.CourseController;
 import info3604.assignment_organizer.controllers.MainController;
 import info3604.assignment_organizer.models.Assignment;
-import info3604.assignment_organizer.models.Course;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -28,7 +27,6 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class add_assignment extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener {
 
@@ -81,7 +79,7 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
         spinner = (Spinner)findViewById(R.id.spinner);
         ArrayList<String> cList = MC.getCourseCodeList();
         cList.add(0,"Choose Course Code");
-        adapter = new ArrayAdapter<String>(this, R.layout.asg_spinner_layout, R.id.text, cList);
+        adapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, R.id.text, cList);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
