@@ -145,10 +145,10 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
         minuteFinal = i1;
         String minute= Integer.toString(minuteFinal), hour = Integer.toString(hourFinal);
         if (hourFinal<10){
-            minute = "0"+minute;
+            hour = "0"+hour;
         }
         if (minuteFinal<10){
-            hour = "0"+hour;
+            minute = "0"+minute;
         }
         String chosenDate = dayFinal+"/"+
                 monthFinal+"/"+
