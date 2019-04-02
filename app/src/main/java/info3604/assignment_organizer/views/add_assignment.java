@@ -87,7 +87,7 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
         spinner = (Spinner)findViewById(R.id.spinner);
         ArrayList<String> cList = MC.getCourseCodeList();
         cList.add(0,"Choose Course Code");
-        adapter = new ArrayAdapter<String>(this, R.layout.asg_spinner_layout, R.id.text, cList);
+        adapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, R.id.text, cList);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 

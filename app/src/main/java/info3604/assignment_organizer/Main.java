@@ -104,7 +104,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         }, 100);
 
         if(data.getCount() == 0){
-            Toast.makeText(this,"No Assignments Registered",Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this,"No Assignments Registered",Toast.LENGTH_SHORT).show();
         }
         else{
             String dbString = "" ;

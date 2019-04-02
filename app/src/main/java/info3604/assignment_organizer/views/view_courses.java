@@ -157,9 +157,6 @@ public class view_courses extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.addMenu:
-                goToAddActivity();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -136,13 +136,13 @@ public class update_checkpoint extends AppCompatActivity implements DatePickerDi
         boolean filled = false;
 
         String val = tv_result.getText().toString();
-        if (val.equals("")){ filled = true; }
+        if (!val.equals("")){ filled = true; }
 
         val = checkpointTitle.getText().toString();
-        if (val.equals("")){ filled = true; }
+        if (!val.equals("")){ filled = true; }
 
         val = chkNotes.getText().toString();
-        if (val.equals("")){ filled = true; }
+        if (!val.equals("")){ filled = true; }
 
         if(!filled)
             Toast.makeText(this,"Please fill in data in one of the fields",Toast.LENGTH_LONG).show();
@@ -177,6 +177,7 @@ public class update_checkpoint extends AppCompatActivity implements DatePickerDi
             //Get current time
             String givenDateString = tv_result.getText().toString();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
             try {
                 Date mDate = sdf.parse(givenDateString);
                 long timeInMilliseconds = mDate.getTime();
@@ -188,12 +189,13 @@ public class update_checkpoint extends AppCompatActivity implements DatePickerDi
                 cal.add(Calendar.SECOND, (int) seconds);
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
 
-                Intent i = new Intent(this, view_checkpoints.class);
-                startActivity(i);
+
 
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            Intent i = new Intent(this, view_checkpoints.class);
+            startActivity(i);
         }
     }
 }

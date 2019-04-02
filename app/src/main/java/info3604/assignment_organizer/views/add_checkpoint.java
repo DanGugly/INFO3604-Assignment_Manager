@@ -240,6 +240,7 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
 
             //Get current time
             String givenDateString = tv_result.getText().toString();
+
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             try {
                 Date mDate = sdf.parse(givenDateString);
