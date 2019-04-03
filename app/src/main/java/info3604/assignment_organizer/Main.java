@@ -8,26 +8,37 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import info3604.assignment_organizer.controllers.MainController;
 import info3604.assignment_organizer.views.add_assignment;
-import info3604.assignment_organizer.views.add_course;
 import info3604.assignment_organizer.views.add_checkpoint;
-import info3604.assignment_organizer.views.AssignmentList;
-import info3604.assignment_organizer.views.CheckpointList;
-import info3604.assignment_organizer.views.CourseList;
+import info3604.assignment_organizer.views.add_course;
+import info3604.assignment_organizer.views.assignment_methods;
+import info3604.assignment_organizer.views.checkpoint_methods;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import info3604.assignment_organizer.views.assignment_methods;
+import info3604.assignment_organizer.views.checkpoint_methods;
+import info3604.assignment_organizer.views.course_methods;
+import info3604.assignment_organizer.views.view_checkpoints;
+import info3604.assignment_organizer.views.view_courses;
+import info3604.assignment_organizer.views.view_assignments;
+import io.github.yavski.fabspeeddial.FabSpeedDial;
+import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 
 import java.util.ArrayList;
 
@@ -37,18 +48,19 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private MainController MC;
     private ArrayList<String> list, list2;
 
+    private FabSpeedDial fab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AssignmentList assignmentList = new AssignmentList();
-
         ListView listView = (ListView)findViewById(R.id.listView);
         ListView listView2 = (ListView)findViewById(R.id.listView2);
         ListAdapter listAdapter, listAdapter2;
 
-
+        fab = (FabSpeedDial) findViewById(R.id.speedDial);
+        final View obscure = findViewById(R.id.obscure);
 
         MC = new MainController(this);
 
@@ -56,8 +68,40 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         list2 = new ArrayList<>();
         Cursor data = MC.getAssignmentListHome();
         Cursor cdata = MC.getCheckpointListHome();
+        fab.setMenuListener(new SimpleMenuListenerAdapter() {
+            @Override
+            public boolean onMenuItemSelected(MenuItem menuItem) {
+                Intent intent;
+                switch (menuItem.getItemId()){
+                    case R.id.opt1:
+                        intent = new Intent(Main.this, add_course.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.op2:
+                        intent = new Intent(Main.this, add_assignment.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.opt3:
+                        intent = new Intent(Main.this, add_checkpoint.class);
+                        startActivity(intent);
+                        break;
+                }
+                return true;
+            }
+        });
 
-
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(fab.isMenuOpen() && obscure.getVisibility() == View.GONE){
+                    obscure.setVisibility(View.VISIBLE);
+                }else if(!fab.isMenuOpen() && obscure.getVisibility() == View.VISIBLE){
+                    obscure.setVisibility(View.GONE);
+                }
+                handler.postDelayed(this, 100);
+            }
+        }, 100);
 
         if(data.getCount() == 0){
             Toast.makeText(this,"No Assignments Registered",Toast.LENGTH_SHORT).show();
@@ -103,28 +147,24 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
     }
 
-    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.home:
-                startActivity(new Intent(this, Main.class));
                 break;
             case R.id.courses:
-                startActivity(new Intent(this, CourseList.class));
+                startActivity(new Intent(this, view_courses.class));
                 break;
             case R.id.assignments:
-                startActivity(new Intent(this, AssignmentList.class));
+                startActivity(new Intent(this, view_assignments.class));
                 break;
             case R.id.checkpoints:
-                startActivity(new Intent(this, CheckpointList.class));
+                startActivity(new Intent(this, view_checkpoints.class));
                 break;
         }
 
@@ -153,15 +193,16 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         Intent i;
         switch (item.getItemId()){
             case R.id.add_assignment:
-                i = new Intent(this, add_assignment.class);
+                i = new Intent(this, assignment_methods.class);
                 startActivity(i);
                 break;
             case R.id.add_course:
-                i = new Intent(this, add_course.class);
+                i = new Intent(this, course_methods.class);
                 startActivity(i);
                 break;
             case R.id.add_checkpoint:
-                startActivity(new Intent(this, add_checkpoint.class));
+                i = new Intent(this, checkpoint_methods.class);
+                startActivity(i);
                 break;
         }
         return super.onOptionsItemSelected(item);

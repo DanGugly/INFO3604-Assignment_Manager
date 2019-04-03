@@ -6,8 +6,11 @@
     <string name="add_course">Add Course</string>
     <string name="add_checkpoint">Add Checkpoint</string>
     <string name="course_list">View Courses</string>
+    <string name="course_list_new">View Courses(NEW)</string>
     <string name="checkpoint_list">View Checkpoints</string>
+    <string name="checkpoint_list_new">View Checkpoints(NEW)</string>
     <string name="assignment_list">View Assignments</string>
+    <string name="assignment_list_new">View Assignments(NEW)</string>
     <string name="main_menu">Main Menu</string>
     <string name="view_course">View Courses</string>
     <string name="view_assignment">View Assignments</string>
@@ -16,18 +19,10 @@
         <item>@string/add_course</item>
     </string-array>
     <string-array name="sampleC">
-        <item>Sample Checkpoint1</item>
-        <item>Sample Checkpoint2</item>
-        <item>Sample Checkpoint3</item>
-        <item>Sample Checkpoint4</item>
-        <item>Sample Checkpoint5</item>
+        <item>No Checkpoints</item>
     </string-array>
     <string-array name="sampleA">
-        <item>Sample Assignment1</item>
-        <item>Sample Assignment2</item>
-        <item>Sample Assignment3</item>
-        <item>Sample Assignment4</item>
-        <item>Sample Assignment5</item>
+        <item>No Assignments</item>
     </string-array>
 
     <string name="new_message_notification_title_template">New message: %1$s</string>

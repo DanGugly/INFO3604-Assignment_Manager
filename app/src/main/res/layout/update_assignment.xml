@@ -2,33 +2,13 @@
 <androidx.appcompat.widget.LinearLayoutCompat
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/colorBackground">
 
-
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/courseCode_til"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="15dp"
-        app:errorEnabled="true">
-
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:dropDownWidth="match_parent"
-            android:background="@android:drawable/btn_dropdown"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/assTitle_til"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:errorEnabled="true">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/assTitle"
@@ -39,10 +19,8 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tv_result_til"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:errorEnabled="true">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tv_result"
@@ -64,19 +42,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
+        <Button
+            android:id="@+id/update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Update Assignment"
+            android:onClick="updateDb"/>
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/assNotes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Extra Notes (Optional)"
+            android:hint="Extra Notes"
             android:inputType="textMultiLine" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/save"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Save Assignment" />
+        android:layout_height="wrap_content">
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

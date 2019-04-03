@@ -4,10 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import info3604.assignment_organizer.R;
 import info3604.assignment_organizer.controllers.AssignmentController;
 import info3604.assignment_organizer.controllers.CourseController;
-import info3604.assignment_organizer.controllers.MainController;
 import info3604.assignment_organizer.controllers.NotifController;
 import info3604.assignment_organizer.models.Assignment;
-import info3604.assignment_organizer.models.Course;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
@@ -19,88 +17,53 @@ import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
-public class add_assignment extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener {
+public class update_assignment extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
-    Button save;
+
     Button b_pick;
-
     TextInputEditText tv_result; //Date and time text field
-    String courseCode = "Choose Course Code";
     TextInputEditText assTitle;
     TextInputEditText assNotes;
 
-    TextInputLayout tv_result_til;
-    TextInputLayout courseCode_til;
-    TextInputLayout assTitle_til;
-
     AssignmentController AC;
     CourseController CC;
-    MainController MC;
-
-    Spinner spinner;
-    Context context;
-
-    ArrayAdapter<String> adapter;
 
     int day, month, year, hour, minute;
     int dayFinal, monthFinal, yearFinal, hourFinal, minuteFinal;
+    int assignmentID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_assignment);
+        setContentView(R.layout.update_assignment);
 
-        save = (Button) findViewById(R.id.save);
         b_pick = (Button) findViewById(R.id.b_pick);
 
         tv_result = (TextInputEditText) findViewById(R.id.tv_result);
         assTitle = (TextInputEditText) findViewById(R.id.assTitle);
         assNotes = (TextInputEditText) findViewById(R.id.assNotes);
 
-        tv_result_til = (TextInputLayout)findViewById(R.id.tv_result_til);
-        courseCode_til = (TextInputLayout)findViewById(R.id.courseCode_til);
-        assTitle_til = (TextInputLayout)findViewById(R.id.assTitle_til);
-
         AC = new AssignmentController(this);
         CC = new CourseController(this);
-        MC = new MainController(this);
 
-        context = add_assignment.this;
-
-        spinner = (Spinner)findViewById(R.id.spinner);
-        ArrayList<String> cList = MC.getCourseCodeList();
-        cList.add(0,"Choose Course Code");
-        adapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, R.id.text, cList);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
-
-        save.setOnClickListener(new View.OnClickListener() {  //What should happen when save button clicked?
-            @Override
-            public void onClick(View v) {
-                if(addToDb()){
-                    adapter.notifyDataSetChanged();
-                    Intent i = new Intent(context, view_assignments.class);
-                    startActivity(i);
-                }
-            }
-        });
+        try {
+            //get intent to get person id
+            assignmentID = getIntent().getIntExtra("ASSIGNMENT_ID",0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         b_pick.setOnClickListener(new View.OnClickListener() {  //Button for setting date and time
             @Override
@@ -110,12 +73,11 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
                 month = c.get(Calendar.MONTH);
                 day = c.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(add_assignment.this,
-                        add_assignment.this, year, month, day);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(update_assignment.this,
+                        update_assignment.this, year, month, day);
                 datePickerDialog.show();
             }
         });
-
     }
 
     public void onDateSet(DatePicker datePicker, int i, int i1, int i2){
@@ -127,8 +89,8 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
         hour = c.get(Calendar.HOUR_OF_DAY);
         minute = c.get(Calendar.MINUTE);
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(add_assignment.this,
-                add_assignment.this, hour, minute, true);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(update_assignment.this,
+                update_assignment.this, hour, minute, true);
         timePickerDialog.show();
     }
 
@@ -160,57 +122,40 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
         }
     }
 
-
     private boolean checkFields(){
 
-        String val;
+        boolean filled = false;
 
-        val = courseCode;
-        if (val.equals("Choose Course Code")){
-            courseCode_til.setError("Course required");
-            return false;
-        }
-        else{
-            courseCode_til.setError(null);
-            courseCode_til.setErrorEnabled(false);
-        }
+        String val = tv_result.getText().toString();
+        if (val.equals("")){ filled = true; }
 
         val = assTitle.getText().toString();
-        if (val.equals("")){
-            assTitle_til.setError("Title required");
-            return false;
-        }
-        else{
-            assTitle_til.setError(null);
-            assTitle_til.setErrorEnabled(false);
-        }
+        if (val.equals("")){ filled = true; }
 
-        val = tv_result.getText().toString();
-        if (val.equals("")){
-            tv_result_til.setError("Date required");
-            return false;
-        }
-        else{
-            tv_result_til.setError(null);
-            tv_result_til.setErrorEnabled(false);
-        }
+        val = assNotes.getText().toString();
+        if (val.equals("")){ filled = true; }
 
-        return true;
+        if(!filled)
+            Toast.makeText(this,"Please fill in data in one of the fields",Toast.LENGTH_LONG).show();
+
+        return filled;
     }
 
-    public boolean addToDb(){
+    public void updateDb(View view){
         boolean result = false;
-        if (checkFields()){
+
+        if (checkFields() && assignmentID != 0){
+
             Assignment assignment = new Assignment(
-                    courseCode.trim(),
+                    "",
                     assTitle.getText().toString().trim(),
                     tv_result.getText().toString().trim(),
                     assNotes.getText().toString().trim()
             );
-            if(CC.courseExistsInDb(courseCode.trim()))
-                result = AC.addAssignment(assignment);
 
-            Log.d("RESULT:",result+" ");
+            assignment.setAssID(assignmentID);
+            result = AC.updateAssignment(assignment);
+
         }
         if (result) {
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -231,7 +176,6 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
                 long timeInMilliseconds = mDate.getTime();
                 long millis = System.currentTimeMillis();   //long currentTimeMillis ()-Returns the current time in milliseconds.
                 long seconds = (timeInMilliseconds - millis) / 1000;               //Divide millis by 1000 to get the number of seconds.
-
                 if(seconds>3600){
                     seconds = seconds - 3600;
                 }
@@ -240,28 +184,12 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
                 cal.add(Calendar.SECOND, (int) seconds);
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
 
+                Intent i = new Intent(this, view_checkpoints.class);
+                startActivity(i);
+
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
-        return result;
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if(parent.getItemAtPosition(position).toString().equals("Choose Course Code")){
-            //Do nothing
-        }
-        else{
-            courseCode = parent.getItemAtPosition(position).toString();
-        }
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-        String init = "Choose Course Code";
-        int spinnerPosition = adapter.getPosition(init);
-        spinner.setSelection(spinnerPosition);
     }
 }

@@ -3,6 +3,7 @@ package info3604.assignment_organizer.models;
 import android.icu.text.SimpleDateFormat;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
 
@@ -31,7 +32,7 @@ public class Checkpoint implements Serializable {
         this.startDate = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(new Date());
     }
 
-    public Checkpoint(int checkpointID) { }
+    public Checkpoint() { }
 
     public int getCheckpointID() { return checkpointID; }
 
@@ -60,6 +61,25 @@ public class Checkpoint implements Serializable {
     public void setDueDate(String dueDate) { this.dueDate = dueDate; }
 
     public void setNotes(String notes) { this.notes = notes; }
+
+    public boolean isPastDueDate(){
+        Date due = new Date();
+        try{
+            due = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(dueDate);
+        }
+        catch (ParseException e){
+            e.printStackTrace();
+        }
+        Date curr = new Date();
+        try{
+            if(curr.compareTo(due) > 0)
+                return true;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     @Override
     public boolean equals(Object obj) {

@@ -11,19 +11,41 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".views.CheckpointList" />
-        <activity android:name=".views.CourseList" />
-        <activity android:name=".views.AssignmentList" />
+        <activity android:name=".views.add_checkpoint" />
+        <activity android:name=".views.view_checkpoints"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".views.update_checkpoint" />
+        <activity android:name=".views.add_assignment" />
+        <activity android:name=".views.view_assignments"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".views.update_assignment" />
+        <activity android:name=".views.add_course" />
+        <activity android:name=".views.view_courses"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".views.update_course" />
+        <activity android:name=".views.checkpoint_methods" />
+        <activity android:name=".views.course_methods" />
         <activity android:name=".views.NotificationActivity" />
-
         <receiver android:name=".controllers.NotifController">
             <intent-filter>
                 <action android:name="action.DISPLAY_NOTIFICATION" />
             </intent-filter>
         </receiver>
-
-        <activity android:name=".views.add_checkpoint" />
-        <activity android:name=".views.add_course" />
         <activity android:name=".Main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -32,7 +54,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.add_assignment" />
+        <activity android:name=".views.assignment_methods" />
     </application>
 
 </manifest>

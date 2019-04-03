@@ -69,10 +69,14 @@ public class CheckpointController {
         mDatabase.beginTransactionNonExclusive();
         ContentValues values = new ContentValues();
         //values.put(COLUMN_ASSIGNMENTID, checkpoint.getAssignmentID());
-        values.put(COLUMN_NOTES, checkpoint.getNotes());
-        values.put(COLUMN_TITLE, checkpoint.getTitle());
-        values.put(COLUMN_DUEDATE, checkpoint.getDueDate());
-        values.put(COLUMN_PROGRESS, checkpoint.getProgress());
+        if(!checkpoint.getNotes().equals(""))
+            values.put(COLUMN_NOTES, checkpoint.getNotes());
+        if(!checkpoint.getTitle().equals(""))
+            values.put(COLUMN_TITLE, checkpoint.getTitle());
+        if(!checkpoint.getDueDate().equals(""))
+            values.put(COLUMN_DUEDATE, checkpoint.getDueDate());
+        if(checkpoint.getProgress() == 0 || checkpoint.getProgress() == 1)
+            values.put(COLUMN_PROGRESS, checkpoint.getProgress());
         Log.d("CHECKPOINT UPDATE", values.toString());
         long result = mDatabase.update(TABLE_CHECKPOINTS, values, "checkpoint_id=?", new String[] {Integer.toString(checkpoint.getCheckpointID())});
         mDatabase.setTransactionSuccessful();
