@@ -300,44 +300,6 @@ public class MainController extends SQLiteOpenHelper{
         return course;
     }
 
-    public ArrayList<String> getAssignmentStringList() {
-        String query;
-
-        query = "SELECT  * FROM " + TABLE_ASSIGNMENTS;
-
-        ArrayList<String> assignmentLinkedList = new ArrayList<>();
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                assignmentLinkedList.add(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_COURSEID))
-                        +":"+cursor.getString(cursor.getColumnIndex(ASSIGNMENT_TITLE)));
-            } while (cursor.moveToNext());
-        }
-
-        return assignmentLinkedList;
-    }
-
-    public ArrayList<Integer> getAssignmentIDList() {
-        String query;
-
-        query = "SELECT  * FROM " + TABLE_ASSIGNMENTS;
-
-        ArrayList<Integer> assignmentLinkedList = new ArrayList<>();
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                assignmentLinkedList.add(cursor.getInt(cursor.getColumnIndex(ASSIGNMENT_ASSIGNMENTID)));
-            } while (cursor.moveToNext());
-        }
-
-        return assignmentLinkedList;
-    }
-
     public Assignment getAssignment(int id){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT  * FROM " + TABLE_ASSIGNMENTS + " WHERE " + ASSIGNMENT_ASSIGNMENTID + "=" + id;
