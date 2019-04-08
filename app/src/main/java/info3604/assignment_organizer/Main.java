@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import info3604.assignment_organizer.controllers.MainController;
+import info3604.assignment_organizer.views.Details;
 import info3604.assignment_organizer.views.add_assignment;
 import info3604.assignment_organizer.views.add_checkpoint;
 import info3604.assignment_organizer.views.add_course;
@@ -21,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -116,9 +118,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 }
                 list.add(dbString);
                 dbString = "";
-                listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,list);
-                listView.setAdapter(listAdapter);
+
             }
+            listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,list);
+            listView.setAdapter(listAdapter);
         }
 
         if(cdata.getCount() == 0){
@@ -138,6 +141,64 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 listView2.setAdapter(listAdapter2);
             }
         }
+
+        final String[] str = list.toArray(new String[list.size()]);
+        final String[] str2 = list2.toArray(new String[list2.size()]);
+
+        //List of assignments
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String[] words = str[position].split("\r?\n");
+
+                Cursor cd = MC.getAssignment(words[0]);
+//                Toast.makeText(getApplicationContext(),words[0], Toast.LENGTH_LONG).show();
+
+                String word = "";
+                while (cd.moveToNext() ) {
+                    String[] columnNames = cd.getColumnNames();
+                    for (String name : columnNames) {
+                        word += String.format(name + ": %s\n",
+                                cd.getString(cd.getColumnIndex(name)));
+                    }
+                }
+                Intent intent = new Intent(getApplicationContext(), Details.class);
+                intent.putExtra("Type", "Assignment Details");
+                intent.putExtra("Details", word);
+                startActivity(intent);
+
+                Toast.makeText(getApplicationContext(),word, Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+        //List of Checkpoints
+        listView2.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String[] words = str2[position].split("\r?\n");
+
+                Cursor cd = MC.getCheckpoint(words[0]);
+
+                String word = "";
+                while (cd.moveToNext() ) {
+                    String[] columnNames = cd.getColumnNames();
+                    for (String name : columnNames) {
+                        word += String.format(name + ": %s\n",
+                                cd.getString(cd.getColumnIndex(name)));
+                    }
+                }
+
+                Intent intent = new Intent(getApplicationContext(), Details.class);
+                intent.putExtra("Type", "Checkpoint Details");
+                intent.putExtra("Details", word);
+                startActivity(intent);
+
+                Toast.makeText(getApplicationContext(),word, Toast.LENGTH_LONG).show();
+            }
+        });
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -192,19 +253,23 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent i;
         switch (item.getItemId()){
+            case R.id.addMenu:
+                Toast.makeText(getApplicationContext(), "Something", Toast.LENGTH_LONG).toString();
+                return true;
             case R.id.add_assignment:
                 i = new Intent(this, assignment_methods.class);
                 startActivity(i);
-                break;
+                return true;
             case R.id.add_course:
                 i = new Intent(this, course_methods.class);
                 startActivity(i);
-                break;
+                return true;
             case R.id.add_checkpoint:
                 i = new Intent(this, checkpoint_methods.class);
                 startActivity(i);
-                break;
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

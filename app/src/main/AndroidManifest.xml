@@ -11,29 +11,54 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <activity android:name=".views.Details"
+            android:parentActivityName=".Main"></activity>
+
+        <receiver android:name=".NewAppWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/new_app_widget_info" />
+        </receiver>
+
+        <activity android:name=".NewAppWidgetConfigureActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
         <activity android:name=".views.add_checkpoint" />
-        <activity android:name=".views.view_checkpoints"
+        <activity
+            android:name=".views.view_checkpoints"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".views.update_checkpoint" />
         <activity android:name=".views.add_assignment" />
-        <activity android:name=".views.view_assignments"
+        <activity
+            android:name=".views.view_assignments"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".views.update_assignment" />
         <activity android:name=".views.add_course" />
-        <activity android:name=".views.view_courses"
+        <activity
+            android:name=".views.view_courses"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -41,12 +66,20 @@
         <activity android:name=".views.checkpoint_methods" />
         <activity android:name=".views.course_methods" />
         <activity android:name=".views.NotificationActivity" />
+
         <receiver android:name=".controllers.NotifController">
             <intent-filter>
                 <action android:name="action.DISPLAY_NOTIFICATION" />
             </intent-filter>
         </receiver>
-        <activity android:name=".Main"
+
+        <service
+            android:name=".WidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <activity
+            android:name=".Main"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

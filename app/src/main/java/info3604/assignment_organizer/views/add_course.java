@@ -9,6 +9,9 @@ import info3604.assignment_organizer.models.Course;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -102,5 +105,27 @@ public class add_course extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override   //Getting which menu item is selected and creating toasts when they are
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent i;
+        switch (item.getItemId()){
+            case R.id.addMenu:
+                Information();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void Information(){
+        Toast.makeText(this, "Something", Toast.LENGTH_LONG).toString();
     }
 }

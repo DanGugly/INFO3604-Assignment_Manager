@@ -224,7 +224,10 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
 
             //Get current time
             String givenDateString = tv_result.getText().toString();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            SimpleDateFormat sdf = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            }
             try {
                 Date mDate = sdf.parse(givenDateString);
                 long timeInMilliseconds = mDate.getTime();

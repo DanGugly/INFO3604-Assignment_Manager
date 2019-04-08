@@ -28,6 +28,7 @@ public class course_methods extends AppCompatActivity {
         credits = (TextInputEditText)findViewById(R.id.ccredits);
         txt = (TextView)findViewById(R.id.placeholder);
         CC = new CourseController(this);
+
         printDB();
     }
 

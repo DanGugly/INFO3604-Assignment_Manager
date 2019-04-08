@@ -321,6 +321,28 @@ public class MainController extends SQLiteOpenHelper{
         return assignment;
     }
 
+    public Cursor getAssignment(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT  * FROM " + TABLE_ASSIGNMENTS + " WHERE " + ASSIGNMENT_TITLE + "='" + id+"'";
+        Cursor cursor = db.rawQuery(query, null);
+        return cursor;
+
+//        Assignment assignment = new Assignment();
+//        if(cursor.getCount() > 0) {
+//            cursor.moveToFirst();
+//
+//            assignment.setAssID(cursor.getInt(cursor.getColumnIndex(ASSIGNMENT_ASSIGNMENTID)));
+//            assignment.setTitle(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_TITLE)));
+//            assignment.setCourseID(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_COURSEID)));
+//            assignment.setDueDate(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_DUEDATE)));
+//            assignment.setStartDate(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_STARTDATE)));
+//            assignment.setNotes(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_NOTES)));
+//            assignment.setProgress(cursor.getInt(cursor.getColumnIndex(ASSIGNMENT_PROGRESS)));
+//        }
+//
+//        return assignment;
+    }
+
     public Checkpoint getCheckpoint(int id){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT  * FROM " + TABLE_CHECKPOINTS + " WHERE " + CHECKPOINT_CHECKPOINTID + "=" + id;
@@ -340,6 +362,28 @@ public class MainController extends SQLiteOpenHelper{
         }
 
         return checkpoint;
+    }
+
+    public Cursor getCheckpoint(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT  * FROM " + TABLE_CHECKPOINTS + " WHERE " + CHECKPOINT_TITLE + "='" + id+"'";
+        Cursor cursor = db.rawQuery(query, null);
+        return cursor;
+
+//        Checkpoint checkpoint = new Checkpoint();
+//        if(cursor.getCount() > 0) {
+//            cursor.moveToFirst();
+//
+//            checkpoint.setCheckID(cursor.getInt(cursor.getColumnIndex(CHECKPOINT_CHECKPOINTID)));
+//            checkpoint.setTitle(cursor.getString(cursor.getColumnIndex(CHECKPOINT_TITLE)));
+//            checkpoint.setAssignmentID(cursor.getInt(cursor.getColumnIndex(CHECKPOINT_ASSIGNMENTID)));
+//            checkpoint.setDueDate(cursor.getString(cursor.getColumnIndex(CHECKPOINT_DUEDATE)));
+//            checkpoint.setStartDate(cursor.getString(cursor.getColumnIndex(CHECKPOINT_STARTDATE)));
+//            checkpoint.setNotes(cursor.getString(cursor.getColumnIndex(CHECKPOINT_NOTES)));
+//            checkpoint.setProgress(cursor.getInt(cursor.getColumnIndex(CHECKPOINT_PROGRESS)));
+//        }
+//
+//        return checkpoint;
     }
 
     public Cursor getCheckpointListHome(){
