@@ -5,22 +5,14 @@
 
     <!--First menu option-->
     <item
-        android:id="@+id/add_course"
-        android:title="@string/add_course"
-        android:visible="false"
+        android:id="@+id/about"
+        android:title="About"
         app:showAsAction="never" />
 
     <!--Second menu option-->
     <item
-        android:id="@+id/add_assignment"
-        android:title="@string/add_assignment"
-        android:visible="false"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/add_checkpoint"
-        android:title="@string/add_checkpoint"
-        android:visible="false"
+        android:id="@+id/help"
+        android:title="Help"
         app:showAsAction="never"/>
 
     <item

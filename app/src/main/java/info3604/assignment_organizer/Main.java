@@ -249,25 +249,17 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     @Override   //Getting which menu item is selected and creating toasts when they are
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent i;
-        switch (item.getItemId()){
-            case R.id.addMenu:
-                Toast.makeText(getApplicationContext(), "Something", Toast.LENGTH_LONG).toString();
+        switch (item.getItemId()) {
+            case R.id.help:
+                Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
+                //startActivity(new Intent(this, course_methods.class));
                 return true;
-            case R.id.add_assignment:
-                i = new Intent(this, assignment_methods.class);
-                startActivity(i);
+            case R.id.about:
+                Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
+               // startActivity(new Intent(this, course_methods.class));
                 return true;
-            case R.id.add_course:
-                i = new Intent(this, course_methods.class);
-                startActivity(i);
-                return true;
-            case R.id.add_checkpoint:
-                i = new Intent(this, checkpoint_methods.class);
-                startActivity(i);
-                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
-
 }
