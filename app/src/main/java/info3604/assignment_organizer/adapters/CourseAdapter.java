@@ -92,9 +92,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         //Picasso.with(mContext).load(course.getImage()).placeholder(R.mipmap.ic_launcher).into(holder.courseImageImgV);
 
         //listen to single view layout click
-        holder.layout.setOnClickListener(new View.OnClickListener() {
+        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setTitle("Choose option");
                 builder.setMessage("Update or delete course?");
@@ -127,6 +127,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                     }
                 });
                 builder.create().show();
+                return true;
             }
         });
 

@@ -57,10 +57,20 @@ public class MainController extends SQLiteOpenHelper{
     }
 
     @Override
+    public void setWriteAheadLoggingEnabled(boolean enabled) {
+        super.setWriteAheadLoggingEnabled(enabled);
+    }
+
+    @Override
+    public void onConfigure(SQLiteDatabase db) {
+        super.onConfigure(db);
+        db.setForeignKeyConstraintsEnabled(true);
+    }
+
+    @Override
     public void onOpen(SQLiteDatabase db) {
         super.onOpen(db);
-        db.execSQL("PRAGMA foreign_keys = ON; ");
-        db.enableWriteAheadLogging();
+        setWriteAheadLoggingEnabled(true);
     }
 
     @Override
@@ -174,44 +184,6 @@ public class MainController extends SQLiteOpenHelper{
         }
 
         return courseLinkedList;
-    }
-
-    public ArrayList<String> getAssignmentStringList() {
-        String query;
-
-        query = "SELECT  * FROM " + TABLE_ASSIGNMENTS;
-
-        ArrayList<String> assignmentLinkedList = new ArrayList<>();
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                assignmentLinkedList.add(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_COURSEID))
-                        +":"+cursor.getString(cursor.getColumnIndex(ASSIGNMENT_TITLE)));
-            } while (cursor.moveToNext());
-        }
-
-        return assignmentLinkedList;
-    }
-
-    public ArrayList<Integer> getAssignmentIDList() {
-        String query;
-
-        query = "SELECT  * FROM " + TABLE_ASSIGNMENTS;
-
-        ArrayList<Integer> assignmentLinkedList = new ArrayList<>();
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                assignmentLinkedList.add(cursor.getInt(cursor.getColumnIndex(ASSIGNMENT_ASSIGNMENTID)));
-            } while (cursor.moveToNext());
-        }
-
-        return assignmentLinkedList;
     }
 
     public List<Assignment> getAssignmentList(String filter) {

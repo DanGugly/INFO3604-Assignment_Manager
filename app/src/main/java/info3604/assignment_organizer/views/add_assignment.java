@@ -7,6 +7,7 @@ import info3604.assignment_organizer.controllers.CourseController;
 import info3604.assignment_organizer.controllers.MainController;
 import info3604.assignment_organizer.controllers.NotifController;
 import info3604.assignment_organizer.models.Assignment;
+import info3604.assignment_organizer.models.Course;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
@@ -146,8 +147,9 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
         String chosenDate = dayFinal+"/"+
                 monthFinal+"/"+
                 yearFinal+
-                " "+hour+":"+
-                minute;
+                " "+hourFinal+":"+
+                +minuteFinal;
+
         Assignment assignment = new Assignment();
         assignment.setDueDate(chosenDate);
 

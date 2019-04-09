@@ -100,9 +100,9 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
         //Picasso.with(mContext).load(assignment.getImage()).placeholder(R.mipmap.ic_launcher).into(holder.assignmentImageImgV);
 
         //listen to single view layout click
-        holder.layout.setOnClickListener(new View.OnClickListener() {
+        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setTitle("Choose option");
                 builder.setMessage("Update or delete assignment?");
@@ -135,6 +135,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
                     }
                 });
                 builder.create().show();
+                return true;
             }
         });
 
