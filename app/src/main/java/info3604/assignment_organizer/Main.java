@@ -30,11 +30,6 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import info3604.assignment_organizer.views.assignment_methods;
-import info3604.assignment_organizer.views.checkpoint_methods;
 import info3604.assignment_organizer.views.course_methods;
 import info3604.assignment_organizer.views.view_checkpoints;
 import info3604.assignment_organizer.views.view_courses;
@@ -106,7 +101,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         }, 100);
 
         if(data.getCount() == 0){
-            Toast.makeText(this,"No Assignments Registered",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"No Assignments Registered",Toast.LENGTH_SHORT).show();
         }
         else{
             String dbString = "" ;
@@ -142,64 +137,67 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             }
         }
 
-        final String[] str = list.toArray(new String[list.size()]);
-        final String[] str2 = list2.toArray(new String[list2.size()]);
+        if(list.size() != 0) {
+            final String[] str = list.toArray(new String[list.size()]);
+            //List of assignments
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-        //List of assignments
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String[] words = str[position].split("\r?\n");
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String[] words = str[position].split("\r?\n");
-
-                Cursor cd = MC.getAssignment(words[0]);
+                    Cursor cd = MC.getAssignment(words[0]);
 //                Toast.makeText(getApplicationContext(),words[0], Toast.LENGTH_LONG).show();
 
-                String word = "";
-                while (cd.moveToNext() ) {
-                    String[] columnNames = cd.getColumnNames();
-                    for (String name : columnNames) {
-                        word += String.format(name + ": %s\n",
-                                cd.getString(cd.getColumnIndex(name)));
+                    String word = "";
+                    while (cd.moveToNext()) {
+                        String[] columnNames = cd.getColumnNames();
+                        for (String name : columnNames) {
+                            word += String.format(name + ": %s\n",
+                                    cd.getString(cd.getColumnIndex(name)));
+                        }
                     }
+                    Intent intent = new Intent(getApplicationContext(), Details.class);
+                    intent.putExtra("Type", "Assignment Details");
+                    intent.putExtra("Details", word);
+                    startActivity(intent);
+
+                    //Toast.makeText(getApplicationContext(), word, Toast.LENGTH_LONG).show();
                 }
-                Intent intent = new Intent(getApplicationContext(), Details.class);
-                intent.putExtra("Type", "Assignment Details");
-                intent.putExtra("Details", word);
-                startActivity(intent);
+            });
+        }
 
-                Toast.makeText(getApplicationContext(),word, Toast.LENGTH_LONG).show();
-            }
-        });
+        //checks if the checkpoint listview is empty
+        if(list2.size() != 0) {
+            final String[] str2 = list2.toArray(new String[list2.size()]);
 
+            //List of Checkpoints
+            listView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-        //List of Checkpoints
-        listView2.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String[] words = str2[position].split("\r?\n");
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String[] words = str2[position].split("\r?\n");
+                    Cursor cd = MC.getCheckpoint(words[0]);
 
-                Cursor cd = MC.getCheckpoint(words[0]);
-
-                String word = "";
-                while (cd.moveToNext() ) {
-                    String[] columnNames = cd.getColumnNames();
-                    for (String name : columnNames) {
-                        word += String.format(name + ": %s\n",
-                                cd.getString(cd.getColumnIndex(name)));
+                    String word = "";
+                    while (cd.moveToNext()) {
+                        String[] columnNames = cd.getColumnNames();
+                        for (String name : columnNames) {
+                            word += String.format(name + ": %s\n",
+                                    cd.getString(cd.getColumnIndex(name)));
+                        }
                     }
+
+                    Intent intent = new Intent(getApplicationContext(), Details.class);
+                    intent.putExtra("Type", "Checkpoint Details");
+                    intent.putExtra("Details", word);
+                    startActivity(intent);
+
+                    //Toast.makeText(getApplicationContext(), word, Toast.LENGTH_LONG).show();
                 }
-
-                Intent intent = new Intent(getApplicationContext(), Details.class);
-                intent.putExtra("Type", "Checkpoint Details");
-                intent.putExtra("Details", word);
-                startActivity(intent);
-
-                Toast.makeText(getApplicationContext(),word, Toast.LENGTH_LONG).show();
-            }
-        });
-
+            });
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

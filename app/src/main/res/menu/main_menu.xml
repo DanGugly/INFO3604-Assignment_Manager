@@ -7,17 +7,20 @@
     <item
         android:id="@+id/add_course"
         android:title="@string/add_course"
+        android:visible="false"
         app:showAsAction="never" />
 
     <!--Second menu option-->
     <item
         android:id="@+id/add_assignment"
         android:title="@string/add_assignment"
+        android:visible="false"
         app:showAsAction="never"/>
 
     <item
         android:id="@+id/add_checkpoint"
         android:title="@string/add_checkpoint"
+        android:visible="false"
         app:showAsAction="never"/>
 
     <item
@@ -25,12 +28,14 @@
         android:title="Filter Spinner"
         app:actionViewClass="android.widget.Spinner"
         android:background="#fff"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        android:visible="false"/>
 
     <item
         android:id="@+id/addMenu"
         android:title="Add"
         android:icon="@android:drawable/ic_menu_add"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom"
+        android:visible="false"/>
 
 </menu>

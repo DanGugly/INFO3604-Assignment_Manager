@@ -1,4 +1,4 @@
-package info3604.assignment_organizer;
+package info3604.assignment_organizer.Widget;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
@@ -7,10 +7,12 @@ import android.os.SystemClock;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import info3604.assignment_organizer.R;
+
 public class WidgetService extends RemoteViewsService {
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        return new WidgetItemFactory(getApplicationContext(), intent);
+        return new info3604.assignment_organizer.Widget.WidgetService.WidgetItemFactory(getApplicationContext(), intent);
     }
 
     class WidgetItemFactory implements RemoteViewsFactory {

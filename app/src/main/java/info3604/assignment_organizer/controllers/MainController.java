@@ -117,7 +117,7 @@ public class MainController extends SQLiteOpenHelper{
 
     public Cursor getAssignmentListHome(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT title, due_date, assignment_progress FROM " + TABLE_ASSIGNMENTS, null);
+        Cursor data = db.rawQuery("SELECT title, due_date FROM " + TABLE_ASSIGNMENTS + " WHERE " + ASSIGNMENT_PROGRESS + "='" + 0 +"'" ,null);
         return data;
     }
 
@@ -388,7 +388,7 @@ public class MainController extends SQLiteOpenHelper{
 
     public Cursor getCheckpointListHome(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT title, due_date, checkpoint_progress FROM " + TABLE_CHECKPOINTS, null);
+        Cursor data = db.rawQuery("SELECT title, due_date FROM " + TABLE_CHECKPOINTS + " WHERE " + CHECKPOINT_PROGRESS + "='" + 0 +"'" , null);
         return data;
     }
 }
