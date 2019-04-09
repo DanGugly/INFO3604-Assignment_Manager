@@ -366,7 +366,7 @@ public class MainController extends SQLiteOpenHelper{
 
     public Cursor getCheckpoint(String id){
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT  * FROM " + TABLE_CHECKPOINTS + " WHERE " + CHECKPOINT_TITLE + "='" + id+"'";
+        String query = "SELECT  title, due_date, notes FROM " + TABLE_CHECKPOINTS + " WHERE " + CHECKPOINT_TITLE + "='" + id+"'";
         Cursor cursor = db.rawQuery(query, null);
         return cursor;
 
