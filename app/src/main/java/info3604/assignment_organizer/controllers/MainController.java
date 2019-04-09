@@ -4,6 +4,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -55,10 +57,20 @@ public class MainController extends SQLiteOpenHelper{
     }
 
     @Override
+    public void setWriteAheadLoggingEnabled(boolean enabled) {
+        super.setWriteAheadLoggingEnabled(enabled);
+    }
+
+    @Override
+    public void onConfigure(SQLiteDatabase db) {
+        super.onConfigure(db);
+        db.setForeignKeyConstraintsEnabled(true);
+    }
+
+    @Override
     public void onOpen(SQLiteDatabase db) {
         super.onOpen(db);
-        db.execSQL("PRAGMA foreign_keys = ON; ");
-        db.enableWriteAheadLogging();
+        setWriteAheadLoggingEnabled(true);
     }
 
     @Override
@@ -115,7 +127,7 @@ public class MainController extends SQLiteOpenHelper{
 
     public Cursor getAssignmentListHome(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT title, due_date, assignment_progress FROM " + TABLE_ASSIGNMENTS, null);
+        Cursor data = db.rawQuery("SELECT title, due_date FROM " + TABLE_ASSIGNMENTS + " WHERE " + ASSIGNMENT_PROGRESS + "='" + 0 +"'" ,null);
         return data;
     }
 
@@ -156,6 +168,24 @@ public class MainController extends SQLiteOpenHelper{
         return courseLinkedList;
     }
 
+    public ArrayList<String> getCourseCodeList() {
+        String query;
+
+        query = "SELECT  * FROM " + TABLE_COURSES;
+
+        ArrayList<String> courseLinkedList = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                courseLinkedList.add(cursor.getString(cursor.getColumnIndex(COURSE_CODE)));
+            } while (cursor.moveToNext());
+        }
+
+        return courseLinkedList;
+    }
+
     public List<Assignment> getAssignmentList(String filter) {
         String query;
         if(filter.equals("")){
@@ -186,6 +216,44 @@ public class MainController extends SQLiteOpenHelper{
             } while (cursor.moveToNext());
         }
 
+
+        return assignmentLinkedList;
+    }
+
+    public ArrayList<String> getAssignmentStringList() {
+        String query;
+
+        query = "SELECT  * FROM " + TABLE_ASSIGNMENTS;
+
+        ArrayList<String> assignmentLinkedList = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                assignmentLinkedList.add(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_COURSEID))
+                        +":"+cursor.getString(cursor.getColumnIndex(ASSIGNMENT_TITLE)));
+            } while (cursor.moveToNext());
+        }
+
+        return assignmentLinkedList;
+    }
+
+    public ArrayList<Integer> getAssignmentIDList() {
+        String query;
+
+        query = "SELECT  * FROM " + TABLE_ASSIGNMENTS;
+
+        ArrayList<Integer> assignmentLinkedList = new ArrayList<>();
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                assignmentLinkedList.add(cursor.getInt(cursor.getColumnIndex(ASSIGNMENT_ASSIGNMENTID)));
+            } while (cursor.moveToNext());
+        }
 
         return assignmentLinkedList;
     }
@@ -263,6 +331,28 @@ public class MainController extends SQLiteOpenHelper{
         return assignment;
     }
 
+    public Cursor getAssignment(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT  * FROM " + TABLE_ASSIGNMENTS + " WHERE " + ASSIGNMENT_TITLE + "='" + id+"'";
+        Cursor cursor = db.rawQuery(query, null);
+        return cursor;
+
+//        Assignment assignment = new Assignment();
+//        if(cursor.getCount() > 0) {
+//            cursor.moveToFirst();
+//
+//            assignment.setAssID(cursor.getInt(cursor.getColumnIndex(ASSIGNMENT_ASSIGNMENTID)));
+//            assignment.setTitle(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_TITLE)));
+//            assignment.setCourseID(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_COURSEID)));
+//            assignment.setDueDate(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_DUEDATE)));
+//            assignment.setStartDate(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_STARTDATE)));
+//            assignment.setNotes(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_NOTES)));
+//            assignment.setProgress(cursor.getInt(cursor.getColumnIndex(ASSIGNMENT_PROGRESS)));
+//        }
+//
+//        return assignment;
+    }
+
     public Checkpoint getCheckpoint(int id){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT  * FROM " + TABLE_CHECKPOINTS + " WHERE " + CHECKPOINT_CHECKPOINTID + "=" + id;
@@ -284,9 +374,31 @@ public class MainController extends SQLiteOpenHelper{
         return checkpoint;
     }
 
+    public Cursor getCheckpoint(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT  * FROM " + TABLE_CHECKPOINTS + " WHERE " + CHECKPOINT_TITLE + "='" + id+"'";
+        Cursor cursor = db.rawQuery(query, null);
+        return cursor;
+
+//        Checkpoint checkpoint = new Checkpoint();
+//        if(cursor.getCount() > 0) {
+//            cursor.moveToFirst();
+//
+//            checkpoint.setCheckID(cursor.getInt(cursor.getColumnIndex(CHECKPOINT_CHECKPOINTID)));
+//            checkpoint.setTitle(cursor.getString(cursor.getColumnIndex(CHECKPOINT_TITLE)));
+//            checkpoint.setAssignmentID(cursor.getInt(cursor.getColumnIndex(CHECKPOINT_ASSIGNMENTID)));
+//            checkpoint.setDueDate(cursor.getString(cursor.getColumnIndex(CHECKPOINT_DUEDATE)));
+//            checkpoint.setStartDate(cursor.getString(cursor.getColumnIndex(CHECKPOINT_STARTDATE)));
+//            checkpoint.setNotes(cursor.getString(cursor.getColumnIndex(CHECKPOINT_NOTES)));
+//            checkpoint.setProgress(cursor.getInt(cursor.getColumnIndex(CHECKPOINT_PROGRESS)));
+//        }
+//
+//        return checkpoint;
+    }
+
     public Cursor getCheckpointListHome(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT title, due_date, checkpoint_progress FROM " + TABLE_CHECKPOINTS, null);
+        Cursor data = db.rawQuery("SELECT title, due_date FROM " + TABLE_CHECKPOINTS + " WHERE " + CHECKPOINT_PROGRESS + "='" + 0 +"'" , null);
         return data;
     }
 }

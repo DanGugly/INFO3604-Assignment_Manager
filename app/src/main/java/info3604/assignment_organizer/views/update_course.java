@@ -19,7 +19,6 @@ import java.util.Arrays;
 public class update_course extends AppCompatActivity {
 
     TextInputEditText name, level, credits;
-    TextView txt;
     CourseController CC;
     String courseID;
 
@@ -30,7 +29,6 @@ public class update_course extends AppCompatActivity {
         name = (TextInputEditText)findViewById(R.id.cname);
         level = (TextInputEditText)findViewById(R.id.clevel);
         credits = (TextInputEditText)findViewById(R.id.ccredits);
-        txt = (TextView)findViewById(R.id.placeholder);
         CC = new CourseController(this);
 
         try {
@@ -69,20 +67,20 @@ public class update_course extends AppCompatActivity {
             String n;
             int lvl, cred;
 
-            n = name.getText().toString();
+            n = name.getText().toString().trim();
 
             if(credits.getText().toString().equals("")){
                 cred = 0;
             }
             else{
-                cred = Integer.parseInt(credits.getText().toString());
+                cred = Integer.parseInt(credits.getText().toString().trim());
             }
 
             if(level.getText().toString().equals("")){
                 lvl = 0;
             }
             else{
-                lvl = Integer.parseInt(level.getText().toString());
+                lvl = Integer.parseInt(level.getText().toString().trim());
             }
 
             Course course = new Course(

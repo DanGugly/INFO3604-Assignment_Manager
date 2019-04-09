@@ -1,46 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/colorBackground">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/assignmentCode"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/assignmentCode_til"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="15dp"
+        app:errorEnabled="true">
+
+        <Spinner
+            android:id="@+id/spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Assignment Code"
-            android:inputType="number" />
+            android:dropDownWidth="match_parent"
+            android:background="@android:drawable/btn_dropdown"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/checkpointTitle_til"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/checkpointTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Title"
-            android:inputType="textCapWords|textAutoCorrect" />
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tv_result_til"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tv_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="false"
-            android:focusable="false"
             android:hint="Date Selected"
-            android:inputType="text" />
+            android:inputType="datetime"
+            android:clickable="false"
+            android:focusable="false"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -53,51 +64,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/save"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Save Checkpoint" />
-
-        <Button
-            android:id="@+id/update"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Update Checkpoint"
-            android:onClick="updateDb"/>
-
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/chkNotes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Extra Notes"
-            android:inputType="textMultiLine|textCapSentences|textAutoCorrect" />
+            android:hint="Extra Notes (Optional)"
+            android:inputType="textMultiLine" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/delete"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Delete Assignment"
-            android:onClick="deleteFromDb"/>
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/chkID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter checkpoint code to delete" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
+    <Button
+        android:id="@+id/save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/placeholder"
-        android:text="Placeholder Text"/>
+        android:text="Save Checkpoint" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

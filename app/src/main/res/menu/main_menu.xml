@@ -5,32 +5,29 @@
 
     <!--First menu option-->
     <item
-        android:id="@+id/add_course"
-        android:title="@string/add_course"
-        app:showAsAction="never" />
+        android:id="@+id/help"
+        android:title="Help"
+        app:showAsAction="never"/>
 
     <!--Second menu option-->
     <item
-        android:id="@+id/add_assignment"
-        android:title="@string/add_assignment"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/add_checkpoint"
-        android:title="@string/add_checkpoint"
-        app:showAsAction="never"/>
+        android:id="@+id/about"
+        android:title="About"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/filterSpinner"
         android:title="Filter Spinner"
         app:actionViewClass="android.widget.Spinner"
         android:background="#fff"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom"
+        android:visible="false"/>
 
     <item
         android:id="@+id/addMenu"
         android:title="Add"
         android:icon="@android:drawable/ic_menu_add"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"
+        android:visible="false"/>
 
 </menu>

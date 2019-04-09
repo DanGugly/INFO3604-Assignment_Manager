@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="colorPrimary">#009688</color>
     <color name="colorPrimaryDark">#00897B</color>
     <color name="colorAccent">#2ECC40</color>
@@ -7,4 +8,14 @@
     <color name="colorText">#000000</color>
     <color name="colorHintText">#000000</color>
     <color name="colorEditText">#000000</color>
+
+    <!--
+    <color name="colorPrimary">#9370DB</color>
+    <color name="colorPrimaryDark">#4B0082</color>
+    <color name="colorAccent">#FF00FF</color>
+    <color name="colorBackground">#000000</color>
+    <color name="colorText">#FFFFFF</color>
+    <color name="colorHintText">#FFFFFF</color>
+    <color name="colorEditText">#FFFFFF</color>
+    -->
 </resources>

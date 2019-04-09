@@ -155,9 +155,6 @@ public class view_checkpoints extends AppCompatActivity implements NavigationVie
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.addMenu:
-                goToAddActivity();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
