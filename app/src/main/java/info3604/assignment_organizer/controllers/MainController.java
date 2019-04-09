@@ -117,7 +117,7 @@ public class MainController extends SQLiteOpenHelper{
 
     public Cursor getAssignmentListHome(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT title, due_date, assignment_progress FROM " + TABLE_ASSIGNMENTS, null);
+        Cursor data = db.rawQuery("SELECT title, due_date, assignment_progress FROM " + TABLE_ASSIGNMENTS + " WHERE " + ASSIGNMENT_PROGRESS + "='" + 0 +"'" ,null);
         return data;
     }
 
@@ -323,7 +323,7 @@ public class MainController extends SQLiteOpenHelper{
 
     public Cursor getAssignment(String id){
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT  * FROM " + TABLE_ASSIGNMENTS + " WHERE " + ASSIGNMENT_TITLE + "='" + id+"'";
+        String query = "SELECT title, due_date, notes, course_id FROM " + TABLE_ASSIGNMENTS + " WHERE " + ASSIGNMENT_TITLE + "='" + id+"'";
         Cursor cursor = db.rawQuery(query, null);
         return cursor;
 
