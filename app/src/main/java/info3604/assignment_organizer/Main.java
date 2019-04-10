@@ -8,6 +8,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import info3604.assignment_organizer.about.About;
 import info3604.assignment_organizer.controllers.MainController;
+import info3604.assignment_organizer.help.Help;
 import info3604.assignment_organizer.views.Details;
 import info3604.assignment_organizer.views.add_assignment;
 import info3604.assignment_organizer.views.add_checkpoint;
@@ -283,7 +284,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         switch (item.getItemId()) {
             case R.id.help:
                 Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
-                //startActivity(new Intent(this, course_methods.class));
+                startActivity(new Intent(this, Help.class));
                 return true;
             case R.id.about:
                 Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
