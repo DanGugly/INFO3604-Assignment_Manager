@@ -110,9 +110,9 @@ public class CheckpointAdapter extends RecyclerView.Adapter<CheckpointAdapter.Vi
         //Picasso.with(mContext).load(checkpoint.getImage()).placeholder(R.mipmap.ic_launcher).into(holder.checkpointImageImgV);
 
         //listen to single view layout click
-        holder.layout.setOnClickListener(new View.OnClickListener() {
+        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setTitle("Choose option");
                 builder.setMessage("Update or delete checkpoint?");
@@ -145,6 +145,7 @@ public class CheckpointAdapter extends RecyclerView.Adapter<CheckpointAdapter.Vi
                     }
                 });
                 builder.create().show();
+                return true;
             }
         });
 

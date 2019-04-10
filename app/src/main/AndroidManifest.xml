@@ -15,17 +15,7 @@
         <activity android:name=".views.Details"
             android:parentActivityName=".Main"></activity>
 
-        <receiver android:name=".NewAppWidget">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/new_app_widget_info" />
-        </receiver>
-
-        <activity android:name=".NewAppWidgetConfigureActivity">
+        <activity android:name=".Widget.NewAppWidgetConfigureActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
@@ -74,7 +64,7 @@
         </receiver>
 
         <service
-            android:name=".WidgetService"
+            android:name=".Widget.WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <activity

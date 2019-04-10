@@ -1,4 +1,4 @@
-package info3604.assignment_organizer;
+package info3604.assignment_organizer.Widget;
 
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
@@ -9,8 +9,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import info3604.assignment_organizer.R;
+
 /**
- * The configuration screen for the {@link NewAppWidget NewAppWidget} AppWidget.
+ * The configuration screen for the {@link info3604.assignment_organizer.Widget.NewAppWidget NewAppWidget} AppWidget.
  */
 public class NewAppWidgetConfigureActivity extends Activity {
 
@@ -20,7 +22,7 @@ public class NewAppWidgetConfigureActivity extends Activity {
     EditText mAppWidgetText;
     View.OnClickListener mOnClickListener = new View.OnClickListener() {
         public void onClick(View v) {
-            final Context context = NewAppWidgetConfigureActivity.this;
+            final Context context = info3604.assignment_organizer.Widget.NewAppWidgetConfigureActivity.this;
 
             // When the button is clicked, store the string locally
             String widgetText = mAppWidgetText.getText().toString();
@@ -57,7 +59,7 @@ public class NewAppWidgetConfigureActivity extends Activity {
         if (titleValue != null) {
             return titleValue;
         } else {
-            return context.getString(R.string.appwidget_text);
+            return context.getString(R.string.appwidgetText);
         }
     }
 
@@ -93,7 +95,6 @@ public class NewAppWidgetConfigureActivity extends Activity {
             return;
         }
 
-        mAppWidgetText.setText(loadTitlePref(NewAppWidgetConfigureActivity.this, mAppWidgetId));
+        mAppWidgetText.setText(loadTitlePref(info3604.assignment_organizer.Widget.NewAppWidgetConfigureActivity.this, mAppWidgetId));
     }
 }
-

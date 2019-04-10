@@ -1,4 +1,4 @@
-package info3604.assignment_organizer;
+package info3604.assignment_organizer.Widget;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -7,6 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.widget.RemoteViews;
+
+import info3604.assignment_organizer.Main;
+import info3604.assignment_organizer.R;
 
 /**
  * Implementation of App Widget functionality.
@@ -68,4 +71,3 @@ public class NewAppWidget extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
     }
 }
-

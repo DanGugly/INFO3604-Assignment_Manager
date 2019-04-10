@@ -30,11 +30,6 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import info3604.assignment_organizer.views.assignment_methods;
-import info3604.assignment_organizer.views.checkpoint_methods;
 import info3604.assignment_organizer.views.course_methods;
 import info3604.assignment_organizer.views.view_checkpoints;
 import info3604.assignment_organizer.views.view_courses;
@@ -106,7 +101,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         }, 100);
 
         if(data.getCount() == 0){
-            Toast.makeText(this,"No Assignments Registered",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"No Assignments Registered",Toast.LENGTH_SHORT).show();
         }
         else{
             String dbString = "" ;
@@ -167,11 +162,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     intent.putExtra("Details", word);
                     startActivity(intent);
 
-                    Toast.makeText(getApplicationContext(), word, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), word, Toast.LENGTH_LONG).show();
                 }
             });
         }
-
 
         //checks if the checkpoint listview is empty
         if(list2.size() != 0) {
@@ -200,11 +194,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     intent.putExtra("Details", word);
                     startActivity(intent);
 
-                    Toast.makeText(getApplicationContext(), word, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), word, Toast.LENGTH_LONG).show();
                 }
             });
         }
-
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -256,25 +249,17 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     @Override   //Getting which menu item is selected and creating toasts when they are
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent i;
-        switch (item.getItemId()){
-            case R.id.addMenu:
-                Toast.makeText(getApplicationContext(), "Something", Toast.LENGTH_LONG).toString();
+        switch (item.getItemId()) {
+            case R.id.help:
+                Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
+                //startActivity(new Intent(this, course_methods.class));
                 return true;
-            case R.id.add_assignment:
-                i = new Intent(this, assignment_methods.class);
-                startActivity(i);
+            case R.id.about:
+                Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
+               // startActivity(new Intent(this, course_methods.class));
                 return true;
-            case R.id.add_course:
-                i = new Intent(this, course_methods.class);
-                startActivity(i);
-                return true;
-            case R.id.add_checkpoint:
-                i = new Intent(this, checkpoint_methods.class);
-                startActivity(i);
-                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
-
 }
