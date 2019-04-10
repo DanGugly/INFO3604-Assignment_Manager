@@ -11,6 +11,10 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.xeoh.android.checkboxgroup.CheckBoxGroup;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -24,10 +28,14 @@ import info3604.assignment_organizer.views.update_checkpoint;
 
 public class CheckpointAdapter extends RecyclerView.Adapter<CheckpointAdapter.ViewHolder>  {
 
+    private HashMap<CheckBox, String> checkBoxMap = new HashMap<>();
+    private CheckBoxGroup<String> checkBoxGroup;
     private List<Checkpoint> mCheckpointList;
     private Context mContext;
     private RecyclerView mRecyclerV;
     private MainController MC;
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView chkCourseCode;
@@ -48,6 +56,10 @@ public class CheckpointAdapter extends RecyclerView.Adapter<CheckpointAdapter.Vi
             dueDate = (TextView)v.findViewById(R.id.dueDate);
             chkCheckbox = (CheckBox) v.findViewById(R.id.chkCheckbox);
         }
+    }
+
+    public CheckBoxGroup<String> getCheckBoxGroup() {
+        return checkBoxGroup;
     }
 
     public void add(int position, Checkpoint checkpoint) {
@@ -92,19 +104,27 @@ public class CheckpointAdapter extends RecyclerView.Adapter<CheckpointAdapter.Vi
         // - replace the contents of the view with that element
 
         final Checkpoint checkpoint = mCheckpointList.get(position);
+
+        checkBoxMap.put(holder.chkCheckbox,String.valueOf(checkpoint.getCheckpointID()));
+        checkBoxGroup = new CheckBoxGroup<>(checkBoxMap,
+                new CheckBoxGroup.CheckedChangeListener<String>() {
+                    @Override
+                    public void onCheckedChange(ArrayList<String> values) {
+                        Log.d("VALUES",values.toString());
+                    }
+                });
+        ArrayList<String> selectedValues = checkBoxGroup.getValues();
+
+        Log.d("Checkbox list",checkBoxMap.values().toString());
+        Log.d("Selected Checkboxes",selectedValues.toString());
+
         holder.chkCourseCode.setText("Course Code: " + MC.getAssignment(checkpoint.getAssignmentID()).getCourseID());
         Log.d("COURSE CODE:", "" + MC.getAssignment(checkpoint.getAssignmentID()).getCourseID());
         holder.assignmentTitle.setText("Assignment Title: " + MC.getAssignment(checkpoint.getAssignmentID()).getTitle());
         holder.checkpointTitle.setText("Checkpoint Title: " + checkpoint.getTitle());
         holder.dueDate.setText("Due Date: " + checkpoint.getDueDate());
+        holder.chkCheckbox.setChecked(false);
 
-        int progress = checkpoint.getProgress();
-        if(progress == 0){
-            holder.chkCheckbox.setChecked(false);
-        }
-        else{
-            holder.chkCheckbox.setChecked(true);
-        }
 
         //If I want to add an image
         //Picasso.with(mContext).load(checkpoint.getImage()).placeholder(R.mipmap.ic_launcher).into(holder.checkpointImageImgV);
@@ -128,14 +148,32 @@ public class CheckpointAdapter extends RecyclerView.Adapter<CheckpointAdapter.Vi
                 builder.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        CheckpointController dbHelper = new CheckpointController(mContext);
-                        dbHelper.deleteCheckpoint(checkpoint.getCheckpointID());
+                        AlertDialog.Builder cancelDialog = new AlertDialog.Builder(mContext);
+                        cancelDialog.setTitle("Choose option");
+                        cancelDialog.setMessage("Are you sure you want to delete this checkpoint?");
 
-                        mCheckpointList.remove(position);
-                        mRecyclerV.removeViewAt(position);
-                        notifyItemRemoved(position);
-                        notifyItemRangeChanged(position, mCheckpointList.size());
-                        notifyDataSetChanged();
+                        cancelDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                CheckpointController dbHelper = new CheckpointController(mContext);
+                                dbHelper.deleteCheckpoint(checkpoint.getCheckpointID());
+
+                                mCheckpointList.remove(position);
+                                mRecyclerV.removeViewAt(position);
+                                notifyItemRemoved(position);
+                                notifyItemRangeChanged(position, mCheckpointList.size());
+                                notifyDataSetChanged();
+                            }
+                        });
+
+                        cancelDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        cancelDialog.create().show();
+
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

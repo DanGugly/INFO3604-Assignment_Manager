@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.xeoh.android.checkboxgroup.CheckBoxGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -155,15 +156,38 @@ public class view_checkpoints extends AppCompatActivity implements NavigationVie
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.completeMenu:
+                completeCheckpoints();
+                return true;
+            case R.id.deleteMenu:
+                deleteCheckpoints();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    private void completeCheckpoints(){
+        CheckBoxGroup<String> checkBoxGroup = adapter.getCheckBoxGroup();
+        Checkpoint checkpoint;
+        for(String chkID: checkBoxGroup.getValues()){
 
-    private void goToAddActivity(){
-        Intent intent = new Intent(this, add_checkpoint.class);
-        startActivity(intent);
+            checkpoint = MC.getCheckpoint(Integer.parseInt(chkID));
+            checkpoint.setProgress(1);
+            CC.updateCheckpoint(checkpoint);
+
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    private void deleteCheckpoints(){
+        CheckBoxGroup<String> checkBoxGroup = adapter.getCheckBoxGroup();
+        for(String checkpoint: checkBoxGroup.getValues()){
+            CC.deleteCheckpoint(Integer.parseInt(checkpoint));
+        }
+        adapter.notifyDataSetChanged();
+        finish();
+        startActivity(getIntent());
     }
 
     protected void onResume() {
