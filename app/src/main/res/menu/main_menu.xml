@@ -32,14 +32,16 @@
 
     <item
         android:id="@+id/deleteMenu"
-        android:title="Delete"
         android:icon="@android:drawable/ic_menu_delete"
-        app:showAsAction="always"/>
+        android:title="Delete"
+        android:visible="false"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/completeMenu"
-        android:title="Completed"
         android:icon="@drawable/checkmark_icon"
-        app:showAsAction="always"/>
+        android:title="Completed"
+        android:visible="false"
+        app:showAsAction="always" />
 
 </menu>
