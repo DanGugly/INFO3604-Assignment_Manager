@@ -147,8 +147,8 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
         String chosenDate = dayFinal+"/"+
                 monthFinal+"/"+
                 yearFinal+
-                " "+hourFinal+":"+
-                +minuteFinal;
+                " "+hour+":"+
+                minute;
 
         Assignment assignment = new Assignment();
         assignment.setDueDate(chosenDate);

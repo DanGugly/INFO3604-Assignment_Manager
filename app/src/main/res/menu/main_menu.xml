@@ -30,4 +30,16 @@
         app:showAsAction="ifRoom"
         android:visible="false"/>
 
+    <item
+        android:id="@+id/deleteMenu"
+        android:title="Delete"
+        android:icon="@android:drawable/ic_menu_delete"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/completeMenu"
+        android:title="Completed"
+        android:icon="@drawable/checkmark_icon"
+        app:showAsAction="always"/>
+
 </menu>

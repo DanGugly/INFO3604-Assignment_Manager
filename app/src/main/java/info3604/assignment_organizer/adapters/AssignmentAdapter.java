@@ -4,12 +4,17 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.xeoh.android.checkboxgroup.CheckBoxGroup;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -22,7 +27,10 @@ import info3604.assignment_organizer.views.update_assignment;
 public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.ViewHolder> {
     
     private List<Assignment> mAssignmentList;
+    private HashMap<CheckBox, String> checkBoxMap = new HashMap<>();
+    private CheckBoxGroup<String> checkBoxGroup;
     private Context mContext;
+
     private RecyclerView mRecyclerV;
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -41,7 +49,12 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
             assignmentTitle = (TextView)v.findViewById(R.id.assignmentTitle);
             dueDate = (TextView)v.findViewById(R.id.dueDate);
             asgCheckbox = (CheckBox) v.findViewById(R.id.asgCheckbox);
+
         }
+    }
+
+    public CheckBoxGroup<String> getCheckBoxGroup() {
+        return checkBoxGroup;
     }
 
     public void add(int position, Assignment assignment) {
@@ -84,17 +97,24 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
         // - replace the contents of the view with that element
 
         final Assignment assignment = mAssignmentList.get(position);
+
+        checkBoxMap.put(holder.asgCheckbox,String.valueOf(assignment.getAssignmentID()));
+        checkBoxGroup = new CheckBoxGroup<>(checkBoxMap,
+                new CheckBoxGroup.CheckedChangeListener<String>() {
+                    @Override
+                    public void onCheckedChange(ArrayList<String> values) {
+                        Log.d("VALUES",values.toString());
+                    }
+                });
+        ArrayList<String> selectedValues = checkBoxGroup.getValues();
+
+        Log.d("Checkbox list",checkBoxMap.values().toString());
+        Log.d("Selected Checkboxes",selectedValues.toString());
+
         holder.courseCode.setText("Course Code: " + assignment.getCourseID());
         holder.assignmentTitle.setText("Assignment Title: " + assignment.getTitle());
         holder.dueDate.setText("Due Date: " + assignment.getDueDate());
-
-        int progress = assignment.getProgress();
-        if(progress == 0){
-            holder.asgCheckbox.setChecked(false);
-        }
-        else{
-            holder.asgCheckbox.setChecked(true);
-        }
+        holder.asgCheckbox.setChecked(false);
 
         //If I want to add an image
         //Picasso.with(mContext).load(assignment.getImage()).placeholder(R.mipmap.ic_launcher).into(holder.assignmentImageImgV);
@@ -118,14 +138,31 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
                 builder.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        AssignmentController dbHelper = new AssignmentController(mContext);
-                        dbHelper.deleteAssignment(assignment.getAssignmentID());
+                        AlertDialog.Builder cancelDialog = new AlertDialog.Builder(mContext);
+                        cancelDialog.setTitle("Choose option");
+                        cancelDialog.setMessage("Are you sure you want to delete this assignment?");
 
-                        mAssignmentList.remove(position);
-                        mRecyclerV.removeViewAt(position);
-                        notifyItemRemoved(position);
-                        notifyItemRangeChanged(position, mAssignmentList.size());
-                        notifyDataSetChanged();
+                        cancelDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                AssignmentController dbHelper = new AssignmentController(mContext);
+                                dbHelper.deleteAssignment(assignment.getAssignmentID());
+
+                                mAssignmentList.remove(position);
+                                mRecyclerV.removeViewAt(position);
+                                notifyItemRemoved(position);
+                                notifyItemRangeChanged(position, mAssignmentList.size());
+                                notifyDataSetChanged();
+                            }
+                        });
+
+                        cancelDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        cancelDialog.create().show();
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
