@@ -153,10 +153,12 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     while (cd.moveToNext()) {
                         String[] columnNames = cd.getColumnNames();
                         for (String name : columnNames) {
-                            word += String.format(name + ": %s\n",
+                            String title = getName(name);
+                            word += String.format(title + ": %s\n",
                                     cd.getString(cd.getColumnIndex(name)));
                         }
                     }
+                    word = removeLine(word);
                     Intent intent = new Intent(getApplicationContext(), Details.class);
                     intent.putExtra("Type", "Assignment Details");
                     intent.putExtra("Details", word);
@@ -184,11 +186,13 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     while (cd.moveToNext()) {
                         String[] columnNames = cd.getColumnNames();
                         for (String name : columnNames) {
-                            word += String.format(name + ": %s\n",
+                            String title = getName(name);
+                            word += String.format(title + ": %s\n",
                                     cd.getString(cd.getColumnIndex(name)));
                         }
                     }
 
+                    word = removeLine(word);
                     Intent intent = new Intent(getApplicationContext(), Details.class);
                     intent.putExtra("Type", "Checkpoint Details");
                     intent.putExtra("Details", word);
@@ -210,6 +214,28 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+    }
+
+    public String getName(String name){
+        if(name.equals("title"))
+            return "Title";
+        if(name.equals("due_date"))
+            return "Due Date";
+        if(name.equals("notes"))
+            return "Notes";
+        if(name.equals("course_id"))
+            return "Course ID";
+        if(name.equals("start_date"))
+            return "Start Date";
+        if(name.equals("assignment_progress"))
+            return "Assignment Progress";
+        return name;
+    }
+
+    public String removeLine(String name){
+        if(name.charAt(name.length() - 1) == '\n')
+            name = name.substring(0, name.length()-1);
+        return name;
     }
 
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
