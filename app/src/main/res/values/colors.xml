@@ -8,6 +8,7 @@
     <color name="colorText">#000000</color>
     <color name="colorHintText">#000000</color>
     <color name="colorEditText">#000000</color>
+    <color name="lightGrey">#A0A0A0</color>
 
     <!--
     <color name="colorPrimary">#9370DB</color>

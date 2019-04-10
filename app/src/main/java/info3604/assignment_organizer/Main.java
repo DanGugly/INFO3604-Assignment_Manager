@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import info3604.assignment_organizer.about.About;
 import info3604.assignment_organizer.controllers.MainController;
 import info3604.assignment_organizer.views.Details;
 import info3604.assignment_organizer.views.add_assignment;
@@ -153,7 +154,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     while (cd.moveToNext()) {
                         String[] columnNames = cd.getColumnNames();
                         for (String name : columnNames) {
-                            String title = getName(name);
+                            String title = getName(name, 2);
                             word += String.format(title + ": %s\n",
                                     cd.getString(cd.getColumnIndex(name)));
                         }
@@ -186,7 +187,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     while (cd.moveToNext()) {
                         String[] columnNames = cd.getColumnNames();
                         for (String name : columnNames) {
-                            String title = getName(name);
+                            String title = getName(name, 1);
                             word += String.format(title + ": %s\n",
                                     cd.getString(cd.getColumnIndex(name)));
                         }
@@ -216,9 +217,11 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         toggle.syncState();
     }
 
-    public String getName(String name){
-        if(name.equals("title"))
-            return "Title";
+    public String getName(String name, int check){
+        if(name.equals("title") && check == 1)
+            return "Checkpoint Title";
+        if(name.equals("title") && check == 2)
+            return "Assignment Title";
         if(name.equals("due_date"))
             return "Due Date";
         if(name.equals("notes"))
@@ -229,6 +232,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             return "Start Date";
         if(name.equals("assignment_progress"))
             return "Assignment Progress";
+        if(name.equals("checkpoint_progress"))
+            return "Checkpoint Progress";
         return name;
     }
 
@@ -282,7 +287,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 return true;
             case R.id.about:
                 Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
-               // startActivity(new Intent(this, course_methods.class));
+                startActivity(new Intent(this, About.class));
                 return true;
 
         }
