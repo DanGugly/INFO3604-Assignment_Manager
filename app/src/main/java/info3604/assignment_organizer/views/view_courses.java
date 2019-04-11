@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import info3604.assignment_organizer.Main;
 import info3604.assignment_organizer.R;
+import info3604.assignment_organizer.about.About;
 import info3604.assignment_organizer.adapters.CourseAdapter;
 import info3604.assignment_organizer.controllers.CourseController;
 import info3604.assignment_organizer.controllers.MainController;
+import info3604.assignment_organizer.help.Help;
 import info3604.assignment_organizer.models.Course;
 
 import android.content.Intent;
@@ -133,9 +135,7 @@ public class view_courses extends AppCompatActivity implements NavigationView.On
         inflater.inflate(R.menu.main_menu, menu);
 
         MenuItem del = menu.findItem(R.id.deleteMenu);
-        MenuItem com = menu.findItem(R.id.completeMenu);
         del.setVisible(true);
-        com.setVisible(true);
         MenuItem item = menu.findItem(R.id.filterSpinner);
         Spinner spinner = (Spinner)item.getActionView();
 
@@ -165,6 +165,14 @@ public class view_courses extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.help:
+                //Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, Help.class));
+                return true;
+            case R.id.about:
+                //Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, About.class));
+                return true;
             case R.id.deleteMenu:
                 deleteCourses();
                 return true;
