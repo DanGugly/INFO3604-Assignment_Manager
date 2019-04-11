@@ -37,9 +37,21 @@
         tortor.
     </string>
 
+    <!--String array for about page-->
+    <string-array name="about_page">
+        <item>App Name: Assignment Organiser/Reminder</item>
+        <item>App Version: 1.1</item>
+        <item>Permissions: Vibrate</item>
+    </string-array>
+
+    <!--Strings for Help Page-->
+    <string name="calendar">A calendar displaying dates</string>
+    <string name="Enter_assignment">To enter an assignment, first press the add button to enter a course. After
+                                    entering a course, proceed to entering an assignment. </string>
+
     <string name="action_share">Share</string>
     <string name="action_reply">Reply</string>
-    <string name="appwidgetText">EXAMPLE</string>
+    <string name="appwidgetText">Assignments</string>
     <string name="configure">Configure</string>
     <string name="add_widget">Add widget</string>
 </resources>
