@@ -59,5 +59,13 @@
             android:textSize="17dp"
             android:gravity="center"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="50dp"
+            android:text="To be continued in the next version..."
+            android:textSize="20dp"
+            android:gravity="center"
+            android:textStyle="bold"/>
     </LinearLayout>
 </ScrollView>

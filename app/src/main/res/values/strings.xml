@@ -39,9 +39,11 @@
 
     <!--String array for about page-->
     <string-array name="about_page">
-        <item>App Name: Assignment Organiser/Reminder</item>
-        <item>App Version: 1.1</item>
-        <item>Permissions: Vibrate</item>
+        <item>*About the project:* \nThis application was developed by students of the University of the West Indies, St. Augustine as their Final year project while pursuing completion of their degrees in the Field of Computer Science.
+        \n\nThe application was built fully using Android Studio and was developed for students to help with organization and time management of assignments.\n\n11/4/19\n</item>
+        <item>Project Supervisor: Ms. Cynthia Cudjoe</item>
+        <item>Project Manager: Elijah Mc Koy \nBSc Computer Science (Special)</item>
+        <item>Programming Lead: Avesh Lutchman \nBSc Computer Science (Special)</item>
     </string-array>
 
     <!--Strings for Help Page-->
