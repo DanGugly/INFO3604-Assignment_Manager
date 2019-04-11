@@ -283,11 +283,11 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.help:
-                Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(this, Help.class));
                 return true;
             case R.id.about:
-                Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(this, About.class));
                 return true;
 
