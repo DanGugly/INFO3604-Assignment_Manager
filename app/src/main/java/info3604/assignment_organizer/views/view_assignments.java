@@ -127,6 +127,10 @@ public class view_assignments extends AppCompatActivity implements NavigationVie
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
 
+        MenuItem del = menu.findItem(R.id.deleteMenu);
+        MenuItem com = menu.findItem(R.id.completeMenu);
+        del.setVisible(true);
+        com.setVisible(true);
         MenuItem item = menu.findItem(R.id.filterSpinner);
         Spinner spinner = (Spinner)item.getActionView();
 
