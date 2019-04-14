@@ -233,16 +233,16 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
             try {
                 Date mDate = sdf.parse(givenDateString);
                 long timeInMilliseconds = mDate.getTime();
-                long millis = System.currentTimeMillis();   //long currentTimeMillis ()-Returns the current time in milliseconds.
-                long seconds = (timeInMilliseconds - millis) / 1000;               //Divide millis by 1000 to get the number of seconds.
+                //long millis = System.currentTimeMillis();   //long currentTimeMillis ()-Returns the current time in milliseconds.
+                //long seconds = (timeInMilliseconds - millis) / 1000;               //Divide millis by 1000 to get the number of seconds.
 
-                if(seconds>3600){
-                    seconds = seconds - 3600;
+                if(timeInMilliseconds>3600000){
+                    timeInMilliseconds = timeInMilliseconds - 3600000;
                 }
 
                 Calendar cal = Calendar.getInstance();
-                cal.add(Calendar.SECOND, (int) seconds);
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+                cal.setTimeInMillis(timeInMilliseconds);
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
 
             } catch (ParseException e) {
                 e.printStackTrace();

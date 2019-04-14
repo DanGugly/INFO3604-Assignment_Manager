@@ -43,8 +43,8 @@ public class NotifController extends BroadcastReceiver{
                 .setTicker(ticker)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setPriority(Notification.PRIORITY_HIGH)
-                .setLights(0xffff00ff,300,100)
-                .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND)
+                //.setLights(0xffff00ff,300,100)
+                .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS)
                 .setContentIntent(pendingIntent).build();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -65,8 +65,9 @@ public class NotifController extends BroadcastReceiver{
             channel.setLightColor(0xffff00ff);
         }
 
-        Random notification_id = new Random();
-        notificationManager.notify(notification_id.nextInt(100), notification);
+        //For indexing notifs Random notification_id = new Random(); notificationManager.notify(notification_id.nextInt(100), notification);
+
+        notificationManager.notify(0, notification);
     }
 
     //Cancel a previous notif
