@@ -231,10 +231,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             return "Course ID";
         if(name.equals("start_date"))
             return "Start Date";
-        if(name.equals("assignment_progress"))
-            return "Assignment Progress";
-        if(name.equals("checkpoint_progress"))
-            return "Checkpoint Progress";
         return name;
     }
 

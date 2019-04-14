@@ -333,7 +333,7 @@ public class MainController extends SQLiteOpenHelper{
 
     public Cursor getAssignment(String id){
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT course_id, title, start_date, due_date, notes, assignment_progress FROM " + TABLE_ASSIGNMENTS + " WHERE " + ASSIGNMENT_TITLE + "='" + id+"'";
+        String query = "SELECT course_id, title, start_date, due_date, notes FROM " + TABLE_ASSIGNMENTS + " WHERE " + ASSIGNMENT_TITLE + "='" + id+"'";
         Cursor cursor = db.rawQuery(query, null);
         return cursor;
 
@@ -376,7 +376,7 @@ public class MainController extends SQLiteOpenHelper{
 
     public Cursor getCheckpoint(String id){
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT assignments.course_id, checkpoints.title, checkpoints.start_date, checkpoints.due_date, checkpoints.notes, checkpoint_progress FROM " + TABLE_CHECKPOINTS + " INNER" + " JOIN " + TABLE_ASSIGNMENTS + " ON " + "checkpoints.assignment_id = assignments.assignment_id" + " WHERE " + "checkpoints.title " + "='" + id+"'";
+        String query = "SELECT assignments.course_id, checkpoints.title, checkpoints.start_date, checkpoints.due_date, checkpoints.notes FROM " + TABLE_CHECKPOINTS + " INNER" + " JOIN " + TABLE_ASSIGNMENTS + " ON " + "checkpoints.assignment_id = assignments.assignment_id" + " WHERE " + "checkpoints.title " + "='" + id+"'";
         Cursor cursor = db.rawQuery(query, null);
         return cursor;
 
