@@ -6,15 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import info3604.assignment_organizer.about.About;
+import info3604.assignment_organizer.views.About;
 import info3604.assignment_organizer.controllers.MainController;
-import info3604.assignment_organizer.help.Help;
+import info3604.assignment_organizer.views.Help;
 import info3604.assignment_organizer.views.Details;
 import info3604.assignment_organizer.views.add_assignment;
 import info3604.assignment_organizer.views.add_checkpoint;
 import info3604.assignment_organizer.views.add_course;
-import info3604.assignment_organizer.views.assignment_methods;
-import info3604.assignment_organizer.views.checkpoint_methods;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -28,11 +26,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
-import info3604.assignment_organizer.views.course_methods;
 import info3604.assignment_organizer.views.view_checkpoints;
 import info3604.assignment_organizer.views.view_courses;
 import info3604.assignment_organizer.views.view_assignments;

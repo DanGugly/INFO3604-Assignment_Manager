@@ -10,11 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import info3604.assignment_organizer.Main;
 import info3604.assignment_organizer.R;
-import info3604.assignment_organizer.about.About;
 import info3604.assignment_organizer.adapters.AssignmentAdapter;
 import info3604.assignment_organizer.controllers.AssignmentController;
 import info3604.assignment_organizer.controllers.MainController;
-import info3604.assignment_organizer.help.Help;
 import info3604.assignment_organizer.models.Assignment;
 
 import android.content.Intent;

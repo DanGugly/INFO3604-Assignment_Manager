@@ -10,11 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import info3604.assignment_organizer.Main;
 import info3604.assignment_organizer.R;
-import info3604.assignment_organizer.about.About;
 import info3604.assignment_organizer.adapters.CheckpointAdapter;
 import info3604.assignment_organizer.controllers.CheckpointController;
 import info3604.assignment_organizer.controllers.MainController;
-import info3604.assignment_organizer.help.Help;
 import info3604.assignment_organizer.models.Checkpoint;
 
 import android.content.Intent;

@@ -5,17 +5,14 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import info3604.assignment_organizer.Main;
 import info3604.assignment_organizer.R;
-import info3604.assignment_organizer.about.About;
 import info3604.assignment_organizer.adapters.CourseAdapter;
 import info3604.assignment_organizer.controllers.CourseController;
 import info3604.assignment_organizer.controllers.MainController;
-import info3604.assignment_organizer.help.Help;
 import info3604.assignment_organizer.models.Course;
 
 import android.content.Intent;
@@ -27,7 +24,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -36,9 +32,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.xeoh.android.checkboxgroup.CheckBoxGroup;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class view_courses extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
