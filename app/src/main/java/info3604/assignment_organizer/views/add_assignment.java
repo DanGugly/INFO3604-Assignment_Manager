@@ -218,8 +218,8 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
 
             Intent notificationIntent = new Intent(this, NotifController.class);
 
-            notificationIntent.putExtra("title", "Assignment: " + assTitle.getText().toString());    //Values should be pulled from DB
-            notificationIntent.putExtra("content", "Notes: "+assNotes.getText().toString() + " Reminder");
+            notificationIntent.putExtra("title", "Assignment: " + assTitle.getText().toString() + " Reminder");    //Values should be pulled from DB
+            notificationIntent.putExtra("content", "Notes: "+assNotes.getText().toString());
             notificationIntent.putExtra("ticker", assTitle.getText().toString());
 
             PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);

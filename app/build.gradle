@@ -4,9 +4,9 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "info3604.assignment_organizer"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 28
-        versionCode 3
+        versionCode 5
         versionName "2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
