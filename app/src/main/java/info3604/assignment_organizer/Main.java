@@ -6,13 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import info3604.assignment_organizer.views.About;
 import info3604.assignment_organizer.controllers.MainController;
+import info3604.assignment_organizer.views.Help;
 import info3604.assignment_organizer.views.Details;
 import info3604.assignment_organizer.views.add_assignment;
 import info3604.assignment_organizer.views.add_checkpoint;
 import info3604.assignment_organizer.views.add_course;
-import info3604.assignment_organizer.views.assignment_methods;
-import info3604.assignment_organizer.views.checkpoint_methods;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -26,11 +26,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
-import info3604.assignment_organizer.views.course_methods;
 import info3604.assignment_organizer.views.view_checkpoints;
 import info3604.assignment_organizer.views.view_courses;
 import info3604.assignment_organizer.views.view_assignments;
@@ -153,10 +151,12 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     while (cd.moveToNext()) {
                         String[] columnNames = cd.getColumnNames();
                         for (String name : columnNames) {
-                            word += String.format(name + ": %s\n",
+                            String title = getName(name, 2);
+                            word += String.format(title + ": %s\n",
                                     cd.getString(cd.getColumnIndex(name)));
                         }
                     }
+                    word = removeLine(word);
                     Intent intent = new Intent(getApplicationContext(), Details.class);
                     intent.putExtra("Type", "Assignment Details");
                     intent.putExtra("Details", word);
@@ -184,11 +184,13 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     while (cd.moveToNext()) {
                         String[] columnNames = cd.getColumnNames();
                         for (String name : columnNames) {
-                            word += String.format(name + ": %s\n",
+                            String title = getName(name, 1);
+                            word += String.format(title + ": %s\n",
                                     cd.getString(cd.getColumnIndex(name)));
                         }
                     }
 
+                    word = removeLine(word);
                     Intent intent = new Intent(getApplicationContext(), Details.class);
                     intent.putExtra("Type", "Checkpoint Details");
                     intent.putExtra("Details", word);
@@ -210,6 +212,28 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+    }
+
+    public String getName(String name, int check){
+        if(name.equals("title") && check == 1)
+            return "Checkpoint Title";
+        if(name.equals("title") && check == 2)
+            return "Assignment Title";
+        if(name.equals("due_date"))
+            return "Due Date";
+        if(name.equals("notes"))
+            return "Notes";
+        if(name.equals("course_id"))
+            return "Course ID";
+        if(name.equals("start_date"))
+            return "Start Date";
+        return name;
+    }
+
+    public String removeLine(String name){
+        if(name.charAt(name.length() - 1) == '\n')
+            name = name.substring(0, name.length()-1);
+        return name;
     }
 
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -251,12 +275,12 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.help:
-                Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
-                //startActivity(new Intent(this, course_methods.class));
+                //Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, Help.class));
                 return true;
             case R.id.about:
-                Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
-               // startActivity(new Intent(this, course_methods.class));
+                //Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, About.class));
                 return true;
 
         }

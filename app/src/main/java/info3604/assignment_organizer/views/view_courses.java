@@ -5,7 +5,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +29,7 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.xeoh.android.checkboxgroup.CheckBoxGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,6 +128,8 @@ public class view_courses extends AppCompatActivity implements NavigationView.On
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
 
+        MenuItem del = menu.findItem(R.id.deleteMenu);
+        del.setVisible(true);
         MenuItem item = menu.findItem(R.id.filterSpinner);
         Spinner spinner = (Spinner)item.getActionView();
 
@@ -157,15 +159,31 @@ public class view_courses extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.help:
+                //Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, Help.class));
+                return true;
+            case R.id.about:
+                //Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, About.class));
+                return true;
+            case R.id.deleteMenu:
+                deleteCourses();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
 
-    private void goToAddActivity(){
-        Intent intent = new Intent(this, add_course.class);
-        startActivity(intent);
+    private void deleteCourses(){
+        CheckBoxGroup<String> checkBoxGroup = adapter.getCheckBoxGroup();
+        for(String course: checkBoxGroup.getValues()){
+            CC.deleteCourse(course);
+        }
+        adapter.notifyDataSetChanged();
+        finish();
+        startActivity(getIntent());
     }
 
     protected void onResume() {

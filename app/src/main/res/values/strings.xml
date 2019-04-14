@@ -37,9 +37,24 @@
         tortor.
     </string>
 
+    <!--String array for about page-->
+    <string-array name="about_page">
+        <item>*About the project:* \nThis application was developed by students of the University of the West Indies, St. Augustine as their Final year project while pursuing completion of their degrees in the Field of Computer Science.
+        \n\nThe application was built fully using Android Studio and was developed for students to help with organization and time management of assignments.\n\n11/4/19\n</item>
+        <item>Project Supervisor: Ms. Cynthia Cudjoe</item>
+        <item>Project Manager: Elijah Mc Koy \nBSc Computer Science (Special)</item>
+        <item>Programming Lead: Avesh Lutchman \nBSc Computer Science (Special)</item>
+        <item>Documentation: Liam Gilbert \nBSc Computer Science (Special)</item>
+    </string-array>
+
+    <!--Strings for Help Page-->
+    <string name="calendar">A calendar displaying dates</string>
+    <string name="Enter_assignment">To enter an assignment, first press the add button to enter a course. After
+                                    entering a course, proceed to entering an assignment. </string>
+
     <string name="action_share">Share</string>
     <string name="action_reply">Reply</string>
-    <string name="appwidgetText">EXAMPLE</string>
+    <string name="appwidgetText">Assignments</string>
     <string name="configure">Configure</string>
     <string name="add_widget">Add widget</string>
 </resources>

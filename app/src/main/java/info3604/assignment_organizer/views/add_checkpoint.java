@@ -232,8 +232,8 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
 
             Intent notificationIntent = new Intent(this, NotifController.class);
 
-            notificationIntent.putExtra("title", "Checkpoint: " + checkpointTitle.getText().toString());    //Values should be pulled from DB
-            notificationIntent.putExtra("content", "Notes: "+chkNotes.getText().toString() + " Reminder");
+            notificationIntent.putExtra("title", "Checkpoint: " + checkpointTitle.getText().toString()+ " Reminder");    //Values should be pulled from DB
+            notificationIntent.putExtra("content", "Notes: "+chkNotes.getText().toString());
             notificationIntent.putExtra("ticker", checkpointTitle.getText().toString());
 
             PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -244,14 +244,15 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             try {
                 Date mDate = sdf.parse(givenDateString);
-                long timeInMilliseconds = mDate.getTime();
-                long millis = System.currentTimeMillis();   //long currentTimeMillis ()-Returns the current time in milliseconds.
-                long seconds = (timeInMilliseconds - millis) / 1000;               //Divide millis by 1000 to get the number of seconds.
+                //long timeInMilliseconds = mDate.getTime();
+                //long millis = System.currentTimeMillis();   //long currentTimeMillis ()-Returns the current time in milliseconds.
+                //long seconds = (timeInMilliseconds - millis) / 1000;               //Divide millis by 1000 to get the number of seconds.
 
-
+                Log.d("TIMEl", "time: "+mDate.getTime());
                 Calendar cal = Calendar.getInstance();
-                cal.add(Calendar.SECOND, (int) seconds);
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+                //cal.add(Calendar.SECOND, (int) seconds);
+                cal.setTimeInMillis(mDate.getTime());
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
 
             } catch (ParseException e) {
                 e.printStackTrace();

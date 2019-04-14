@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.xeoh.android.checkboxgroup.CheckBoxGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,6 +127,10 @@ public class view_assignments extends AppCompatActivity implements NavigationVie
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
 
+        MenuItem del = menu.findItem(R.id.deleteMenu);
+        MenuItem com = menu.findItem(R.id.completeMenu);
+        del.setVisible(true);
+        com.setVisible(true);
         MenuItem item = menu.findItem(R.id.filterSpinner);
         Spinner spinner = (Spinner)item.getActionView();
 
@@ -155,15 +160,47 @@ public class view_assignments extends AppCompatActivity implements NavigationVie
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.help:
+                //Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, Help.class));
+                return true;
+            case R.id.about:
+                //Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, About.class));
+                return true;
+            case R.id.completeMenu:
+                completeAssignments();
+                return true;
+            case R.id.deleteMenu:
+                deleteAssignments();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
 
-    private void goToAddActivity(){
-        Intent intent = new Intent(this, add_assignment.class);
-        startActivity(intent);
+    private void completeAssignments(){
+        CheckBoxGroup<String> checkBoxGroup = adapter.getCheckBoxGroup();
+        Assignment assignment;
+        for(String assID: checkBoxGroup.getValues()){
+
+            assignment = MC.getAssignment(Integer.parseInt(assID));
+            assignment.setProgress(1);
+            AC.updateAssignment(assignment);
+
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    private void deleteAssignments(){
+        CheckBoxGroup<String> checkBoxGroup = adapter.getCheckBoxGroup();
+        for(String assignment: checkBoxGroup.getValues()){
+            AC.deleteAssignment(Integer.parseInt(assignment));
+        }
+        adapter.notifyDataSetChanged();
+        finish();
+        startActivity(getIntent());
     }
 
     protected void onResume() {

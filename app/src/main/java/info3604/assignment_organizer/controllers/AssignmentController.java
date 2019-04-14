@@ -47,25 +47,6 @@ public class AssignmentController{
         mController.close();
     }
 
-    /*
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        String query = "CREATE TABLE " + TABLE_ASSIGNMENTS+ "(" +
-                COLUMN_ASSIGNMENTID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                COLUMN_TITLE + " TEXT NOT NULL, " +
-                COLUMN_DUEDATE + " TEXT NOT NULL, " +
-                COLUMN_NOTES + " TEXT, " +
-                COLUMN_COURSEID + " TEXT REFERENCES " + TABLE_COURSES + "(code) ON UPDATE CASCADE" +
-                ");";
-                db.execSQL(query);
-    }
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(" DROP TABLE IF EXISTS " + TABLE_ASSIGNMENTS);
-        onCreate(db);
-    }
-    */
-
     public boolean addAssignment(Assignment assignment){
         Log.d("ASSIGNMENT DATE:",""+assignment.getStartDate());
         mDatabase.beginTransactionNonExclusive();
@@ -128,18 +109,6 @@ public class AssignmentController{
         mDatabase.setTransactionSuccessful();
         mDatabase.endTransaction();
         return hasObject;
-        /*
-        String[] columns = { COLUMN_ASSIGNMENTID };
-        String selection = COLUMN_ASSIGNMENTID + " =?";
-        String[] selectionArgs = { assignmentID };
-        String limit = "1";
-        Cursor cursor = mDatabase.query(TABLE_COURSES, columns, selection, selectionArgs, null, null, null, limit);
-        boolean exists = (cursor.getCount() > 0);
-        cursor.close();
-        mDatabase.setTransactionSuccessful();
-        mDatabase.endTransaction();
-        return exists;
-        */
     }
 
     public String toString(){
