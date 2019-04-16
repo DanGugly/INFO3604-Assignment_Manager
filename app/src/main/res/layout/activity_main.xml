@@ -30,6 +30,7 @@
                 android:layout_height="match_parent">
             </FrameLayout>
         </androidx.appcompat.widget.Toolbar>
+
         <CalendarView
 
             android:id="@+id/calendarView"
@@ -45,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:padding="10dp"
+            android:paddingTop="10dp"
             android:text="Upcoming Checkpoints and Assignments"
             android:textAppearance="@android:style/TextAppearance.Holo.Widget.ActionMode.Title"
             tools:layout_editor_absoluteX="159dp"
@@ -57,10 +58,9 @@
 
             <ListView
                 android:id="@+id/listView2"
-                android:layout_width="183dp"
-                android:layout_height="200dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
+                android:layout_width="159dp"
+                android:layout_height="233dp"
+                android:layout_marginStart="44dp"
                 android:layout_marginTop="4dp"
                 android:entries="@array/sampleC"
                 android:textAlignment="center"
@@ -69,11 +69,10 @@
 
             <ListView
                 android:id="@+id/listView"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="159dp"
+                android:layout_height="230dp"
                 android:layout_marginTop="4dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginRight="4dp"
+                android:layout_marginEnd="28dp"
                 android:entries="@array/sampleA"
                 android:longClickable="false"
                 android:textAlignment="center"
@@ -89,7 +88,7 @@
 
             <io.github.yavski.fabspeeddial.FabSpeedDial
                 android:id="@+id/speedDial"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_marginBottom="16dp"
