@@ -1,38 +1,47 @@
 package info3604.assignment_organizer;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import info3604.assignment_organizer.controllers.MainController;
+import info3604.assignment_organizer.models.Assignment;
 import info3604.assignment_organizer.views.add_assignment;
 import info3604.assignment_organizer.views.add_checkpoint;
 import info3604.assignment_organizer.views.add_course;
 import info3604.assignment_organizer.views.assignment_methods;
 import info3604.assignment_organizer.views.checkpoint_methods;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+
+import com.applandeo.materialcalendarview.CalendarView;
+import com.applandeo.materialcalendarview.EventDay;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import info3604.assignment_organizer.views.assignment_methods;
-import info3604.assignment_organizer.views.checkpoint_methods;
+
 import info3604.assignment_organizer.views.course_methods;
 import info3604.assignment_organizer.views.view_checkpoints;
 import info3604.assignment_organizer.views.view_courses;
@@ -40,15 +49,22 @@ import info3604.assignment_organizer.views.view_assignments;
 import io.github.yavski.fabspeeddial.FabSpeedDial;
 import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private DrawerLayout drawer;
     private MainController MC;
     private ArrayList<String> list, list2;
-
     private FabSpeedDial fab;
+    private CalendarView calendarView;
+    private List<EventDay> events;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +74,23 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         ListView listView = (ListView)findViewById(R.id.listView);
         ListView listView2 = (ListView)findViewById(R.id.listView2);
         ListAdapter listAdapter, listAdapter2;
-
         fab = (FabSpeedDial) findViewById(R.id.speedDial);
         final View obscure = findViewById(R.id.obscure);
 
         MC = new MainController(this);
+
+        Calendar calendar = Calendar.getInstance();
+
+        calendarView = (CalendarView) findViewById(R.id.calendarView);
+        events = getEventDates();
+
+        for(EventDay e:events){
+            Log.d("Event e",e.getCalendar().getTime()+"");
+        }
+
+
+        calendarView.setEvents(events);
+
 
         list = new ArrayList<>();
         list2 = new ArrayList<>();
@@ -206,5 +234,31 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public List<EventDay> getEventDates(){
+
+        List<String> dates = MC.getAllDates();
+        List<EventDay> eventList = new ArrayList<>();
+        EventDay eventDay;
+
+        for(String d:dates){
+            eventDay = new EventDay(string2Calendar(d),R.drawable.ic_assignment);
+            eventList.add(eventDay);
+        }
+        return eventList;
+    }
+
+    public Calendar string2Calendar(String d){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        try{
+            Date mDate = sdf.parse(d);
+            calendar.setTime(mDate);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return calendar;
     }
 }

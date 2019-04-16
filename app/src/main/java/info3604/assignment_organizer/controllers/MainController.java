@@ -357,4 +357,21 @@ public class MainController extends SQLiteOpenHelper{
         Cursor data = db.rawQuery("SELECT title, due_date, checkpoint_progress FROM " + TABLE_CHECKPOINTS, null);
         return data;
     }
+
+    public List<String> getAllDates(){
+        Cursor assignmentCursor = getAssignmentList();
+        Cursor checkpointCursor = getCheckpointList();
+        List<String> dates = new LinkedList<>();
+        if (assignmentCursor.moveToFirst()) {
+            do {
+                dates.add(assignmentCursor.getString(assignmentCursor.getColumnIndex(ASSIGNMENT_DUEDATE)));
+            } while (assignmentCursor.moveToNext());
+        }
+        if (checkpointCursor.moveToFirst()) {
+            do {
+                dates.add(checkpointCursor.getString(checkpointCursor.getColumnIndex(CHECKPOINT_DUEDATE)));
+            } while (checkpointCursor.moveToNext());
+        }
+        return dates;
+    }
 }
