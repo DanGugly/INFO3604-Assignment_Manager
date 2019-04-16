@@ -75,7 +75,7 @@ public class CheckpointController {
             values.put(COLUMN_TITLE, checkpoint.getTitle());
         if(!checkpoint.getDueDate().equals(""))
             values.put(COLUMN_DUEDATE, checkpoint.getDueDate());
-        if(checkpoint.getProgress() == 0 || checkpoint.getProgress() == 1)
+        if(checkpoint.getProgress() == 0 || checkpoint.getProgress() == 1 || checkpoint.getProgress() == -1)
             values.put(COLUMN_PROGRESS, checkpoint.getProgress());
         Log.d("CHECKPOINT UPDATE", values.toString());
         long result = mDatabase.update(TABLE_CHECKPOINTS, values, "checkpoint_id=?", new String[] {Integer.toString(checkpoint.getCheckpointID())});

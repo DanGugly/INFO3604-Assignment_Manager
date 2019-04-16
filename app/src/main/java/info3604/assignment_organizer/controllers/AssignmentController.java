@@ -76,7 +76,7 @@ public class AssignmentController{
             values.put(COLUMN_TITLE, assignment.getTitle());
         if(!assignment.getDueDate().equals(""))
             values.put(COLUMN_DUEDATE, assignment.getDueDate());
-        if(assignment.getProgress() == 0 || assignment.getProgress() == 1)
+        if(assignment.getProgress() == 0 || assignment.getProgress() == 1 || assignment.getProgress() == -1)
             values.put(COLUMN_PROGRESS, assignment.getProgress());
 
         Log.d("ASSIGNMENT UPDATE", values.toString());
