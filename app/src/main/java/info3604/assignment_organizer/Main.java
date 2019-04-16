@@ -72,6 +72,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         Calendar calendar = Calendar.getInstance();
 
         calendarView = (CalendarView) findViewById(R.id.calendarView);
+        calendarView.showCurrentMonthPage();
+
         events = getEventDates();
 
         for(EventDay e:events){
