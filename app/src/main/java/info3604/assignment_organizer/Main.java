@@ -6,6 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import info3604.assignment_organizer.controllers.AssignmentController;
+import info3604.assignment_organizer.controllers.CheckpointController;
+import info3604.assignment_organizer.models.Assignment;
+import info3604.assignment_organizer.models.Checkpoint;
 import info3604.assignment_organizer.views.About;
 import info3604.assignment_organizer.controllers.MainController;
 import info3604.assignment_organizer.views.Help;
@@ -48,12 +52,13 @@ import java.util.List;
 public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private DrawerLayout drawer;
     private MainController MC;
+    private CheckpointController CC;
+    private AssignmentController AC;
     private ArrayList<String> list, list2;
-
     private FabSpeedDial fab;
-
     private CalendarView calendarView;
     private List<EventDay> events;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +73,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         final View obscure = findViewById(R.id.obscure);
 
         MC = new MainController(this);
+        AC = new AssignmentController(this);
+        CC = new CheckpointController(this);
 
         Calendar calendar = Calendar.getInstance();
 
@@ -77,6 +84,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         for(EventDay e:events){
             Log.d("Event e",e.getCalendar().getTime()+"");
         }
+
 
         calendarView.setEvents(events);
 
@@ -339,4 +347,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         }
         return calendar;
     }
+
+
 }

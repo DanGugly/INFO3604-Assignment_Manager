@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.xeoh.android.checkboxgroup.CheckBoxGroup;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import info3604.assignment_organizer.R;
 import info3604.assignment_organizer.controllers.CheckpointController;
@@ -42,7 +44,9 @@ public class CheckpointAdapter extends RecyclerView.Adapter<CheckpointAdapter.Vi
         public TextView assignmentTitle;
         public TextView checkpointTitle;
         public TextView dueDate;
+        public TextView chkProgress;
         public CheckBox chkCheckbox;
+        public MaterialCardView materialCardView;
 
         public View layout;
 
@@ -55,6 +59,8 @@ public class CheckpointAdapter extends RecyclerView.Adapter<CheckpointAdapter.Vi
             assignmentTitle = (TextView)v.findViewById(R.id.assignmentTitle);
             dueDate = (TextView)v.findViewById(R.id.dueDate);
             chkCheckbox = (CheckBox) v.findViewById(R.id.chkCheckbox);
+            materialCardView = (MaterialCardView)v.findViewById(R.id.checkpoint_cardView);
+            chkProgress = (TextView)v.findViewById(R.id.chkProgress);
         }
     }
 
@@ -125,6 +131,21 @@ public class CheckpointAdapter extends RecyclerView.Adapter<CheckpointAdapter.Vi
         holder.dueDate.setText("Due Date: " + checkpoint.getDueDate());
         holder.chkCheckbox.setChecked(false);
 
+        String progressText = "Progress: ";
+        if(checkpoint.getProgress()==0){
+            holder.materialCardView.setBackgroundColor(ContextCompat.getColor(mContext,R.color.Ongoing));
+            progressText += "Ongoing";
+        }
+        else if(checkpoint.getProgress()==1){
+            holder.materialCardView.setBackgroundColor(ContextCompat.getColor(mContext,R.color.Completed));
+            progressText += "Completed";
+        }
+        else if(checkpoint.getProgress()==-1){
+            holder.materialCardView.setBackgroundColor(ContextCompat.getColor(mContext,R.color.Missed));
+            progressText += "Overdue";
+        }
+
+        holder.chkProgress.setText(progressText);
 
         //If I want to add an image
         //Picasso.with(mContext).load(checkpoint.getImage()).placeholder(R.mipmap.ic_launcher).into(holder.checkpointImageImgV);

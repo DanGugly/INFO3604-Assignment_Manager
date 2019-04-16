@@ -13,6 +13,7 @@ import info3604.assignment_organizer.R;
 import info3604.assignment_organizer.adapters.CheckpointAdapter;
 import info3604.assignment_organizer.controllers.CheckpointController;
 import info3604.assignment_organizer.controllers.MainController;
+import info3604.assignment_organizer.models.Assignment;
 import info3604.assignment_organizer.models.Checkpoint;
 
 import android.app.AlertDialog;
@@ -87,6 +88,7 @@ public class view_checkpoints extends AppCompatActivity implements NavigationVie
                 Toast.makeText(getApplicationContext(),"Adding Checkpoint..", Toast.LENGTH_LONG).toString();
             }
         });
+        checkOverdueCheckpoints();
     }
 
     private void populaterecyclerView(String filter){
@@ -94,6 +96,7 @@ public class view_checkpoints extends AppCompatActivity implements NavigationVie
         CC = new CheckpointController(this);
         adapter = new CheckpointAdapter(MC.getCheckpointList(filter), this, mRecyclerView);
         Log.d("Checkpoint List Count:",""+adapter.getItemCount());
+        checkOverdueCheckpoints();
         mRecyclerView.setAdapter(adapter);
     }
 
@@ -207,6 +210,8 @@ public class view_checkpoints extends AppCompatActivity implements NavigationVie
 
         }
         adapter.notifyDataSetChanged();
+        finish();
+        startActivity(getIntent());
     }
 
     private void deleteCheckpoints(){
@@ -221,6 +226,26 @@ public class view_checkpoints extends AppCompatActivity implements NavigationVie
 
     protected void onResume() {
         super.onResume();
+        checkOverdueCheckpoints();
+        adapter.notifyDataSetChanged();
+    }
+
+    private void checkOverdueCheckpoints(){
+        List<Checkpoint> checkpointList = MC.getCheckpointList("");
+        Assignment assignment;
+        Checkpoint checkpoint;
+        for(Checkpoint c: checkpointList){
+
+            checkpoint = MC.getCheckpoint(c.getCheckpointID());
+            assignment = MC.getAssignment(c.getAssignmentID());
+            if((checkpoint.isPastDueDate() || assignment.isPastDueDate()) &&
+                    (assignment.getProgress()!=1||checkpoint.getProgress()!=1)){
+                checkpoint.setProgress(-1);
+            }
+            Log.d("Progress",checkpoint.getTitle()+ " " + checkpoint.getProgress());
+            CC.updateCheckpoint(checkpoint);
+
+        }
         adapter.notifyDataSetChanged();
     }
 }

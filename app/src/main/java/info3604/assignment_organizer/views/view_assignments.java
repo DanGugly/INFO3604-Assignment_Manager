@@ -87,7 +87,7 @@ public class view_assignments extends AppCompatActivity implements NavigationVie
                 Toast.makeText(getApplicationContext(),"Adding Assignment..", Toast.LENGTH_LONG).show();
             }
         });
-
+        checkOverdueAssignments();
     }
 
     private void populaterecyclerView(String filter){
@@ -208,6 +208,8 @@ public class view_assignments extends AppCompatActivity implements NavigationVie
 
         }
         adapter.notifyDataSetChanged();
+        finish();
+        startActivity(getIntent());
     }
 
     private void deleteAssignments(){
@@ -222,6 +224,23 @@ public class view_assignments extends AppCompatActivity implements NavigationVie
 
     protected void onResume() {
         super.onResume();
+        checkOverdueAssignments();
         adapter.notifyDataSetChanged();
     }
+
+    private void checkOverdueAssignments(){
+        List<Assignment> assignmentList = MC.getAssignmentList("");
+        Assignment assignment;
+        for(Assignment a: assignmentList){
+
+            assignment = MC.getAssignment(a.getAssignmentID());
+            if(assignment.isPastDueDate() && assignment.getProgress()!=1){assignment.setProgress(-1);}
+            AC.updateAssignment(assignment);
+            //Log.d("Progress",assignment.getTitle()+" "+assignment.getProgress());
+
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+
 }

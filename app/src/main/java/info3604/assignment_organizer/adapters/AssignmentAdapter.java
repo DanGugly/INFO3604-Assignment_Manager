@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.xeoh.android.checkboxgroup.CheckBoxGroup;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import info3604.assignment_organizer.R;
 import info3604.assignment_organizer.controllers.AssignmentController;
@@ -30,7 +32,6 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
     private HashMap<CheckBox, String> checkBoxMap = new HashMap<>();
     private CheckBoxGroup<String> checkBoxGroup;
     private Context mContext;
-
     private RecyclerView mRecyclerV;
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -38,7 +39,8 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
         public TextView assignmentTitle;
         public TextView dueDate;
         public CheckBox asgCheckbox;
-
+        public MaterialCardView materialCardView;
+        public TextView assProgress;
         public View layout;
 
         public ViewHolder(View v) {
@@ -49,7 +51,8 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
             assignmentTitle = (TextView)v.findViewById(R.id.assignmentTitle);
             dueDate = (TextView)v.findViewById(R.id.dueDate);
             asgCheckbox = (CheckBox) v.findViewById(R.id.asgCheckbox);
-
+            materialCardView = (MaterialCardView)v.findViewById(R.id.assignment_cardView);
+            assProgress = (TextView)v.findViewById(R.id.assProgress);
         }
     }
 
@@ -114,7 +117,25 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
         holder.courseCode.setText("Course Code: " + assignment.getCourseID());
         holder.assignmentTitle.setText("Assignment Title: " + assignment.getTitle());
         holder.dueDate.setText("Due Date: " + assignment.getDueDate());
+        String progressText = "Progress: ";
         holder.asgCheckbox.setChecked(false);
+
+        Log.d("Progress",assignment.getTitle()+ " " +assignment.getProgress());
+
+        if(assignment.getProgress()==0){
+            holder.materialCardView.setBackgroundColor(ContextCompat.getColor(mContext,R.color.Ongoing));
+            progressText += "Ongoing";
+        }
+        else if(assignment.getProgress()==1){
+            holder.materialCardView.setBackgroundColor(ContextCompat.getColor(mContext,R.color.Completed));
+            progressText += "Completed";
+        }
+        else if(assignment.getProgress()==-1){
+            holder.materialCardView.setBackgroundColor(ContextCompat.getColor(mContext,R.color.Missed));
+            progressText += "Overdue";
+        }
+
+        holder.assProgress.setText(progressText);
 
         //If I want to add an image
         //Picasso.with(mContext).load(assignment.getImage()).placeholder(R.mipmap.ic_launcher).into(holder.assignmentImageImgV);

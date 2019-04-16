@@ -10,13 +10,7 @@
     <color name="colorEditText">#000000</color>
     <color name="lightGrey">#A0A0A0</color>
 
-    <!--
-    <color name="colorPrimary">#9370DB</color>
-    <color name="colorPrimaryDark">#4B0082</color>
-    <color name="colorAccent">#FF00FF</color>
-    <color name="colorBackground">#000000</color>
-    <color name="colorText">#FFFFFF</color>
-    <color name="colorHintText">#FFFFFF</color>
-    <color name="colorEditText">#FFFFFF</color>
-    -->
+    <color name="Completed">#00FF00</color>
+    <color name="Missed">#FF0000</color>
+    <color name="Ongoing">#00FFFF</color>
 </resources>
