@@ -9,6 +9,9 @@
     <color name="colorHintText">#000000</color>
     <color name="colorEditText">#000000</color>
     <color name="lightGrey">#A0A0A0</color>
+    <color name="Completed">#00FF00</color>
+    <color name="Missed">#FF0000</color>
+    <color name="Ongoing">#00FFFF</color>
 
     <!--
     <color name="colorPrimary">#9370DB</color>
