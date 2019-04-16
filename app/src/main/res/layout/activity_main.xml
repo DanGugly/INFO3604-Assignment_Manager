@@ -15,6 +15,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -28,17 +29,17 @@
                 android:id="@+id/fragment_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
             </FrameLayout>
         </androidx.appcompat.widget.Toolbar>
-        <CalendarView
 
+        <com.applandeo.materialcalendarview.CalendarView
             android:id="@+id/calendarView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/colorPrimary"
-            android:dateTextAppearance="@color/colorText"
-            android:weekDayTextAppearance="@color/colorText" />
+            app:headerColor="@color/colorPrimary"
+            app:selectionColor="@color/colorAccent"
+            />
 
         <TextView
             android:id="@+id/textView"
@@ -107,6 +108,7 @@
                 app:miniFabDrawableTint="?attr/colorPrimaryDark"
                 app:miniFabTitleTextColor="?attr/colorPrimaryDark" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.appcompat.widget.LinearLayoutCompat>
     <com.google.android.material.navigation.NavigationView
