@@ -12,7 +12,7 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
@@ -24,85 +24,116 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-            <FrameLayout
-                android:id="@+id/fragment_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </FrameLayout>
         </androidx.appcompat.widget.Toolbar>
 
-        <com.applandeo.materialcalendarview.CalendarView
-            android:id="@+id/calendarView"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="310dp"
-            android:layout_gravity="top"
-            app:headerColor="@color/colorPrimary"
-            app:selectionColor="@color/colorAccent"
-            android:background="@color/colorBackground"
-            android:dateTextAppearance="@color/colorText"
-            android:weekDayTextAppearance="@color/colorText"
-            />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingTop="10dp"
-            android:text="Upcoming Checkpoints and Assignments"
-            android:textAppearance="@android:style/TextAppearance.Holo.Widget.ActionMode.Title"
-            tools:layout_editor_absoluteX="159dp"
-            tools:layout_editor_absoluteY="8dp" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ListView
-                android:id="@+id/listView2"
-                android:layout_width="167dp"
-                android:layout_height="233dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="4dp"
-                android:entries="@array/sampleC"
-                android:textAlignment="center"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ListView
-                android:id="@+id/listView"
-                android:layout_width="166dp"
-                android:layout_height="233dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="16dp"
-                android:entries="@array/sampleA"
-                android:longClickable="false"
-                android:textAlignment="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#CCFFFFFF"
-                android:id="@+id/obscure"
-                android:visibility="gone"/>
-
-            <io.github.yavski.fabspeeddial.FabSpeedDial
-                android:id="@+id/speedDial"
+            <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                app:fabGravity="bottom_end"
-                app:fabMenu="@menu/menu_main"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:miniFabBackgroundTint="@android:color/white"
-                app:miniFabDrawableTint="?attr/colorPrimaryDark"
-                app:miniFabTitleTextColor="?attr/colorPrimaryDark" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:orientation="vertical">
+
+                <com.applandeo.materialcalendarview.CalendarView
+                    android:id="@+id/calendarView"
+                    android:layout_width="match_parent"
+                    android:layout_height="390dp"
+                    android:layout_gravity="top"
+                    android:background="@color/colorBackground"
+                    android:dateTextAppearance="@color/colorText"
+                    android:orientation="vertical"
+                    android:weekDayTextAppearance="@color/colorText"
+                    app:headerColor="@color/colorPrimary"
+                    app:selectionColor="@color/colorAccent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:textSize="18sp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:text="Upcoming Checkpoints and Assignments"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.37"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ListView
+                        android:id="@+id/listView2"
+                        android:layout_width="166dp"
+                        android:layout_height="137dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="28dp"
+                        android:entries="@array/sampleC"
+                        android:textAlignment="center"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ListView
+                        android:id="@+id/listView"
+                        android:layout_width="165dp"
+                        android:layout_height="138dp"
+                        android:layout_marginTop="28dp"
+                        android:layout_marginEnd="16dp"
+                        android:entries="@array/sampleA"
+                        android:longClickable="false"
+                        android:textAlignment="center"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:id="@+id/obscure"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#CCFFFFFF"
+                        android:visibility="gone" />
+
+                    <io.github.yavski.fabspeeddial.FabSpeedDial
+                        android:id="@+id/speedDial"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|end"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="144dp"
+                        app:fabGravity="bottom_end"
+                        app:fabMenu="@menu/menu_main"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/listView"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:miniFabBackgroundTint="@android:color/white"
+                        app:miniFabDrawableTint="?attr/colorPrimaryDark"
+                        app:miniFabTitleTextColor="?attr/colorPrimaryDark" />
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="28dp"
+                        android:text="TextView"
+                        android:visibility="invisible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/listView2" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
 
     </androidx.appcompat.widget.LinearLayoutCompat>
     <com.google.android.material.navigation.NavigationView
