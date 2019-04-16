@@ -5,7 +5,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +15,8 @@ import info3604.assignment_organizer.controllers.CourseController;
 import info3604.assignment_organizer.controllers.MainController;
 import info3604.assignment_organizer.models.Course;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,7 +26,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -34,9 +34,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.xeoh.android.checkboxgroup.CheckBoxGroup;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class view_courses extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -132,6 +130,8 @@ public class view_courses extends AppCompatActivity implements NavigationView.On
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
 
+        MenuItem del = menu.findItem(R.id.deleteMenu);
+        del.setVisible(true);
         MenuItem item = menu.findItem(R.id.filterSpinner);
         Spinner spinner = (Spinner)item.getActionView();
 
@@ -161,8 +161,31 @@ public class view_courses extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.help:
+                //Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, Help.class));
+                return true;
+            case R.id.about:
+                //Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, About.class));
+                return true;
             case R.id.deleteMenu:
-                deleteCourses();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Delete Course");
+                builder.setMessage("Are you sure you want to delete this Course(s)?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteCourses();
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

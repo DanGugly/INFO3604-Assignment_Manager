@@ -15,6 +15,8 @@ import info3604.assignment_organizer.controllers.CheckpointController;
 import info3604.assignment_organizer.controllers.MainController;
 import info3604.assignment_organizer.models.Checkpoint;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -127,6 +129,10 @@ public class view_checkpoints extends AppCompatActivity implements NavigationVie
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
 
+        MenuItem del = menu.findItem(R.id.deleteMenu);
+        MenuItem com = menu.findItem(R.id.completeMenu);
+        del.setVisible(true);
+        com.setVisible(true);
         MenuItem item = menu.findItem(R.id.filterSpinner);
         Spinner spinner = (Spinner)item.getActionView();
 
@@ -156,11 +162,34 @@ public class view_checkpoints extends AppCompatActivity implements NavigationVie
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.help:
+                //Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, Help.class));
+                return true;
+            case R.id.about:
+                //Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, About.class));
+                return true;
             case R.id.completeMenu:
                 completeCheckpoints();
                 return true;
             case R.id.deleteMenu:
-                deleteCheckpoints();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Delete Checkpoint");
+                builder.setMessage("Are you sure you want to delete this Checkpoint(s)?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteCheckpoints();
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

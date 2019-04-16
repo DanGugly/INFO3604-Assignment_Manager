@@ -40,8 +40,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".views.update_course" />
-        <activity android:name=".views.checkpoint_methods" />
-        <activity android:name=".views.course_methods" />
         <activity android:name=".views.NotificationActivity" />
         <receiver android:name=".controllers.NotifController">
             <intent-filter>
@@ -56,7 +54,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.assignment_methods" />
     </application>
 
 </manifest>

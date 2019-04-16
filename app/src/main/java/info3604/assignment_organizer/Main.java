@@ -1,25 +1,21 @@
 package info3604.assignment_organizer;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import info3604.assignment_organizer.views.About;
 import info3604.assignment_organizer.controllers.MainController;
-import info3604.assignment_organizer.models.Assignment;
+import info3604.assignment_organizer.views.Help;
+import info3604.assignment_organizer.views.Details;
 import info3604.assignment_organizer.views.add_assignment;
 import info3604.assignment_organizer.views.add_checkpoint;
 import info3604.assignment_organizer.views.add_course;
-import info3604.assignment_organizer.views.assignment_methods;
-import info3604.assignment_organizer.views.checkpoint_methods;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -27,34 +23,25 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
-
 
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
-import info3604.assignment_organizer.views.course_methods;
 import info3604.assignment_organizer.views.view_checkpoints;
 import info3604.assignment_organizer.views.view_courses;
 import info3604.assignment_organizer.views.view_assignments;
 import io.github.yavski.fabspeeddial.FabSpeedDial;
 import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 
-import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 
@@ -62,7 +49,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private DrawerLayout drawer;
     private MainController MC;
     private ArrayList<String> list, list2;
+
     private FabSpeedDial fab;
+
     private CalendarView calendarView;
     private List<EventDay> events;
 
@@ -74,6 +63,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         ListView listView = (ListView)findViewById(R.id.listView);
         ListView listView2 = (ListView)findViewById(R.id.listView2);
         ListAdapter listAdapter, listAdapter2;
+
         fab = (FabSpeedDial) findViewById(R.id.speedDial);
         final View obscure = findViewById(R.id.obscure);
 
@@ -88,9 +78,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             Log.d("Event e",e.getCalendar().getTime()+"");
         }
 
-
         calendarView.setEvents(events);
-
 
         list = new ArrayList<>();
         list2 = new ArrayList<>();
@@ -132,7 +120,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         }, 100);
 
         if(data.getCount() == 0){
-//            Toast.makeText(this,"No Assignments Registered",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"No Assignments Registered",Toast.LENGTH_SHORT).show();
         }
         else{
             String dbString = "" ;
@@ -144,9 +132,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 }
                 list.add(dbString);
                 dbString = "";
-                listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,list);
-                listView.setAdapter(listAdapter);
+
             }
+            listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,list);
+            listView.setAdapter(listAdapter);
         }
 
         if(cdata.getCount() == 0){
@@ -167,6 +156,71 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             }
         }
 
+        if(list.size() != 0) {
+            final String[] str = list.toArray(new String[list.size()]);
+            //List of assignments
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String[] words = str[position].split("\r?\n");
+
+                    Cursor cd = MC.getAssignment(words[0]);
+//                Toast.makeText(getApplicationContext(),words[0], Toast.LENGTH_LONG).show();
+
+                    String word = "";
+                    while (cd.moveToNext()) {
+                        String[] columnNames = cd.getColumnNames();
+                        for (String name : columnNames) {
+                            String title = getName(name, 2);
+                            word += String.format(title + ": %s\n",
+                                    cd.getString(cd.getColumnIndex(name)));
+                        }
+                    }
+                    word = removeLine(word);
+                    Intent intent = new Intent(getApplicationContext(), Details.class);
+                    intent.putExtra("Type", "Assignment Details");
+                    intent.putExtra("Details", word);
+                    startActivity(intent);
+
+                    //Toast.makeText(getApplicationContext(), word, Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+
+        //checks if the checkpoint listview is empty
+        if(list2.size() != 0) {
+            final String[] str2 = list2.toArray(new String[list2.size()]);
+
+            //List of Checkpoints
+            listView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String[] words = str2[position].split("\r?\n");
+
+                    Cursor cd = MC.getCheckpoint(words[0]);
+
+                    String word = "";
+                    while (cd.moveToNext()) {
+                        String[] columnNames = cd.getColumnNames();
+                        for (String name : columnNames) {
+                            String title = getName(name, 1);
+                            word += String.format(title + ": %s\n",
+                                    cd.getString(cd.getColumnIndex(name)));
+                        }
+                    }
+
+                    word = removeLine(word);
+                    Intent intent = new Intent(getApplicationContext(), Details.class);
+                    intent.putExtra("Type", "Checkpoint Details");
+                    intent.putExtra("Details", word);
+                    startActivity(intent);
+
+                    //Toast.makeText(getApplicationContext(), word, Toast.LENGTH_LONG).show();
+                }
+            });
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -179,6 +233,28 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+    }
+
+    public String getName(String name, int check){
+        if(name.equals("title") && check == 1)
+            return "Checkpoint Title";
+        if(name.equals("title") && check == 2)
+            return "Assignment Title";
+        if(name.equals("due_date"))
+            return "Due Date";
+        if(name.equals("notes"))
+            return "Notes";
+        if(name.equals("course_id"))
+            return "Course ID";
+        if(name.equals("start_date"))
+            return "Start Date";
+        return name;
+    }
+
+    public String removeLine(String name){
+        if(name.charAt(name.length() - 1) == '\n')
+            name = name.substring(0, name.length()-1);
+        return name;
     }
 
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -218,32 +294,34 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     @Override   //Getting which menu item is selected and creating toasts when they are
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent i;
-        switch (item.getItemId()){
-            case R.id.add_assignment:
-                i = new Intent(this, assignment_methods.class);
-                startActivity(i);
-                break;
-            case R.id.add_course:
-                i = new Intent(this, course_methods.class);
-                startActivity(i);
-                break;
-            case R.id.add_checkpoint:
-                i = new Intent(this, checkpoint_methods.class);
-                startActivity(i);
-                break;
+        switch (item.getItemId()) {
+            case R.id.help:
+                //Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, Help.class));
+                return true;
+            case R.id.about:
+                //Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, About.class));
+                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
 
     public List<EventDay> getEventDates(){
 
-        List<String> dates = MC.getAllDates();
+        List<String> adates = MC.getAssDates();
+        List<String> cdates = MC.getCheckDates();
         List<EventDay> eventList = new ArrayList<>();
         EventDay eventDay;
 
-        for(String d:dates){
+        for(String d:adates){
             eventDay = new EventDay(string2Calendar(d),R.drawable.ic_assignment);
+            eventList.add(eventDay);
+        }
+
+        for(String d:cdates){
+            eventDay = new EventDay(string2Calendar(d),R.drawable.ic_checkpoint);
             eventList.add(eventDay);
         }
         return eventList;

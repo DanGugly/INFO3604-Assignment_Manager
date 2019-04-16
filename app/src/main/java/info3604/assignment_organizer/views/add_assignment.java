@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class add_assignment extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener {
 
@@ -218,28 +219,32 @@ public class add_assignment extends AppCompatActivity implements DatePickerDialo
 
             Intent notificationIntent = new Intent(this, NotifController.class);
 
-            notificationIntent.putExtra("title", "Assignment: " + assTitle.getText().toString());    //Values should be pulled from DB
-            notificationIntent.putExtra("content", "Notes: "+assNotes.getText().toString() + " Reminder");
+            notificationIntent.putExtra("title", "Assignment: " + assTitle.getText().toString() + " Reminder");    //Values should be pulled from DB
+            notificationIntent.putExtra("content", "Notes: "+assNotes.getText().toString());
             notificationIntent.putExtra("ticker", assTitle.getText().toString());
 
-            PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            Random notification_id = new Random();
+            PendingIntent broadcast = PendingIntent.getBroadcast(this, notification_id.nextInt(100), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             //Get current time
             String givenDateString = tv_result.getText().toString();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            SimpleDateFormat sdf = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            }
             try {
                 Date mDate = sdf.parse(givenDateString);
                 long timeInMilliseconds = mDate.getTime();
-                long millis = System.currentTimeMillis();   //long currentTimeMillis ()-Returns the current time in milliseconds.
-                long seconds = (timeInMilliseconds - millis) / 1000;               //Divide millis by 1000 to get the number of seconds.
+                //long millis = System.currentTimeMillis();   //long currentTimeMillis ()-Returns the current time in milliseconds.
+                //long seconds = (timeInMilliseconds - millis) / 1000;               //Divide millis by 1000 to get the number of seconds.
 
-                if(seconds>3600){
-                    seconds = seconds - 3600;
+                if(timeInMilliseconds>3600000){
+                    timeInMilliseconds = timeInMilliseconds - 3600000;
                 }
 
                 Calendar cal = Calendar.getInstance();
-                cal.add(Calendar.SECOND, (int) seconds);
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+                cal.setTimeInMillis(timeInMilliseconds);
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
 
             } catch (ParseException e) {
                 e.printStackTrace();
