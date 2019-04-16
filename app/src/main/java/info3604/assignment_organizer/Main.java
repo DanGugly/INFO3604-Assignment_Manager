@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,6 +28,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.applandeo.materialcalendarview.CalendarView;
+import com.applandeo.materialcalendarview.EventDay;
 import com.google.android.material.navigation.NavigationView;
 
 import info3604.assignment_organizer.views.view_checkpoints;
@@ -35,7 +38,11 @@ import info3604.assignment_organizer.views.view_assignments;
 import io.github.yavski.fabspeeddial.FabSpeedDial;
 import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 
 public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -44,6 +51,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private ArrayList<String> list, list2;
 
     private FabSpeedDial fab;
+
+    private CalendarView calendarView;
+    private List<EventDay> events;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +68,19 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         final View obscure = findViewById(R.id.obscure);
 
         MC = new MainController(this);
+
+        Calendar calendar = Calendar.getInstance();
+
+        calendarView = (CalendarView) findViewById(R.id.calendarView);
+        calendarView.showCurrentMonthPage();
+
+        events = getEventDates();
+
+        for(EventDay e:events){
+            Log.d("Event e",e.getCalendar().getTime()+"");
+        }
+
+        calendarView.setEvents(events);
 
         list = new ArrayList<>();
         list2 = new ArrayList<>();
@@ -285,5 +308,37 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public List<EventDay> getEventDates(){
+
+        List<String> adates = MC.getAssDates();
+        List<String> cdates = MC.getCheckDates();
+        List<EventDay> eventList = new ArrayList<>();
+        EventDay eventDay;
+
+        for(String d:adates){
+            eventDay = new EventDay(string2Calendar(d),R.drawable.ic_assignment);
+            eventList.add(eventDay);
+        }
+
+        for(String d:cdates){
+            eventDay = new EventDay(string2Calendar(d),R.drawable.ic_checkpoint);
+            eventList.add(eventDay);
+        }
+        return eventList;
+    }
+
+    public Calendar string2Calendar(String d){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        try{
+            Date mDate = sdf.parse(d);
+            calendar.setTime(mDate);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return calendar;
     }
 }

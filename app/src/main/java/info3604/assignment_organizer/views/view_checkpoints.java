@@ -2,6 +2,7 @@ package info3604.assignment_organizer.views;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -13,8 +14,10 @@ import info3604.assignment_organizer.R;
 import info3604.assignment_organizer.adapters.CheckpointAdapter;
 import info3604.assignment_organizer.controllers.CheckpointController;
 import info3604.assignment_organizer.controllers.MainController;
+import info3604.assignment_organizer.models.Assignment;
 import info3604.assignment_organizer.models.Checkpoint;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -85,6 +88,7 @@ public class view_checkpoints extends AppCompatActivity implements NavigationVie
                 Toast.makeText(getApplicationContext(),"Adding Checkpoint..", Toast.LENGTH_LONG).toString();
             }
         });
+        checkOverdueCheckpoints();
     }
 
     private void populaterecyclerView(String filter){
@@ -172,7 +176,22 @@ public class view_checkpoints extends AppCompatActivity implements NavigationVie
                 completeCheckpoints();
                 return true;
             case R.id.deleteMenu:
-                deleteCheckpoints();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Delete Checkpoint");
+                builder.setMessage("Delete selected Checkpoint(s)?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteCheckpoints();
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -190,6 +209,8 @@ public class view_checkpoints extends AppCompatActivity implements NavigationVie
 
         }
         adapter.notifyDataSetChanged();
+        finish();
+        startActivity(getIntent());
     }
 
     private void deleteCheckpoints(){
@@ -204,6 +225,25 @@ public class view_checkpoints extends AppCompatActivity implements NavigationVie
 
     protected void onResume() {
         super.onResume();
+        adapter.notifyDataSetChanged();
+    }
+
+    private void checkOverdueCheckpoints(){
+        List<Checkpoint> checkpointList = MC.getCheckpointList("");
+        Assignment assignment;
+        Checkpoint checkpoint;
+        for(Checkpoint c: checkpointList){
+
+            checkpoint = MC.getCheckpoint(c.getCheckpointID());
+            assignment = MC.getAssignment(c.getAssignmentID());
+            if((checkpoint.isPastDueDate() || assignment.isPastDueDate()) &&
+                    (assignment.getProgress()!=1||checkpoint.getProgress()!=1)){
+                checkpoint.setProgress(-1);
+            }
+            Log.d("Progress",checkpoint.getTitle()+ " " + checkpoint.getProgress());
+            CC.updateCheckpoint(checkpoint);
+
+        }
         adapter.notifyDataSetChanged();
     }
 }

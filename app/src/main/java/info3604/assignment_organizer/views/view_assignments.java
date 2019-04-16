@@ -2,6 +2,7 @@ package info3604.assignment_organizer.views;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -15,6 +16,7 @@ import info3604.assignment_organizer.controllers.AssignmentController;
 import info3604.assignment_organizer.controllers.MainController;
 import info3604.assignment_organizer.models.Assignment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -86,6 +88,7 @@ public class view_assignments extends AppCompatActivity implements NavigationVie
             }
         });
 
+        checkOverdueAssignments();
     }
 
     private void populaterecyclerView(String filter){
@@ -172,7 +175,22 @@ public class view_assignments extends AppCompatActivity implements NavigationVie
                 completeAssignments();
                 return true;
             case R.id.deleteMenu:
-                deleteAssignments();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Delete Assignment");
+                builder.setMessage("Delete selected Assignment(s)?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteAssignments();
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -191,6 +209,8 @@ public class view_assignments extends AppCompatActivity implements NavigationVie
 
         }
         adapter.notifyDataSetChanged();
+        finish();
+        startActivity(getIntent());
     }
 
     private void deleteAssignments(){
@@ -207,4 +227,19 @@ public class view_assignments extends AppCompatActivity implements NavigationVie
         super.onResume();
         adapter.notifyDataSetChanged();
     }
+
+    private void checkOverdueAssignments(){
+        List<Assignment> assignmentList = MC.getAssignmentList("");
+        Assignment assignment;
+        for(Assignment a: assignmentList){
+
+            assignment = MC.getAssignment(a.getAssignmentID());
+            if(assignment.isPastDueDate() && assignment.getProgress()!=1){assignment.setProgress(-1);}
+            AC.updateAssignment(assignment);
+            //Log.d("Progress",assignment.getTitle()+" "+assignment.getProgress());
+
+        }
+        adapter.notifyDataSetChanged();
+    }
+
 }

@@ -8,6 +8,7 @@
     android:paddingLeft="20dp">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/checkpoint_cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="100dp"
@@ -47,6 +48,12 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/dueDate"
                     android:text="Deadline:"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/chkProgress"
+                    android:text="Progress:"/>
 
             </LinearLayout>
 
