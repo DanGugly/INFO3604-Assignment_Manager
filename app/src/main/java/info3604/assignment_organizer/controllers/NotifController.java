@@ -66,8 +66,8 @@ public class NotifController extends BroadcastReceiver{
         }
 
         //For indexing notifs Random notification_id = new Random(); notificationManager.notify(notification_id.nextInt(100), notification);
-
-        notificationManager.notify(0, notification);
+        Random notification_id = new Random();
+        notificationManager.notify(notification_id.nextInt(100), notification);
     }
 
     //Cancel a previous notif

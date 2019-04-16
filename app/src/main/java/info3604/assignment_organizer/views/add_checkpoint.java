@@ -34,6 +34,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 public class add_checkpoint extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener  {
 
@@ -236,7 +237,8 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
             notificationIntent.putExtra("content", "Notes: "+chkNotes.getText().toString());
             notificationIntent.putExtra("ticker", checkpointTitle.getText().toString());
 
-            PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            Random notification_id = new Random();
+            PendingIntent broadcast = PendingIntent.getBroadcast(this, notification_id.nextInt(100), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             //Get current time
             String givenDateString = tv_result.getText().toString();
