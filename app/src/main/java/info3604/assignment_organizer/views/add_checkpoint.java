@@ -76,7 +76,6 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
         b_pick = (Button) findViewById(R.id.b_pick);
 
         tv_result = (TextInputEditText) findViewById(R.id.tv_result);
-        assignmentCode = (TextInputEditText) findViewById(R.id.assignmentCode);
         checkpointTitle = (TextInputEditText) findViewById(R.id.checkpointTitle);
         chkNotes = (TextInputEditText) findViewById(R.id.chkNotes);
 
