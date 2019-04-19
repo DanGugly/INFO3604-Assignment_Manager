@@ -22,8 +22,10 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import info3604.assignment_organizer.R;
+import info3604.assignment_organizer.controllers.AssignmentController;
 import info3604.assignment_organizer.controllers.CheckpointController;
 import info3604.assignment_organizer.controllers.MainController;
+import info3604.assignment_organizer.models.Assignment;
 import info3604.assignment_organizer.models.Checkpoint;
 import info3604.assignment_organizer.views.update_checkpoint;
 
@@ -176,8 +178,22 @@ public class CheckpointAdapter extends RecyclerView.Adapter<CheckpointAdapter.Vi
                         cancelDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                CheckpointController dbHelper = new CheckpointController(mContext);
-                                dbHelper.deleteCheckpoint(checkpoint.getCheckpointID());
+                                AssignmentController AC = new AssignmentController(mContext);
+                                Assignment assignment = MC.getAssignment(checkpoint.getAssignmentID());
+
+                                if(checkpoint.getProgress()==1){
+                                    assignment.decrementProgress();
+                                }
+
+                                assignment.decrementCheckpointCount();
+                                if(assignment.getCheckpointCount()==0){
+                                    assignment.setProgress(0);
+                                    assignment.setCheckpointCount(-1);
+                                }
+                                AC.updateAssignment(assignment);
+
+                                CheckpointController CC = new CheckpointController(mContext);
+                                CC.deleteCheckpoint(checkpoint.getCheckpointID());
 
                                 mCheckpointList.remove(position);
                                 mRecyclerV.removeViewAt(position);

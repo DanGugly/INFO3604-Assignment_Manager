@@ -24,12 +24,15 @@ public class Assignment implements Serializable{
 
     private int progress;
 
+    private int checkpointCount;
+
     public Assignment (String courseID, String title, String dueDate, String notes){
         this.courseID = courseID;
         this.title = title;
         this.dueDate = dueDate;
         this.notes = notes;
         this.progress = 0;
+        this.checkpointCount =-1;
         this.startDate = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(new Date());
     }
 
@@ -48,6 +51,14 @@ public class Assignment implements Serializable{
     public int getProgress() { return progress; }
 
     public String getStartDate() { return startDate; }
+
+    public int getCheckpointCount() {
+        return checkpointCount;
+    }
+
+    public void setCheckpointCount(int checkpointCount) {
+        this.checkpointCount = checkpointCount;
+    }
 
     public void setStartDate(String startDate) { this.startDate = startDate; }
 
@@ -84,8 +95,16 @@ public class Assignment implements Serializable{
         return false;
     }
 
+    public boolean isComplete(){ return this.progress == this.checkpointCount; }
+
+    public void incrementCheckpointCount(){ this.checkpointCount += 1; }
+
+    public void decrementCheckpointCount(){ if(this.checkpointCount > 0) this.checkpointCount -= 1; }
+
+    public void incrementProgress(){ this.progress += 1; }
+
+    public void decrementProgress(){ if(this.getProgress() > 0) this.progress -= 1; }
+
     @Override
-    public boolean equals(Object obj) {
-        return this.getAssignmentID() == ((Assignment)obj).getAssignmentID();
-    }
+    public boolean equals(Object obj) { return this.getAssignmentID() == ((Assignment)obj).getAssignmentID(); }
 }

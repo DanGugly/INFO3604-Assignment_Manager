@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import info3604.assignment_organizer.Main;
 import info3604.assignment_organizer.R;
 import info3604.assignment_organizer.adapters.CheckpointAdapter;
+import info3604.assignment_organizer.controllers.AssignmentController;
 import info3604.assignment_organizer.controllers.CheckpointController;
 import info3604.assignment_organizer.controllers.MainController;
 import info3604.assignment_organizer.models.Assignment;
@@ -200,12 +201,21 @@ public class view_checkpoints extends AppCompatActivity implements NavigationVie
     }
 
     private void completeCheckpoints(){
+        AssignmentController AC = new AssignmentController(this);
         CheckBoxGroup<String> checkBoxGroup = adapter.getCheckBoxGroup();
         Checkpoint checkpoint;
         for(String chkID: checkBoxGroup.getValues()){
 
             checkpoint = MC.getCheckpoint(Integer.parseInt(chkID));
+            Assignment a = MC.getAssignment(checkpoint.getAssignmentID());
+
+            if(checkpoint.getProgress() != 1) {
+                a.incrementProgress();
+                AC.updateAssignment(a);
+            }
+
             checkpoint.setProgress(1);
+
             CC.updateCheckpoint(checkpoint);
 
         }
@@ -215,9 +225,25 @@ public class view_checkpoints extends AppCompatActivity implements NavigationVie
     }
 
     private void deleteCheckpoints(){
+        AssignmentController AC = new AssignmentController(this);
         CheckBoxGroup<String> checkBoxGroup = adapter.getCheckBoxGroup();
         for(String checkpoint: checkBoxGroup.getValues()){
-            CC.deleteCheckpoint(Integer.parseInt(checkpoint));
+
+            Checkpoint c = MC.getCheckpoint(Integer.parseInt(checkpoint));
+            Assignment a = MC.getAssignment(c.getAssignmentID());
+
+            if(c.getProgress()==1){
+                a.decrementProgress();
+            }
+
+            a.decrementCheckpointCount();
+            if(a.getCheckpointCount()==0){
+                a.setProgress(0);
+                a.setCheckpointCount(-1);
+            }
+
+            AC.updateAssignment(a);
+            CC.deleteCheckpoint(c.getCheckpointID());
         }
         adapter.notifyDataSetChanged();
         finish();

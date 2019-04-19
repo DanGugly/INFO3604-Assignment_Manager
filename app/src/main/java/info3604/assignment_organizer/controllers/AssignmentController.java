@@ -21,6 +21,7 @@ public class AssignmentController{
     private static final String COLUMN_DUEDATE = "due_date";
     private static final String COLUMN_NOTES = "notes";
     private static final String COLUMN_PROGRESS = "assignment_progress";
+    private static final String COLUMN_CHECKPOINT_COUNT = "checkpoint_count";
 
     private Context mContext;
     private SQLiteDatabase mDatabase;
@@ -57,6 +58,7 @@ public class AssignmentController{
         values.put(COLUMN_STARTDATE, assignment.getStartDate());
         values.put(COLUMN_DUEDATE, assignment.getDueDate());
         values.put(COLUMN_PROGRESS, assignment.getProgress());
+        values.put(COLUMN_CHECKPOINT_COUNT, assignment.getCheckpointCount());
         Log.d("ASSIGNMENT CREATION", values.toString());
         long result = mDatabase.insert(TABLE_ASSIGNMENTS, null, values);
         mDatabase.setTransactionSuccessful();
@@ -76,8 +78,10 @@ public class AssignmentController{
             values.put(COLUMN_TITLE, assignment.getTitle());
         if(!assignment.getDueDate().equals(""))
             values.put(COLUMN_DUEDATE, assignment.getDueDate());
-        if(assignment.getProgress() == 0 || assignment.getProgress() == 1 || assignment.getProgress() == -1)
+        if(assignment.getProgress() >= -1)
             values.put(COLUMN_PROGRESS, assignment.getProgress());
+        if(assignment.getCheckpointCount() >= 0)
+            values.put(COLUMN_CHECKPOINT_COUNT, assignment.getCheckpointCount());
 
         Log.d("ASSIGNMENT UPDATE", values.toString());
 
