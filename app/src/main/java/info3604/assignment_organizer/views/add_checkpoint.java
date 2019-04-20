@@ -224,8 +224,19 @@ public class add_checkpoint extends AppCompatActivity implements DatePickerDialo
                     tv_result.getText().toString().trim(),
                     chkNotes.getText().toString().trim()
             );
-            if(AC.assignmentExistsInDb(""+assignmentID))
+            if(AC.assignmentExistsInDb(""+assignmentID)){
+
+                Assignment assignment = MC.getAssignment(assignmentID);
+                assignment.incrementCheckpointCount();
+                if(assignment.getCheckpointCount()==0){
+                    assignment.setProgress(0);
+                    assignment.setCheckpointCount(1);
+                }
+                AC.updateAssignment(assignment);
+
                 result = CC.addCheckpoint(checkpoint);
+            }
+
         }
         if (result) {
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);

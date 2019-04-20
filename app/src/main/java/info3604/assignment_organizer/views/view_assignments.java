@@ -2,7 +2,6 @@ package info3604.assignment_organizer.views;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -13,9 +12,12 @@ import info3604.assignment_organizer.Main;
 import info3604.assignment_organizer.R;
 import info3604.assignment_organizer.adapters.AssignmentAdapter;
 import info3604.assignment_organizer.controllers.AssignmentController;
+import info3604.assignment_organizer.controllers.CheckpointController;
 import info3604.assignment_organizer.controllers.MainController;
 import info3604.assignment_organizer.models.Assignment;
+import info3604.assignment_organizer.models.Checkpoint;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -87,7 +89,6 @@ public class view_assignments extends AppCompatActivity implements NavigationVie
                 Toast.makeText(getApplicationContext(),"Adding Assignment..", Toast.LENGTH_LONG).show();
             }
         });
-
         checkOverdueAssignments();
     }
 
@@ -176,8 +177,8 @@ public class view_assignments extends AppCompatActivity implements NavigationVie
                 return true;
             case R.id.deleteMenu:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Delete Assignment");
-                builder.setMessage("Delete selected Assignment(s)?");
+                builder.setTitle("Delete Checkpoint");
+                builder.setMessage("Are you sure you want to delete this Checkpoint(s)?");
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -200,11 +201,22 @@ public class view_assignments extends AppCompatActivity implements NavigationVie
 
     private void completeAssignments(){
         CheckBoxGroup<String> checkBoxGroup = adapter.getCheckBoxGroup();
+        List<Checkpoint> checkpoints;
+        CheckpointController CC = new CheckpointController(this);
+
         Assignment assignment;
         for(String assID: checkBoxGroup.getValues()){
 
             assignment = MC.getAssignment(Integer.parseInt(assID));
-            assignment.setProgress(1);
+            assignment.setProgress(assignment.getCheckpointCount());
+
+            checkpoints = MC.getCheckpointsByAssignment(Integer.parseInt(assID));
+            for(Checkpoint c: checkpoints){
+                Log.d("Checkpoints",c.getTitle());
+                c.setProgress(1);
+                CC.updateCheckpoint(c);
+            }
+
             AC.updateAssignment(assignment);
 
         }
@@ -225,6 +237,7 @@ public class view_assignments extends AppCompatActivity implements NavigationVie
 
     protected void onResume() {
         super.onResume();
+        checkOverdueAssignments();
         adapter.notifyDataSetChanged();
     }
 
@@ -241,5 +254,6 @@ public class view_assignments extends AppCompatActivity implements NavigationVie
         }
         adapter.notifyDataSetChanged();
     }
+
 
 }
