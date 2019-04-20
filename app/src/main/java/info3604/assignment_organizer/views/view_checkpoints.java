@@ -2,7 +2,6 @@ package info3604.assignment_organizer.views;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -12,11 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import info3604.assignment_organizer.Main;
 import info3604.assignment_organizer.R;
 import info3604.assignment_organizer.adapters.CheckpointAdapter;
+import info3604.assignment_organizer.controllers.AssignmentController;
 import info3604.assignment_organizer.controllers.CheckpointController;
 import info3604.assignment_organizer.controllers.MainController;
 import info3604.assignment_organizer.models.Assignment;
 import info3604.assignment_organizer.models.Checkpoint;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -96,6 +97,7 @@ public class view_checkpoints extends AppCompatActivity implements NavigationVie
         CC = new CheckpointController(this);
         adapter = new CheckpointAdapter(MC.getCheckpointList(filter), this, mRecyclerView);
         Log.d("Checkpoint List Count:",""+adapter.getItemCount());
+        checkOverdueCheckpoints();
         mRecyclerView.setAdapter(adapter);
     }
 
@@ -178,7 +180,7 @@ public class view_checkpoints extends AppCompatActivity implements NavigationVie
             case R.id.deleteMenu:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Delete Checkpoint");
-                builder.setMessage("Delete selected Checkpoint(s)?");
+                builder.setMessage("Are you sure you want to delete this Checkpoint(s)?");
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -199,12 +201,21 @@ public class view_checkpoints extends AppCompatActivity implements NavigationVie
     }
 
     private void completeCheckpoints(){
+        AssignmentController AC = new AssignmentController(this);
         CheckBoxGroup<String> checkBoxGroup = adapter.getCheckBoxGroup();
         Checkpoint checkpoint;
         for(String chkID: checkBoxGroup.getValues()){
 
             checkpoint = MC.getCheckpoint(Integer.parseInt(chkID));
+            Assignment a = MC.getAssignment(checkpoint.getAssignmentID());
+
+            if(checkpoint.getProgress() != 1) {
+                a.incrementProgress();
+                AC.updateAssignment(a);
+            }
+
             checkpoint.setProgress(1);
+
             CC.updateCheckpoint(checkpoint);
 
         }
@@ -214,9 +225,25 @@ public class view_checkpoints extends AppCompatActivity implements NavigationVie
     }
 
     private void deleteCheckpoints(){
+        AssignmentController AC = new AssignmentController(this);
         CheckBoxGroup<String> checkBoxGroup = adapter.getCheckBoxGroup();
         for(String checkpoint: checkBoxGroup.getValues()){
-            CC.deleteCheckpoint(Integer.parseInt(checkpoint));
+
+            Checkpoint c = MC.getCheckpoint(Integer.parseInt(checkpoint));
+            Assignment a = MC.getAssignment(c.getAssignmentID());
+
+            if(c.getProgress()==1){
+                a.decrementProgress();
+            }
+
+            a.decrementCheckpointCount();
+            if(a.getCheckpointCount()==0){
+                a.setProgress(0);
+                a.setCheckpointCount(-1);
+            }
+
+            AC.updateAssignment(a);
+            CC.deleteCheckpoint(c.getCheckpointID());
         }
         adapter.notifyDataSetChanged();
         finish();
@@ -225,6 +252,7 @@ public class view_checkpoints extends AppCompatActivity implements NavigationVie
 
     protected void onResume() {
         super.onResume();
+        checkOverdueCheckpoints();
         adapter.notifyDataSetChanged();
     }
 

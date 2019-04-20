@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.material.card.MaterialCardView;
@@ -25,6 +26,7 @@ import info3604.assignment_organizer.R;
 import info3604.assignment_organizer.controllers.AssignmentController;
 import info3604.assignment_organizer.models.Assignment;
 import info3604.assignment_organizer.views.update_assignment;
+import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.ViewHolder> {
 
@@ -38,6 +40,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
         public TextView courseCode;
         public TextView assignmentTitle;
         public TextView dueDate;
+        public MaterialProgressBar checkpointCount;
         public CheckBox asgCheckbox;
         public MaterialCardView materialCardView;
         public TextView assProgress;
@@ -53,6 +56,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
             asgCheckbox = (CheckBox) v.findViewById(R.id.asgCheckbox);
             materialCardView = (MaterialCardView)v.findViewById(R.id.assignment_cardView);
             assProgress = (TextView)v.findViewById(R.id.assProgress);
+            checkpointCount = (MaterialProgressBar) v.findViewById(R.id.checkpointCount);
         }
     }
 
@@ -117,23 +121,32 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
         holder.courseCode.setText("Course Code: " + assignment.getCourseID());
         holder.assignmentTitle.setText("Assignment Title: " + assignment.getTitle());
         holder.dueDate.setText("Due Date: " + assignment.getDueDate());
+        try{
+            holder.checkpointCount.setProgress((int)((assignment.getProgress()/(double)assignment.getCheckpointCount())*100));
+            Log.d("Progress Bar",((int)((assignment.getProgress()/(double)assignment.getCheckpointCount())*100))+"");
+        }
+        catch (ArithmeticException a){
+            a.printStackTrace();
+        }
+
         String progressText = "Progress: ";
         holder.asgCheckbox.setChecked(false);
 
-        Log.d("Progress",assignment.getTitle()+ " " +assignment.getProgress());
+        Log.d("Progress",assignment.getTitle()+ " " +assignment.getCheckpointCount());
 
-        if(assignment.getProgress()==0){
+        if(assignment.getProgress()>=0 && !assignment.isComplete()){
             holder.materialCardView.setBackgroundColor(ContextCompat.getColor(mContext,R.color.Ongoing));
             progressText += "Ongoing";
-        }
-        else if(assignment.getProgress()==1){
-            holder.materialCardView.setBackgroundColor(ContextCompat.getColor(mContext,R.color.Completed));
-            progressText += "Completed";
         }
         else if(assignment.getProgress()==-1){
             holder.materialCardView.setBackgroundColor(ContextCompat.getColor(mContext,R.color.Missed));
             progressText += "Overdue";
         }
+        else if(assignment.isComplete()){
+            holder.materialCardView.setBackgroundColor(ContextCompat.getColor(mContext,R.color.Completed));
+            progressText += "Completed";
+        }
+
 
         holder.assProgress.setText(progressText);
 

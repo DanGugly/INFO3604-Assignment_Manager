@@ -18,7 +18,7 @@ import info3604.assignment_organizer.models.Course;
 public class MainController extends SQLiteOpenHelper{
 
     //Database name and version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "reminder.db";
 
     //Course Table
@@ -37,6 +37,7 @@ public class MainController extends SQLiteOpenHelper{
     private static final String ASSIGNMENT_DUEDATE = "due_date";
     private static final String ASSIGNMENT_NOTES = "notes";
     private static final String ASSIGNMENT_PROGRESS = "assignment_progress";
+    private static final String ASSIGNMENT_CHECKPOINT_COUNT = "checkpoint_count";
 
     //Checkpoint Table
     private static final String TABLE_CHECKPOINTS = "checkpoints";
@@ -88,6 +89,7 @@ public class MainController extends SQLiteOpenHelper{
                 ASSIGNMENT_DUEDATE + " TEXT NOT NULL, " +
                 ASSIGNMENT_NOTES + " TEXT, " +
                 ASSIGNMENT_PROGRESS + " INTEGER NOT NULL, " +
+                ASSIGNMENT_CHECKPOINT_COUNT + " INTEGER NOT NULL, " +
                 ASSIGNMENT_COURSEID + " TEXT NOT NULL, " +
                 "FOREIGN KEY(" + ASSIGNMENT_COURSEID + ") REFERENCES " + TABLE_COURSES + "(" + COURSE_CODE + ") ON DELETE CASCADE" +
                 ");";
@@ -212,6 +214,7 @@ public class MainController extends SQLiteOpenHelper{
                 assignment.setStartDate(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_STARTDATE)));
                 assignment.setNotes(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_NOTES)));
                 assignment.setProgress(cursor.getInt(cursor.getColumnIndex(ASSIGNMENT_PROGRESS)));
+                assignment.setCheckpointCount(cursor.getInt(cursor.getColumnIndex(ASSIGNMENT_CHECKPOINT_COUNT)));
                 assignmentLinkedList.add(assignment);
             } while (cursor.moveToNext());
         }
@@ -326,6 +329,7 @@ public class MainController extends SQLiteOpenHelper{
             assignment.setStartDate(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_STARTDATE)));
             assignment.setNotes(cursor.getString(cursor.getColumnIndex(ASSIGNMENT_NOTES)));
             assignment.setProgress(cursor.getInt(cursor.getColumnIndex(ASSIGNMENT_PROGRESS)));
+            assignment.setCheckpointCount(cursor.getInt(cursor.getColumnIndex(ASSIGNMENT_CHECKPOINT_COUNT)));
         }
 
         return assignment;
@@ -400,6 +404,33 @@ public class MainController extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT title, due_date FROM " + TABLE_CHECKPOINTS + " WHERE " + CHECKPOINT_PROGRESS + "='" + 0 +"'" , null);
         return data;
+    }
+
+    public List<Checkpoint> getCheckpointsByAssignment(int ID){
+        List<Checkpoint> checkpoints = new LinkedList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT  * FROM " + TABLE_CHECKPOINTS + " WHERE " + CHECKPOINT_ASSIGNMENTID + "=" + ID;
+        Cursor cursor = db.rawQuery(query, null);
+
+        Checkpoint checkpoint;
+
+        if (cursor.moveToFirst()) {
+            do {
+                checkpoint = new Checkpoint();
+
+                checkpoint.setCheckID(cursor.getInt(cursor.getColumnIndex(CHECKPOINT_CHECKPOINTID)));
+                checkpoint.setTitle(cursor.getString(cursor.getColumnIndex(CHECKPOINT_TITLE)));
+                checkpoint.setAssignmentID(cursor.getInt(cursor.getColumnIndex(CHECKPOINT_ASSIGNMENTID)));
+                checkpoint.setDueDate(cursor.getString(cursor.getColumnIndex(CHECKPOINT_DUEDATE)));
+                checkpoint.setStartDate(cursor.getString(cursor.getColumnIndex(CHECKPOINT_STARTDATE)));
+                checkpoint.setNotes(cursor.getString(cursor.getColumnIndex(CHECKPOINT_NOTES)));
+                checkpoint.setProgress(cursor.getInt(cursor.getColumnIndex(CHECKPOINT_PROGRESS)));
+                checkpoints.add(checkpoint);
+            } while (cursor.moveToNext());
+        }
+
+
+        return checkpoints;
     }
 
     public List<String> getAssDates(){
